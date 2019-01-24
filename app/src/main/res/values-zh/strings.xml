@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Disassembler</string>
+	<string name="done">完成</string>
+	<string name="search">搜索</string>
+	<string name="menu">菜单</string>
+	<string name="loading">加载中……</string>
+	<string name="saving">保存中……</string>
+	<string name="pickFromSdcard">从存储目录选取</string>
+	<string name="pickFromInstalled">从已安装中选取</string>
+	<string name="error">错误</string>
+	<string name="pickSo">請選擇.so</string>
+	<string name="noFile">没有有效的文件管理器</string>
+	<!--string name="noSo">没有安装我的世界携带版</string-->
+	<string name="symbols">符号表</string>
+	<string name="objects">对象表</string>
+	<string name="ownedVtable">所有的虚函表</string>
+	<string name="targetClass">对应的类</string>
+	<string name="argumentsName">参数表:</string>
+	<string name="className">类:</string>
+	<string name="typeName">类型:</string>
+	<string name="mainName">主名称:</string>
+	<string name="nameDemangler">名称反修饰器</string>
+	<string name="floatingMenu">悬浮窗</string>
+	<string name="tools">小工具</string>
+	<string name="others">其它的</string>
+	<string name="save">保存</string>
+	<string name="saveSymbols">保存符号表</string>
+	<string name="usePattern">使用正则表达式</string>
+	<string name="about">关于</string>
+	<string name="againToExit">再按一次退出</string>
+	<string name="demangle">反修饰</string>
+	<string name="symbolsActivity">符号表</string>
+	<string name="menuActivity">菜单</string>
+	<string name="searchActivity">搜索</string>
+	<string name="symbolActivity">符号</string>
+	<string name="vtableActivity">虚函表</string>
+	<string name="demanglerActivity">反修饰器</string>
+	<string name="classActivity">类</string>
+	<string name="savedIn">所有文件保存在:</string>
+	
+</resources>

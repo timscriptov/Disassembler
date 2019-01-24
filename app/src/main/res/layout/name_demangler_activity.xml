@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:orientation="horizontal"
+		android:layout_height="match_parent">
+
+		<EditText
+			android:layout_width="wrap_content"
+			android:layout_height="fill_parent"
+			android:id="@+id/namedemangleractivityEditText1"/>
+
+		<View
+			android:layout_width="2dp"
+			android:layout_height="match_parent"
+			android:background="?android:attr/dividerVertical"/>
+
+		<EditText
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:id="@+id/namedemangleractivityEditText2"/>
+
+	</LinearLayout>
+
+	<com.gc.materialdesign.views.ButtonFloat
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentBottom="true"
+		android:layout_marginRight="30dp"
+		android:background="#FF1A73E8"
+		materialdesign:iconDrawable="@drawable/ic_action_settings_backup_restore"
+		android:layout_marginBottom="30dp"
+		android:onClick="demangle"/>
+
+</RelativeLayout>
+

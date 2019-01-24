@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical">
+
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:orientation="vertical"
+		android:gravity="center">
+
+		<View
+			android:layout_height="150dp"
+			android:background="@drawable/ic_launcher"
+			android:layout_width="150dp"/>
+
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="@string/app_name"
+			android:textAppearance="?android:attr/textAppearanceLarge"
+			android:layout_width="wrap_content"/>
+
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="Copyright © 2018 MCAL LLC"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_width="wrap_content"/>
+
+		<TextView
+			android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_width="wrap_content"
+			android:id="@+id/mainactivityTextViewSavePath"
+			android:gravity="center"/>
+
+	</LinearLayout>
+
+	<com.gc.materialdesign.views.ButtonFloat
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:layout_alignParentBottom="true"
+		materialdesign:iconDrawable="@drawable/ic_action_folder"
+		android:layout_marginRight="30dp"
+		android:background="#FF1A73E8"
+		android:layout_marginBottom="30dp"
+		android:onClick="chooseSdcard"/>
+
+</RelativeLayout>
+
