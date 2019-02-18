@@ -1,6 +1,5 @@
 package com.mcal.disassembler;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -32,8 +31,9 @@ import com.mcal.disassembler.util.ClassGeter;
 import com.mcal.disassembler.nativeapi.DisassemblerVtable;
 import com.mcal.disassembler.vtable.VtableDumper;
 import com.mcal.disassembler.nativeapi.DisassemblerSymbol;
+import android.support.v7.app.AppCompatActivity;
 
-public class ClassActivity extends Activity
+public class ClassActivity extends AppCompatActivity
 {
 	private String path;
 	private String name;

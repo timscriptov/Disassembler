@@ -1,6 +1,5 @@
 package com.mcal.disassembler;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,8 +9,9 @@ import com.mcal.disassembler.nativeapi.DisassemblerVtable;
 import com.mcal.disassembler.nativeapi.Dumper;
 import com.mcal.disassembler.vtable.Tables;
 import com.mcal.disassembler.vtable.VtableDumper;
+import android.support.v7.app.AppCompatActivity;
 
-public class SymbolActivity extends Activity
+public class SymbolActivity extends AppCompatActivity
 {
 	private String path;
 	private String name;

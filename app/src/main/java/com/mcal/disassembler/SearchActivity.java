@@ -1,15 +1,15 @@
 package com.mcal.disassembler;
 
 import android.os.*;
-import android.app.*;
 import android.widget.*;
 import android.view.*;
 import com.mcal.disassembler.nativeapi.*;
 import java.util.*;
 import android.widget.AdapterView.*;
 import android.content.*;
+import android.support.v7.app.AppCompatActivity;
 
-public class SearchActivity extends Activity
+public class SearchActivity extends AppCompatActivity
 {
 	private EditText editText;
 	private List<Map<String, Object>> data; 

@@ -1,14 +1,14 @@
 package com.mcal.disassembler;
 
-import android.app.*;
 import android.content.*;
 import android.net.*;
 import android.os.*;
 import android.view.*;
 import android.widget.*;
 import com.mcal.disassembler.nativeapi.*;
+import android.support.v7.app.AppCompatActivity;
 
-public class NameDemanglerActivity extends Activity
+public class NameDemanglerActivity extends AppCompatActivity
 {
     @Override
     public void onCreate(Bundle savedInstanceState)

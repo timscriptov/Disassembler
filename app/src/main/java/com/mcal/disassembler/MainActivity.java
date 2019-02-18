@@ -1,7 +1,6 @@
 package com.mcal.disassembler;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -15,8 +14,10 @@ import com.gc.materialdesign.widgets.SnackBar;
 import com.mcal.disassembler.nativeapi.DisassemblerDumper;
 import com.mcal.disassembler.nativeapi.Dumper;
 import com.mcal.disassembler.util.FileUtils;
+import android.support.v7.app.AppCompatActivity;
+import android.provider.Settings;
 
-public class MainActivity extends Activity
+public class MainActivity extends AppCompatActivity
 {
 	private String path;
 	private static final int FILE_SELECT_CODE = 0;
@@ -26,13 +27,13 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_activity);
 		
-		/*if (Build.VERSION.SDK_INT >= 23)
+		if (Build.VERSION.SDK_INT >= 23)
 		{
-			if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+			if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Settings.ACTION_MANAGE_OVERLAY_PERMISSION) != PackageManager.PERMISSION_GRANTED)
 			{
-				requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+				requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Settings.ACTION_MANAGE_OVERLAY_PERMISSION}, 1);
 			}
-		}*/
+		}
 		
 		TextView textViewSavePath=findViewById(R.id.mainactivityTextViewSavePath);
 		textViewSavePath.setText(getString(R.string.savedIn) + Environment.getExternalStorageDirectory().toString() + "/Disassembler/*");

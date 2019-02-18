@@ -1,6 +1,5 @@
 package com.mcal.disassembler;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -12,8 +11,9 @@ import com.gc.materialdesign.widgets.SnackBar;
 
 import com.mcal.disassembler.nativeapi.Dumper;
 import com.mcal.disassembler.util.FileSaver;
+import android.support.v7.app.AppCompatActivity;
 
-public class MenuActivity extends Activity
+public class MenuActivity extends AppCompatActivity
 {
 	private String path;
 

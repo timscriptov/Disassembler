@@ -1,6 +1,5 @@
 package com.mcal.disassembler;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,8 +18,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import android.support.v7.app.AppCompatActivity;
 
-public class SymbolsActivity extends Activity
+public class SymbolsActivity extends AppCompatActivity
 {
 	private ListView list; 
     private List<Map<String, Object>> data; 

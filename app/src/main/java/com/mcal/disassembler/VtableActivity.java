@@ -1,18 +1,17 @@
 package com.mcal.disassembler;
 
-import android.app.*;
-import android.os.*;
-import android.widget.AdapterView.*;
-import android.widget.*;
 import android.content.*;
+import android.os.*;
+import android.support.v7.app.AppCompatActivity;
 import android.view.*;
-import java.util.*;
-import com.mcal.disassembler.nativeapi.*;
-import com.mcal.disassembler.vtable.*;
-import com.mcal.disassembler.util.*;
+import android.widget.*;
+import android.widget.AdapterView.*;
 import com.gc.materialdesign.widgets.*;
+import com.mcal.disassembler.nativeapi.*;
+import com.mcal.disassembler.util.*;
+import java.util.*;
 
-public class VtableActivity extends Activity
+public class VtableActivity extends AppCompatActivity
 {
 	private ListView list; 
     private List<Map<String, Object>> data; 

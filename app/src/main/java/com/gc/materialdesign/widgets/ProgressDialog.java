@@ -6,14 +6,19 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.mcal.disassembler.R;
-import com.mcal.mcdesign.widget.MCDProgressBar;
+import com.gc.materialdesign.views.ButtonFlat;
+import com.gc.materialdesign.views.ProgressBarCircularIndeterminate;
+import com.gc.materialdesign.views.*;
 
 public class ProgressDialog extends android.app.Dialog
 {
-
 	Context context;
 	View view;
 	View backView;
@@ -44,8 +49,8 @@ public class ProgressDialog extends android.app.Dialog
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.gc_materialdesign_progress_dialog);
 
-		view = findViewById(R.id.contentDialog);
-		backView = findViewById(R.id.dialog_rootView);
+		view = (RelativeLayout)findViewById(R.id.contentDialog);
+		backView = (RelativeLayout)findViewById(R.id.dialog_rootView);
 		backView.setOnTouchListener(new OnTouchListener()
 			{
 				@Override
@@ -62,15 +67,13 @@ public class ProgressDialog extends android.app.Dialog
 				}
 			});
 
-	//    this.titleTextView = findViewById(R.id.title);
-	//    setTitle(title);
+	    this.titleTextView = (TextView) findViewById(R.id.title);
+	    setTitle(title);
 	    if (progressColor != -1)
 		{
-	    	MCDProgressBar progressBarIndeterminateDeterminate = findViewById(R.id.progressBarIndeterminateDeterminate);
+	    	ProgressBarIndeterminateDeterminate progressBarIndeterminateDeterminate = (ProgressBarIndeterminateDeterminate) findViewById(R.id.progressBarIndeterminateDeterminate);
 	    	progressBarIndeterminateDeterminate.setBackgroundColor(progressColor);
 	    }
-
-
 	}
 
 	@Override
@@ -89,17 +92,15 @@ public class ProgressDialog extends android.app.Dialog
 
 	public void setTitle(String title)
 	{
-//		this.title = title;
-//		if (title == null)
-//			titleTextView.setVisibility(View.GONE);
-//		else
-//		{
-//			titleTextView.setVisibility(View.VISIBLE);
-//			titleTextView.setText(title);
-//		}
+		this.title = title;
+		if (title == null)
+			titleTextView.setVisibility(View.GONE);
+		else
+		{
+			titleTextView.setVisibility(View.VISIBLE);
+			titleTextView.setText(title);
+		}
 	}
-
-
 
 	public TextView getTitleTextView() 
 	{
@@ -117,3 +118,4 @@ public class ProgressDialog extends android.app.Dialog
 		ProgressDialog.super.dismiss();
 	}
 }
+ 
