@@ -6,6 +6,10 @@
 #include <sys/stat.h>
 
 #include "elfio/elfio_dump.hpp"
+#include "elfio/elf_types.hpp"
+#include "elfio/elfio_section.hpp"
+#include "elfio/elfio_symbols.hpp"
+
 
 using namespace ELFIO;
 
@@ -32,10 +36,10 @@ void loadSymbols(const elfio& reader )
 		if ( SHT_SYMTAB == sec->get_type() || SHT_DYNSYM == sec->get_type() ) 
 		{
 			symbol_section_accessor symbols( reader, sec );
-			Elf_Xword     sym_no = symbols.get_symbols_num();
+			long long sym_no = symbols.get_symbols_num();
 			if ( sym_no > 0 )
 			{
-				for ( Elf_Half i = 0; i < sym_no; ++i ) 
+				for (long long i = 0; i < sym_no; ++i ) 
 				{
 					DisassemblerSymbol symbol_disassembler;
                     symbols.get_symbol( i, symbol_disassembler.name, symbol_disassembler.value, symbol_disassembler.size,symbol_disassembler. bind,symbol_disassembler. type, symbol_disassembler.section, symbol_disassembler.other );
@@ -83,17 +87,17 @@ JNIEXPORT jstring JNICALL Java_com_mcal_disassembler_nativeapi_DisassemblerDumpe
 	char*name=abi::__cxa_demangle(disassemblerSymbolsList[pos].name.c_str(),0,0,0);
 	return env->NewStringUTF(name?name:"");
 }
-JNIEXPORT jint JNICALL Java_com_mcal_disassembler_nativeapi_DisassemblerDumper_getSize(JNIEnv* env, jobject thiz)
+JNIEXPORT jlong JNICALL Java_com_mcal_disassembler_nativeapi_DisassemblerDumper_getSize(JNIEnv* env, jobject thiz)
 {
 	return disassemblerSymbolsList.size();
 }
-JNIEXPORT jshort JNICALL Java_com_mcal_disassembler_nativeapi_DisassemblerDumper_getTypeAt(JNIEnv* env, jobject thiz,jint pos)
+JNIEXPORT jlong JNICALL Java_com_mcal_disassembler_nativeapi_DisassemblerDumper_getTypeAt(JNIEnv* env, jobject thiz,jint pos)
 {
-	return (jshort)((short)disassemblerSymbolsList[pos].type);
+	return (jlong)((long)disassemblerSymbolsList[pos].type);
 }
-JNIEXPORT jshort JNICALL Java_com_mcal_disassembler_nativeapi_DisassemblerDumper_getBindAt(JNIEnv* env, jobject thiz,jint pos)
+JNIEXPORT jlong JNICALL Java_com_mcal_disassembler_nativeapi_DisassemblerDumper_getBindAt(JNIEnv* env, jobject thiz,jint pos)
 {
-	return (jshort)((short)disassemblerSymbolsList[pos].bind);
+	return (jlong)((long)disassemblerSymbolsList[pos].bind);
 }
 JNIEXPORT void JNICALL Java_com_mcal_disassembler_nativeapi_DisassemblerDumper_load(JNIEnv* env, jobject thiz,jstring path)
 {

@@ -10,18 +10,7 @@
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:orientation="vertical"
-		android:gravity="center">
-
-		<View
-			android:layout_height="150dp"
-			android:background="@drawable/ic_launcher"
-			android:layout_width="150dp"/>
-
-		<TextView
-			android:layout_height="wrap_content"
-			android:text="@string/app_name"
-			android:textAppearance="?android:attr/textAppearanceLarge"
-			android:layout_width="wrap_content"/>
+		android:gravity="bottom|center">
 
 		<TextView
 			android:layout_height="wrap_content"

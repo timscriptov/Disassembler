@@ -25,7 +25,9 @@ obj/local/armeabi-v7a/objs/disassembler/Disassembler.o: \
  jni/elfio/elfio_segment.hpp jni/elfio/elfio_strings.hpp \
  /data/data/com.aide.ui/no_backup/ndksupport-1710240003/android-ndk-aide/sources/cxx-stl/gnu-libstdc++/4.9/include/cstring \
  jni/elfio/elfio_symbols.hpp jni/elfio/elfio_note.hpp \
- jni/elfio/elfio_relocation.hpp jni/elfio/elfio_dynamic.hpp
+ jni/elfio/elfio_relocation.hpp jni/elfio/elfio_dynamic.hpp \
+ jni/elfio/elf_types.hpp jni/elfio/elfio_section.hpp \
+ jni/elfio/elfio_symbols.hpp
 
 /data/data/com.aide.ui/no_backup/ndksupport-1710240003/android-ndk-aide/platforms/android-16/arch-arm/usr/include/jni.h:
 
@@ -88,3 +90,9 @@ jni/elfio/elfio_note.hpp:
 jni/elfio/elfio_relocation.hpp:
 
 jni/elfio/elfio_dynamic.hpp:
+
+jni/elfio/elf_types.hpp:
+
+jni/elfio/elfio_section.hpp:
+
+jni/elfio/elfio_symbols.hpp:
