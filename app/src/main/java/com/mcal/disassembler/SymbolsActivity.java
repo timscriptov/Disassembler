@@ -31,7 +31,7 @@ public class SymbolsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState); 
         setContentView(R.layout.symbols_activity);
 
-        list = findViewById(R.id.symbols_activity_list_view); 
+        list = (ListView) findViewById(R.id.symbols_activity_list_view); 
 		data = getData();
 		SymbolsAdapter adapter = new SymbolsAdapter(this);
 		list.setAdapter(adapter);

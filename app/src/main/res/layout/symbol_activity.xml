@@ -18,22 +18,22 @@
 
 			<LinearLayout
 				android:layout_width="match_parent"
-				android:layout_height="100dp">
+				android:layout_height="wrap_content">
 
 				<ImageView
-					android:layout_width="100dp"
-					android:layout_height="100dp"
+					android:layout_width="36dp"
+					android:layout_height="36dp"
 					android:id="@+id/symbolactivityImageView"/>
 
 				<ScrollView
 					android:layout_width="match_parent"
 					android:orientation="horizontal"
-					android:layout_height="100dp">
+					android:layout_height="wrap_content">
 
 					<LinearLayout
 						android:layout_width="wrap_content"
 						android:orientation="vertical"
-						android:layout_height="100dp">
+						android:layout_height="wrap_content">
 
 						<TextView
 							android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
 							android:id="@+id/symbolactivityTextViewDemangledName"
 							android:textIsSelectable="true"
 							android:singleLine="true"
-							android:textSize="40sp"/>
+							android:textAppearance="?android:attr/textAppearanceLarge"/>
 
 						<TextView
 							android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
 							android:id="@+id/symbolactivityTextViewName"
 							android:textIsSelectable="true"
 							android:singleLine="true"
-							android:textSize="35sp"
+							android:textAppearance="?android:attr/textAppearanceLarge"
 							android:layout_marginTop="2dp"/>
 
 					</LinearLayout>
@@ -66,32 +66,36 @@
 			<LinearLayout
 				android:layout_width="match_parent"
 				android:orientation="horizontal"
-				android:layout_height="wrap_content">
+				android:layout_height="wrap_content"
+				android:layout_marginTop="10dp"
+				android:layout_marginLeft="10dp">
 
 				<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="@string/typeName"
 					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:textColor="#06FA00"/>
+					android:textColor="#D81B60"/>
 
 				<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:id="@+id/symbolactivityTextViewType"
-					android:textAppearance="?android:attr/textAppearanceMedium"/>
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_marginLeft="10dp"/>
 
 			</LinearLayout>
 
 			<LinearLayout
 				android:layout_width="match_parent"
 				android:orientation="horizontal"
-				android:layout_height="wrap_content">
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="10dp">
 
 				<TextView
 					android:layout_width="wrap_content"
 					android:text="@string/className"
-					android:textColor="#06FA00"
+					android:textColor="#D81B60"
 					android:layout_height="wrap_content"
 					android:textAppearance="?android:attr/textAppearanceMedium"/>
 
@@ -99,18 +103,20 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:id="@+id/symbolactivityTextClass"
-					android:textAppearance="?android:attr/textAppearanceMedium"/>
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:layout_marginLeft="10dp"/>
 
 			</LinearLayout>
 
 			<LinearLayout
 				android:layout_width="match_parent"
 				android:orientation="horizontal"
-				android:layout_height="wrap_content">
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="10dp">
 
 				<TextView
 					android:layout_width="wrap_content"
-					android:textColor="#06FA00"
+					android:textColor="#D81B60"
 					android:text="@string/mainName"
 					android:layout_height="wrap_content"
 					android:textAppearance="?android:attr/textAppearanceMedium"/>
@@ -119,27 +125,31 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:id="@+id/symbolactivityTextViewSymbolMainName"/>
+					android:id="@+id/symbolactivityTextViewSymbolMainName"
+					android:layout_marginLeft="10dp"/>
 
 			</LinearLayout>
 
 			<LinearLayout
 				android:layout_width="match_parent"
 				android:orientation="horizontal"
-				android:layout_height="wrap_content">
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="10dp"
+				android:layout_marginLeft="10dp">
 
 				<TextView
 					android:layout_width="wrap_content"
-					android:textColor="#06FA00"
 					android:text="@string/argumentsName"
 					android:layout_height="wrap_content"
-					android:textAppearance="?android:attr/textAppearanceMedium"/>
+					android:textAppearance="?android:attr/textAppearanceMedium"
+					android:textColor="#D81B60"/>
 
 				<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:id="@+id/symbolactivityTextViewArguments"/>
+					android:id="@+id/symbolactivityTextViewArguments"
+					android:layout_marginLeft="10dp"/>
 
 			</LinearLayout>
 
@@ -170,7 +180,7 @@
 		android:layout_alignParentRight="true"
 		android:layout_alignParentBottom="true"
 		android:layout_marginRight="30dp"
-		android:background="#FF1A73E8"
+		android:background="#D81B60"
 		materialdesign:iconDrawable="@drawable/box_blue"
 		android:layout_marginBottom="100dp"
 		android:onClick="toVtableActivity"
@@ -195,7 +205,7 @@
 		android:layout_alignParentRight="true"
 		android:layout_alignParentBottom="true"
 		android:layout_marginRight="30dp"
-		android:background="#FF1A73E8"
+		android:background="#008577"
 		materialdesign:iconDrawable="@drawable/objects"
 		android:layout_marginBottom="30dp"
 		android:onClick="toClassActivity"

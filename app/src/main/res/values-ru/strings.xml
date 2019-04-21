@@ -21,7 +21,6 @@
 	<string name="typeName">Тип:</string>
 	<string name="mainName">Имя:</string>
 	<string name="nameDemangler">Имя Demangler</string>
-	<string name="floatingMenu">Плавающее меню</string>
 	<string name="tools">Инструменты</string>
 	<string name="others">Другие</string>
 	<string name="save">Сохранить</string>

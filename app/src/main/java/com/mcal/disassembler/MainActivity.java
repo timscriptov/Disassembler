@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity
 			}
 		}
 		
-		TextView textViewSavePath=findViewById(R.id.mainactivityTextViewSavePath);
+		TextView textViewSavePath=(TextView) findViewById(R.id.mainactivityTextViewSavePath);
 		textViewSavePath.setText(getString(R.string.savedIn) + Environment.getExternalStorageDirectory().toString() + "/Disassembler/*");
 	}
 
@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity
 			new SnackBar(this, getString(R.string.noFile)).show();
 		}
 	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
 	{

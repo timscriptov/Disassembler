@@ -49,15 +49,15 @@ public class ClassActivity extends AppCompatActivity
 		name = getIntent().getExtras().getString("name");
 		path = getIntent().getExtras().getString("path");
 
-		list = findViewById(R.id.class_activity_list_view); 
+		list = (ListView) findViewById(R.id.class_activity_list_view); 
 		data = getData();
 		SymbolsAdapter adapter = new SymbolsAdapter(this);
 		list.setAdapter(adapter);
 		list.setOnItemClickListener(new ItemClickListener());
 
 		setTitle(name);
-		TextView title=findViewById(R.id.classactivityTextViewName);
-		title.setText(name);
+		//TextView title=(TextView) findViewById(R.id.classactivityTextViewName);
+		//title.setText(name);
 
 		if (hasVtable())
 		{
