@@ -3,22 +3,29 @@ package com.mcal.disassembler;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Settings;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 import com.gc.materialdesign.widgets.ProgressDialog;
 import com.gc.materialdesign.widgets.SnackBar;
 import com.mcal.disassembler.nativeapi.DisassemblerDumper;
 import com.mcal.disassembler.nativeapi.Dumper;
-import com.mcal.disassembler.util.FileUtils;
-import android.support.v7.app.AppCompatActivity;
-import android.provider.Settings;
+import com.nbsp.materialfilepicker.MaterialFilePicker;
+import com.nbsp.materialfilepicker.ui.FilePickerActivity;
+import java.util.regex.Pattern;
+import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity implements MainView
 {
+	private RecyclerView recentOpened;
+	private ArrayList<String> paths = new ArrayList<>();
 	private String path;
 	private static final int FILE_SELECT_CODE = 0;
     @Override
@@ -37,6 +44,27 @@ public class MainActivity extends AppCompatActivity
 		
 		TextView textViewSavePath=(TextView) findViewById(R.id.mainactivityTextViewSavePath);
 		textViewSavePath.setText(getString(R.string.savedIn) + Environment.getExternalStorageDirectory().toString() + "/Disassembler/*");
+		new Database(this);
+		recentOpened = (RecyclerView) findViewById(R.id.items);
+		recentOpened.setLayoutManager(new LinearLayoutManager(this));
+		Cursor cursor = RecentsManager.getRecents();
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                paths.add(cursor.getString(0));
+            }
+        }
+		recentOpened.setAdapter(new ListAdapter(paths, this));
+	}
+	
+	void updateRecents(){
+		paths.clear();
+		Cursor cursor = RecentsManager.getRecents();
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                paths.add(cursor.getString(0));
+            }
+        }
+		recentOpened.getAdapter().notifyDataSetChanged();
 	}
 
 	public void chooseSdcard(View view)
@@ -46,12 +74,15 @@ public class MainActivity extends AppCompatActivity
 
 	private void showFileChooser(String type)
 	{
-		Intent intent = new Intent(Intent.ACTION_GET_CONTENT); 
-		intent.setType(type); 
-		intent.addCategory(Intent.CATEGORY_OPENABLE);
 		try
 		{
-			startActivityForResult(Intent.createChooser(intent, getString(R.string.pickSo)), FILE_SELECT_CODE);
+			new MaterialFilePicker()
+				.withActivity(this)
+				.withRequestCode(FILE_SELECT_CODE)
+				.withFilter(Pattern.compile(".*\\.so$"))
+				.withHiddenFiles(true)
+				.withTitle(getString(R.string.pickSo))
+				.start();
 		} 
 		catch (android.content.ActivityNotFoundException ex)
 		{
@@ -67,17 +98,17 @@ public class MainActivity extends AppCompatActivity
 			case FILE_SELECT_CODE:      
 				if (resultCode == RESULT_OK)
 				{  
-					Uri uri = data.getData();
-					String path = FileUtils.getPath(this, uri);
-					if (path.endsWith(".so") && DisassemblerDumper.hasFile(path))
-						loadSo(path);
+					String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+					RecentsManager.add(filePath);
+					updateRecents();
+					loadSo(filePath);
 				}
 				break;
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	private void loadSo(final String path)
+	public void loadSo(final String path)
 	{
 		showProgressDialog();
 		this.path = path;

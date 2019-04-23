@@ -8,22 +8,17 @@
 
 	<LinearLayout
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:orientation="vertical"
-		android:gravity="bottom|center">
-
-		<TextView
-			android:layout_height="wrap_content"
-			android:text="Copyright © 2018 MCAL LLC"
-			android:textAppearance="?android:attr/textAppearanceSmall"
-			android:layout_width="wrap_content"/>
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:id="@+id/mainactivityLinearLayout1"
+		android:layout_alignParentBottom="true"
+		android:gravity="center_horizontal">
 
 		<TextView
 			android:layout_height="wrap_content"
 			android:textAppearance="?android:attr/textAppearanceSmall"
 			android:layout_width="wrap_content"
-			android:id="@+id/mainactivityTextViewSavePath"
-			android:gravity="center"/>
+			android:id="@+id/mainactivityTextViewSavePath"/>
 
 	</LinearLayout>
 
@@ -31,12 +26,23 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_alignParentRight="true"
-		android:layout_alignParentBottom="true"
 		materialdesign:iconDrawable="@drawable/ic_action_folder"
-		android:layout_marginRight="30dp"
 		android:background="#008577"
-		android:layout_marginBottom="30dp"
-		android:onClick="chooseSdcard"/>
+		android:onClick="chooseSdcard"
+		android:layout_above="@id/mainactivityLinearLayout1"
+		android:layout_margin="16dp"
+		android:id="@+id/fab"/>
+
+	<android.support.v7.widget.RecyclerView
+		android:id="@+id/items"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingLeft="2dp"
+		android:paddingTop="4dp"
+		android:paddingRight="2dp"
+		android:scrollbars="vertical"
+		android:layout_above="@id/fab"
+		android:layout_alignParentTop="true"/>
 
 </RelativeLayout>
 
