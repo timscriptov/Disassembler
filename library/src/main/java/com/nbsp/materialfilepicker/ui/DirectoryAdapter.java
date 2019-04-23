@@ -27,6 +27,7 @@ public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.Dire
         private ImageView mFileImage;
         private TextView mFileTitle;
         private TextView mFileSubtitle;
+		private TextView mFileSize;
 
         public DirectoryViewHolder(View itemView, final OnItemClickListener clickListener) {
             super(itemView);
@@ -41,6 +42,7 @@ public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.Dire
             mFileImage = (ImageView) itemView.findViewById(R.id.item_file_image);
             mFileTitle = (TextView) itemView.findViewById(R.id.item_file_title);
             mFileSubtitle = (TextView) itemView.findViewById(R.id.item_file_subtitle);
+			mFileSize = (TextView) itemView.findViewById(R.id.item_file_size);
         }
     }
 
@@ -73,6 +75,8 @@ public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.Dire
         FileTypeUtils.FileType fileType = FileTypeUtils.getFileType(currentFile);
         holder.mFileImage.setImageResource(fileType.getIcon());
         holder.mFileSubtitle.setText(fileType.getDescription());
+		if(!fileType.equals(FileTypeUtils.FileType.DIRECTORY))
+		holder.mFileSize.setText(SpaceFormatter.format(currentFile.length()));
         holder.mFileTitle.setText(currentFile.getName());
     }
 

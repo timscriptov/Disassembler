@@ -1,44 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:background="@drawable/bg_clickable"
-    android:clickable="true"
-    android:focusable="true"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="horizontal"
+	android:background="@drawable/bg_clickable"
+	android:clickable="true"
+	android:focusable="true"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/item_file_image"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/ic_folder_48dp"
-        android:layout_margin="16dp"
-        android:alpha="0.6"/>
+	<ImageView
+		android:id="@+id/item_file_image"
+		android:layout_width="48dp"
+		android:layout_height="48dp"
+		android:src="@drawable/ic_folder_48dp"
+		android:layout_margin="16dp"
+		android:alpha="0.6"/>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        >
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_gravity="center"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginRight="16dp"
+		android:layout_marginEnd="16dp">
 
-        <TextView
-            android:id="@+id/item_file_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:textStyle="bold"
-            />
+		<TextView
+			android:id="@+id/item_file_title"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:singleLine="true"
+			style="@style/TextAppearance.AppCompat.Medium"
+			android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/item_file_subtitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+		<RelativeLayout
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:orientation="horizontal">
 
-    </LinearLayout>
+			<TextView
+				android:id="@+id/item_file_subtitle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentLeft="true"/>
+
+			<TextView
+				android:layout_height="wrap_content"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:layout_width="wrap_content"
+				android:text=""
+				android:layout_alignParentRight="true"
+				android:id="@+id/item_file_size"/>
+
+		</RelativeLayout>
+
+	</LinearLayout>
 
 </LinearLayout>
+
