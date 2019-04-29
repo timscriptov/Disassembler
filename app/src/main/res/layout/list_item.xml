@@ -21,18 +21,30 @@
             android:focusable="true"
             android:gravity="center_vertical"
             android:padding="8dip">
+			
+			
+			<android.support.v7.widget.AppCompatTextView
+				android:id="@+id/item_name"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="4dip"
+				android:layout_marginBottom="4dip"
+				android:layout_weight="1.0"
+				android:text="Medium Text"
+				android:textAppearance="?android:attr/textAppearanceMedium"
+				android:textColor="?attr/actionMenuTextColor" />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/item_text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dip"
-                android:layout_marginBottom="4dip"
-                android:layout_weight="1.0"
-                android:text="Medium Text"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="?attr/actionMenuTextColor" />
-
+			<android.support.v7.widget.AppCompatTextView
+				android:id="@+id/item_path"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="4dip"
+				android:layout_marginBottom="4dip"
+				android:layout_weight="1.0"
+				android:text="Medium Text"
+				android:textAppearance="?android:attr/textAppearanceSmall"
+				android:textColor="?attr/actionMenuTextColor" />
+			
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/item_remove"
                 android:layout_width="18dp"

@@ -31,6 +31,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         final String text = paths.get(position);
 
         holder.itemText.setText(text);
+		holder.itemName.setText(text.replaceAll(".*/(\\w+?\\.so)", "$1"));
         holder.item.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View p1) {
@@ -57,13 +58,14 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         LinearLayout item;
-        AppCompatTextView itemText;
+        AppCompatTextView itemText, itemName;
         AppCompatImageView remove;
 
         ViewHolder(View view) {
             super(view);
             item = view.findViewById(R.id.list_item);
-            itemText = view.findViewById(R.id.item_text);
+            itemText = view.findViewById(R.id.item_path);
+			itemName = view.findViewById(R.id.item_name);
             remove = view.findViewById(R.id.item_remove);
         }
     }
