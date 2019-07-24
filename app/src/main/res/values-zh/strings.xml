@@ -22,6 +22,7 @@
 	<string name="mainName">主名称:</string>
 	<string name="nameDemangler">名称反修饰器</string>
 	<string name="tools">小工具</string>
+	<string name="general">General</string>
 	<string name="others">其它的</string>
 	<string name="save">保存</string>
 	<string name="saveSymbols">保存符号表</string>

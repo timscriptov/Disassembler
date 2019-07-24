@@ -22,6 +22,7 @@
 	<string name="mainName">Name:</string>
 	<string name="nameDemangler">Name Demangler</string>
 	<string name="tools">Tools</string>
+	<string name="general">General</string>
 	<string name="others">Others</string>
 	<string name="save">Save</string>
 	<string name="saveSymbols">Save Symbols</string>

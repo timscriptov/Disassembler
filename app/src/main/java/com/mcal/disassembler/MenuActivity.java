@@ -13,10 +13,15 @@ import com.mcal.disassembler.nativeapi.Dumper;
 import com.mcal.disassembler.util.FileSaver;
 import android.support.v7.app.AppCompatActivity;
 
-public class MenuActivity extends AppCompatActivity
+import com.anjlab.android.iab.v3.BillingProcessor;
+import com.anjlab.android.iab.v3.TransactionDetails;
+import android.widget.*;
+
+public class MenuActivity extends AppCompatActivity implements BillingProcessor.IBillingHandler
 {
 	private String path;
-
+	private BillingProcessor bp;
+	
 	@Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -24,7 +29,30 @@ public class MenuActivity extends AppCompatActivity
 		setContentView(R.layout.menu_activity);
 
 		path = getIntent().getExtras().getString("filePath");
+		
+		bp = new BillingProcessor(this, null, this);
 	}
+	
+	public void donate(View v) {
+        bp.purchase(this, "donate_disassembler");
+    }
+
+    public void onPurchaseHistoryRestored() {
+
+    }
+
+    public void onBillingError(int p1, Throwable p2) {
+
+    }
+
+    public void onBillingInitialized() {
+
+    }
+	
+    public void onProductPurchased(String p1, TransactionDetails p2) {
+        Toast.makeText(this, "Thanks", Toast.LENGTH_LONG).show();
+        bp.consumePurchase(p1);
+    }
 
 	public void toNameDemangler(View view)
 	{

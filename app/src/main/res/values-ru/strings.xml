@@ -22,6 +22,7 @@
 	<string name="mainName">Имя:</string>
 	<string name="nameDemangler">Имя Demangler</string>
 	<string name="tools">Инструменты</string>
+	<string name="general">Основные</string>
 	<string name="others">Другие</string>
 	<string name="save">Сохранить</string>
 	<string name="saveSymbols">Сохранить символы</string>
