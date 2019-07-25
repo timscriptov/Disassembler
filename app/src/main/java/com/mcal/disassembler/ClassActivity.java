@@ -1,44 +1,45 @@
 package com.mcal.disassembler;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.content.Intent;
-import android.content.Context;
-import android.os.Environment;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.gc.materialdesign.views.ButtonFloat;
+import com.gc.materialdesign.widgets.SnackBar;
+import com.mcal.disassembler.nativeapi.DisassemblerClass;
+import com.mcal.disassembler.nativeapi.DisassemblerSymbol;
+import com.mcal.disassembler.nativeapi.DisassemblerVtable;
+import com.mcal.disassembler.nativeapi.Dumper;
+import com.mcal.disassembler.util.ClassGeter;
+import com.mcal.disassembler.util.FileSaver;
+import com.mcal.disassembler.util.HeaderGenerator;
+import com.mcal.disassembler.vtable.VtableDumper;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.gc.materialdesign.views.ButtonFloat;
-import com.gc.materialdesign.widgets.SnackBar;
-
-import com.mcal.disassembler.nativeapi.DisassemblerClass;
-import com.mcal.disassembler.util.HeaderGenerator;
-import com.mcal.disassembler.util.FileSaver;
-import com.mcal.disassembler.nativeapi.Dumper;
-import com.mcal.disassembler.util.ClassGeter;
-import com.mcal.disassembler.nativeapi.DisassemblerVtable;
-import com.mcal.disassembler.vtable.VtableDumper;
-import com.mcal.disassembler.nativeapi.DisassemblerSymbol;
-import android.support.v7.app.AppCompatActivity;
-
 public class ClassActivity extends AppCompatActivity
 {
 	private String path;
 	private String name;
-	private ListView list; 
-    private List<Map<String, Object>> data; 
+	private ListView list;
+    private List<Map<String, Object>> data;
 
 	@Override
     public void onCreate(Bundle savedInstanceState)
@@ -49,7 +50,7 @@ public class ClassActivity extends AppCompatActivity
 		name = getIntent().getExtras().getString("name");
 		path = getIntent().getExtras().getString("path");
 
-		list = (ListView) findViewById(R.id.class_activity_list_view); 
+		list = findViewById(R.id.class_activity_list_view);
 		data = getData();
 		SymbolsAdapter adapter = new SymbolsAdapter(this);
 		list.setAdapter(adapter);
@@ -61,21 +62,21 @@ public class ClassActivity extends AppCompatActivity
 
 		if (hasVtable())
 		{
-			((TextView)findViewById(R.id.classactivityTextViewButtonFloatVtable)).setVisibility(View.VISIBLE);
-			((ButtonFloat)findViewById(R.id.classactivityButtonFloat)).setVisibility(View.VISIBLE);
+			findViewById(R.id.classactivityTextViewButtonFloatVtable).setVisibility(View.VISIBLE);
+			findViewById(R.id.classactivityButtonFloat).setVisibility(View.VISIBLE);
 		}
 	}
 
 	private List<Map<String, Object>> getData() 
     { 
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>(); 
+        List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map;
 		DisassemblerClass classThis=findClass();
 		if (classThis == null)
 			return list;
         for (int i=0;i < classThis.getSymbols().size();++i)
         { 
-            map = new HashMap<String, Object>(); 
+            map = new HashMap<>();
 			if (classThis.getSymbols().get(i).getType() == 1)
 				map.put("img", R.drawable.box_blue); 
 			else if (classThis.getSymbols().get(i).getType() == 2)

@@ -1,7 +1,5 @@
 package com.gc.materialdesign.views;
 
-import com.gc.materialdesign.utils.Utils;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -11,6 +9,8 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+
+import com.gc.materialdesign.utils.Utils;
 
 public class ProgressBarCircularIndeterminate extends CustomView
 {

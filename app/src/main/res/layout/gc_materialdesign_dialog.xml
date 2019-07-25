@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/dialog_rootView"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
@@ -11,7 +12,8 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_centerInParent="true"
-		android:padding="24dp">
+		android:padding="24dp"
+		tools:ignore="UselessParent">
 
 		<TextView
 			android:id="@+id/title"
@@ -20,7 +22,8 @@
 			android:layout_marginBottom="24dp"
 			android:text="Title"
 			android:textAppearance="?android:attr/textAppearanceLarge"
-			android:textColor="#000"/>
+			android:textColor="#000"
+			tools:ignore="HardcodedText" />
 
 		<ScrollView
 			android:id="@+id/message_scrollView"
@@ -33,7 +36,7 @@
 
 			<LinearLayout
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"
+				android:layout_height="wrap_content"
 				android:orientation="vertical">
 
 				<TextView
@@ -52,14 +55,13 @@
 			android:layout_height="wrap_content"
 			android:layout_alignBottom="@id/message_scrollView"
 			android:layout_marginTop="24dp"
-			android:gravity="right"
 			android:orientation="horizontal">
 
 			<com.gc.materialdesign.views.ButtonFlat
 				android:id="@+id/button_cancel"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="Cancel"
+				android:text="@string/cancel"
 				android:background="#000000"
 				android:visibility="gone"/>
 
@@ -67,7 +69,7 @@
 				android:id="@+id/button_accept"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="Accept"
+				android:text="@string/accept"
 				android:visibility="gone"
 				android:background="#000000"/>
 

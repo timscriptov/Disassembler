@@ -1,8 +1,8 @@
 package com.mcal.disassembler.util;
 
 import android.content.Context;
-import android.net.Uri;
 import android.database.Cursor;
+import android.net.Uri;
 
 public class FileUtils 
 {
@@ -23,7 +23,6 @@ public class FileUtils
 			}
 			catch (Exception e)
 			{
-				
 			}
 		}
 		else if ("file".equalsIgnoreCase(uri.getScheme()))

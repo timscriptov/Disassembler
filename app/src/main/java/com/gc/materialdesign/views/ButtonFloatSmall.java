@@ -1,11 +1,11 @@
 package com.gc.materialdesign.views;
 
-import com.mcal.disassembler.R;
-import com.gc.materialdesign.utils.Utils;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
+
+import com.gc.materialdesign.utils.Utils;
+import com.mcal.disassembler.R;
 
 public class ButtonFloatSmall extends ButtonFloat
 {

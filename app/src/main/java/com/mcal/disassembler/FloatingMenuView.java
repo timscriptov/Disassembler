@@ -1,18 +1,18 @@
 package com.mcal.disassembler;
 
 import android.content.Context;
-import android.view.View;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.RelativeLayout;
-import java.util.Vector;
+import android.widget.TextView;
 
 import com.gc.materialdesign.views.ButtonFlat;
-
 import com.mcal.disassembler.nativeapi.DisassemblerSymbol;
 import com.mcal.disassembler.nativeapi.Searcher;
+
+import java.util.Vector;
 
 public class FloatingMenuView extends RelativeLayout
 {

@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
-import com.gc.materialdesign.views.ButtonFloat;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
 /**

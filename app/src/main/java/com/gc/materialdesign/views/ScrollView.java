@@ -3,11 +3,7 @@ package com.gc.materialdesign.views;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
-import java.util.*;
-
-import com.mcal.disassembler.R;
 
 
 public class ScrollView extends android.widget.ScrollView

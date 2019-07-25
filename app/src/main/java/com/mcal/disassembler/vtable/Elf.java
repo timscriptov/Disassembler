@@ -18,6 +18,7 @@ class relocation
 	public int offset;
 	public int info;
 }
+
 class symbol
 {
 	public String name;
@@ -28,6 +29,7 @@ class symbol
 	public int bind;
 	public int type;
 }
+
 class header
 {
 	public byte[] ident = new byte[16];
@@ -45,6 +47,7 @@ class header
 	public int shnum;
 	public int shstrndx;
 }
+
 class segment
 {
 	public int type;
@@ -57,6 +60,7 @@ class segment
 	public int align;
 	public Vector<section>sections=new Vector<section>();
 }
+
 class section
 {
 	public String name;

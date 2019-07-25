@@ -4,15 +4,15 @@ import java.util.HashMap;
 
 public class Tables
 {
-	public static HashMap<Integer,String>version=new HashMap<Integer,String>();
-	public static HashMap<Integer,String>type=new HashMap<Integer,String>();
+	public static HashMap<Integer,String>version= new HashMap<>();
+	public static HashMap<Integer,String>type= new HashMap<>();
 
-	public static HashMap<Integer,String>section_type=new HashMap<Integer,String>();
-	public static HashMap<Integer,String>segment_type=new HashMap<Integer,String>();
-	public static HashMap<Integer,String>segment_flag=new HashMap<Integer,String>();
-	public static HashMap<Integer,String>symbol_bind=new HashMap<Integer,String>();
-	public static HashMap<Integer,String>symbol_type=new HashMap<Integer,String>();
-	public static HashMap<Integer,String>dynamic_tag=new HashMap<Integer,String>();
+	public static HashMap<Integer,String>section_type= new HashMap<>();
+	public static HashMap<Integer,String>segment_type=new HashMap<>();
+	public static HashMap<Integer,String>segment_flag=new HashMap<>();
+	public static HashMap<Integer,String>symbol_bind=new HashMap<>();
+	public static HashMap<Integer,String>symbol_type=new HashMap<>();
+	public static HashMap<Integer,String>dynamic_tag=new HashMap<>();
 
 	static
 	{

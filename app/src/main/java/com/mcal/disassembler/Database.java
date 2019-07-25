@@ -1,8 +1,8 @@
 package com.mcal.disassembler;
 
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.content.Context;
 
 public final class Database extends SQLiteOpenHelper {
 

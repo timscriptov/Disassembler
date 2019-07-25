@@ -6,8 +6,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.mcal.disassembler.R;
 import com.mcal.mcdesign.widget.MCDProgressBar;
 
@@ -98,8 +98,6 @@ public class ProgressDialog extends android.app.Dialog
 //			titleTextView.setText(title);
 //		}
 	}
-
-
 
 	public TextView getTitleTextView() 
 	{

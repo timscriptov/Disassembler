@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 
@@ -8,7 +9,8 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:minHeight="55dp"
-		android:layout_alignParentBottom="true">
+		android:layout_alignParentBottom="true"
+		tools:ignore="UselessParent">
 
 		<RelativeLayout
 			android:id="@+id/snackbar"
@@ -27,7 +29,10 @@
 				android:layout_alignParentRight="true"
 				android:layout_centerVertical="true"
 				android:layout_marginLeft="24dp"
-				android:text="ACTION"/>
+				android:text="ACTION"
+				android:layout_alignParentEnd="true"
+				tools:ignore="HardcodedText"
+				android:layout_marginStart="24dp" />
 
 			<TextView
 				android:id="@+id/snackbartext"
@@ -35,7 +40,8 @@
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
 				android:layout_toLeftOf="@id/snackbarbuttonflat"
-				android:textColor="#FFF"/>
+				android:textColor="#FFF"
+				android:layout_toStartOf="@id/snackbarbuttonflat" />
 
 		</RelativeLayout>
 

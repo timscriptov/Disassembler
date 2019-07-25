@@ -1,15 +1,31 @@
 package com.mcal.disassembler;
 
-import android.content.*;
-import android.os.*;
-import android.support.v7.app.AppCompatActivity;
-import android.view.*;
-import android.widget.*;
-import android.widget.AdapterView.*;
-import com.gc.materialdesign.widgets.*;
-import com.mcal.disassembler.nativeapi.*;
-import com.mcal.disassembler.util.*;
-import java.util.*;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Environment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.gc.materialdesign.widgets.SnackBar;
+import com.mcal.disassembler.nativeapi.DisassemblerDumper;
+import com.mcal.disassembler.nativeapi.DisassemblerVtable;
+import com.mcal.disassembler.nativeapi.Dumper;
+import com.mcal.disassembler.util.FileSaver;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class VtableActivity extends AppCompatActivity
 {
@@ -32,7 +48,7 @@ public class VtableActivity extends AppCompatActivity
 				vtable = mvtable;
 		setTitle(DisassemblerDumper.demangle(name));
 
-		list = (ListView)findViewById(R.id.vtable_activity_list_view); 
+		list = findViewById(R.id.vtable_activity_list_view);
 		data = getData();
 		VtablesAdapter adapter = new VtablesAdapter(this);
 		list.setAdapter(adapter);
@@ -69,7 +85,7 @@ public class VtableActivity extends AppCompatActivity
 			return list;
         for (int i=0;i < vtable.getVtables().size();++i)
         { 
-            map = new HashMap<String, Object>(); 
+            map = new HashMap<>();
 			map.put("img", R.drawable.box_blue);
 			map.put("title", vtable.getVtables().get(i).getDemangledName());
             map.put("info", vtable.getVtables().get(i).getName());
@@ -138,9 +154,9 @@ public class VtableActivity extends AppCompatActivity
 			{ 
 				holder = new ViewHolder(); 
 				convertView = mInflater.inflate(R.layout.symbol_list_item, null); 
-				holder.img = (ImageView)convertView.findViewById(R.id.symbolslistitemimg); 
-				holder.title = (TextView)convertView.findViewById(R.id.symbolslistitemTextViewtop); 
-				holder.info = (TextView)convertView.findViewById(R.id.symbolslistitemTextViewbottom); 
+				holder.img = convertView.findViewById(R.id.symbolslistitemimg);
+				holder.title = convertView.findViewById(R.id.symbolslistitemTextViewtop);
+				holder.info = convertView.findViewById(R.id.symbolslistitemTextViewbottom);
 				convertView.setTag(holder);
 			}
 			else 

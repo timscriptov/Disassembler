@@ -19,16 +19,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatTextView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.mcal.mcdesign.utils.BitmapRepeater;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatTextView;
+
 import com.mcal.disassembler.R;
+import com.mcal.mcdesign.utils.BitmapRepeater;
 
 //##################################################################
 /**
@@ -58,7 +59,7 @@ public class MCDActivity extends AppCompatActivity
 			actionBar.setDisplayShowCustomEnabled(true);
 			actionBar.setDisplayShowTitleEnabled(false);
 			actionBar.setCustomView(actionBarCustomView, layoutParams);
-			android.support.v7.widget.Toolbar parent = (android.support.v7.widget.Toolbar) actionBarCustomView.getParent();
+			androidx.appcompat.widget.Toolbar parent = (androidx.appcompat.widget.Toolbar) actionBarCustomView.getParent();
 			parent.setContentInsetsAbsolute(0, 0);
 
 			AppCompatTextView titleTV=actionBarCustomView.findViewById(R.id.mcd_actionbar_title);

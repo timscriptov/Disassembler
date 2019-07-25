@@ -15,8 +15,8 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
-import com.mcal.disassembler.R;
 import com.gc.materialdesign.views.ButtonFlat;
+import com.mcal.disassembler.R;
 
 public class SnackBar extends Dialog
 {

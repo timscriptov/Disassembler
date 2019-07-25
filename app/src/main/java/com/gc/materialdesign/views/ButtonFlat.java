@@ -1,8 +1,5 @@
 package com.gc.materialdesign.views;
 
-import com.mcal.disassembler.R;
-import com.gc.materialdesign.utils.Utils;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,6 +8,9 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.gc.materialdesign.utils.Utils;
+import com.mcal.disassembler.R;
 
 public class ButtonFlat extends Button
 {

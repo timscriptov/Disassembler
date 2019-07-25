@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.mcal.disassembler.nativeapi.DisassemblerVtable;
 import com.mcal.disassembler.nativeapi.Dumper;
 import com.mcal.disassembler.vtable.Tables;
 import com.mcal.disassembler.vtable.VtableDumper;
-import android.support.v7.app.AppCompatActivity;
 
 public class SymbolActivity extends AppCompatActivity
 {
@@ -30,7 +32,7 @@ public class SymbolActivity extends AppCompatActivity
 		demangledName = getIntent().getExtras().getString("demangledName");
 		path = getIntent().getExtras().getString("filePath");
 
-		ImageView imageTitile=(ImageView)findViewById(R.id.symbolactivityImageView);
+		ImageView imageTitile= findViewById(R.id.symbolactivityImageView);
 		if (type == 1)
 			imageTitile.setImageResource(R.drawable.box_blue);
 		else if (type == 2)
@@ -38,10 +40,10 @@ public class SymbolActivity extends AppCompatActivity
 		else
 			imageTitile.setImageResource(R.drawable.box_pink);
 
-		TextView textName=(TextView)findViewById(R.id.symbolactivityTextViewName);
+		TextView textName= findViewById(R.id.symbolactivityTextViewName);
 		textName.setText(name);
 
-		TextView textDemangledName=(TextView)findViewById(R.id.symbolactivityTextViewDemangledName);
+		TextView textDemangledName= findViewById(R.id.symbolactivityTextViewDemangledName);
 		textDemangledName.setText(demangledName);
 
 		String arguments=new String();

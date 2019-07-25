@@ -1,12 +1,12 @@
 package com.gc.materialdesign.views;
 
+import android.content.Context;
+import android.util.AttributeSet;
+
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
-
-import android.content.Context;
-import android.util.AttributeSet;
 
 public class ProgressBarIndeterminateDeterminate extends ProgressBarDeterminate
 {

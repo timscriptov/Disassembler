@@ -2,6 +2,7 @@
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 
@@ -13,7 +14,8 @@
 		<EditText
 			android:layout_width="wrap_content"
 			android:layout_height="fill_parent"
-			android:id="@+id/namedemangleractivityEditText1"/>
+			android:id="@+id/namedemangleractivityEditText1"
+			tools:ignore="Autofill,LabelFor,TextFields" />
 
 		<View
 			android:layout_width="2dp"
@@ -23,7 +25,8 @@
 		<EditText
 			android:layout_width="wrap_content"
 			android:layout_height="match_parent"
-			android:id="@+id/namedemangleractivityEditText2"/>
+			android:id="@+id/namedemangleractivityEditText2"
+			tools:ignore="Autofill,LabelFor,TextFields" />
 
 	</LinearLayout>
 
@@ -36,7 +39,9 @@
 		android:background="#FF1A73E8"
 		materialdesign:iconDrawable="@drawable/ic_action_settings_backup_restore"
 		android:layout_marginBottom="30dp"
-		android:onClick="demangle"/>
+		android:onClick="demangle"
+		android:layout_alignParentEnd="true"
+		android:layout_marginEnd="30dp" />
 
 </RelativeLayout>
 

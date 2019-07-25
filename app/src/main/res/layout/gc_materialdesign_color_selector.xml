@@ -2,6 +2,7 @@
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/rootSelector"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
@@ -12,7 +13,8 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_centerInParent="true"
-		android:orientation="vertical">
+		android:orientation="vertical"
+		tools:ignore="UselessParent">
 
 		<View
 			android:id="@+id/viewColor"
@@ -37,7 +39,9 @@
 					android:layout_marginRight="8dp"
 					android:textSize="17sp"
 					android:text="R"
-					android:textColor="#4D4D4D"/>
+					android:textColor="#4D4D4D"
+					android:layout_marginEnd="8dp"
+					tools:ignore="HardcodedText" />
 
 				<com.gc.materialdesign.views.Slider
 					android:id="@+id/red"
@@ -63,7 +67,9 @@
 					android:layout_marginRight="8dp"
 					android:textSize="17sp"
 					android:text="G"
-					android:textColor="#4D4D4D"/>
+					android:textColor="#4D4D4D"
+					android:layout_marginEnd="8dp"
+					tools:ignore="HardcodedText" />
 
 				<com.gc.materialdesign.views.Slider
 					android:id="@+id/green"
@@ -89,7 +95,9 @@
 					android:layout_marginRight="8dp"
 					android:textSize="17sp"
 					android:text="B"
-					android:textColor="#4D4D4D"/>
+					android:textColor="#4D4D4D"
+					android:layout_marginEnd="8dp"
+					tools:ignore="HardcodedText" />
 
 				<com.gc.materialdesign.views.Slider
 					android:id="@+id/blue"

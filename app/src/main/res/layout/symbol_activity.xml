@@ -2,6 +2,7 @@
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:orientation="vertical">
@@ -14,7 +15,7 @@
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:orientation="vertical"
-			android:layout_height="match_parent">
+			android:layout_height="wrap_content">
 
 			<LinearLayout
 				android:layout_width="match_parent"
@@ -23,12 +24,14 @@
 				<ImageView
 					android:layout_width="36dp"
 					android:layout_height="36dp"
-					android:id="@+id/symbolactivityImageView"/>
+					android:id="@+id/symbolactivityImageView"
+					tools:ignore="ContentDescription" />
 
 				<ScrollView
 					android:layout_width="match_parent"
 					android:orientation="horizontal"
-					android:layout_height="wrap_content">
+					android:layout_height="wrap_content"
+					tools:ignore="NestedScrolling">
 
 					<LinearLayout
 						android:layout_width="wrap_content"
@@ -68,7 +71,8 @@
 				android:orientation="horizontal"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="10dp"
-				android:layout_marginLeft="10dp">
+				android:layout_marginLeft="10dp"
+				android:layout_marginStart="10dp">
 
 				<TextView
 					android:layout_width="wrap_content"
@@ -82,7 +86,8 @@
 					android:layout_height="wrap_content"
 					android:id="@+id/symbolactivityTextViewType"
 					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:layout_marginLeft="10dp"/>
+					android:layout_marginLeft="10dp"
+					android:layout_marginStart="10dp" />
 
 			</LinearLayout>
 
@@ -90,7 +95,8 @@
 				android:layout_width="match_parent"
 				android:orientation="horizontal"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="10dp">
+				android:layout_marginLeft="10dp"
+				android:layout_marginStart="10dp">
 
 				<TextView
 					android:layout_width="wrap_content"
@@ -104,7 +110,8 @@
 					android:layout_height="wrap_content"
 					android:id="@+id/symbolactivityTextClass"
 					android:textAppearance="?android:attr/textAppearanceMedium"
-					android:layout_marginLeft="10dp"/>
+					android:layout_marginLeft="10dp"
+					android:layout_marginStart="10dp" />
 
 			</LinearLayout>
 
@@ -112,7 +119,8 @@
 				android:layout_width="match_parent"
 				android:orientation="horizontal"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="10dp">
+				android:layout_marginLeft="10dp"
+				android:layout_marginStart="10dp">
 
 				<TextView
 					android:layout_width="wrap_content"
@@ -126,7 +134,8 @@
 					android:layout_height="wrap_content"
 					android:textAppearance="?android:attr/textAppearanceMedium"
 					android:id="@+id/symbolactivityTextViewSymbolMainName"
-					android:layout_marginLeft="10dp"/>
+					android:layout_marginLeft="10dp"
+					android:layout_marginStart="10dp" />
 
 			</LinearLayout>
 
@@ -135,7 +144,8 @@
 				android:orientation="horizontal"
 				android:layout_height="wrap_content"
 				android:layout_marginBottom="10dp"
-				android:layout_marginLeft="10dp">
+				android:layout_marginLeft="10dp"
+				android:layout_marginStart="10dp">
 
 				<TextView
 					android:layout_width="wrap_content"
@@ -149,7 +159,8 @@
 					android:layout_height="wrap_content"
 					android:textAppearance="?android:attr/textAppearanceMedium"
 					android:id="@+id/symbolactivityTextViewArguments"
-					android:layout_marginLeft="10dp"/>
+					android:layout_marginLeft="10dp"
+					android:layout_marginStart="10dp" />
 
 			</LinearLayout>
 
@@ -172,7 +183,9 @@
 		android:background="#CCCCCC"
 		android:visibility="gone"
 		android:id="@+id/symbolactivityTextViewButtonFloat"
-		android:text="@string/ownedVtable"/>
+		android:text="@string/ownedVtable"
+		android:layout_alignParentEnd="true"
+		android:layout_marginEnd="90dp" />
 
 	<com.gc.materialdesign.views.ButtonFloat
 		android:layout_width="wrap_content"
@@ -185,7 +198,9 @@
 		android:layout_marginBottom="100dp"
 		android:onClick="toVtableActivity"
 		android:id="@+id/symbolactivityButtonFloat"
-		android:visibility="gone"/>
+		android:visibility="gone"
+		android:layout_alignParentEnd="true"
+		android:layout_marginEnd="30dp" />
 
 	<TextView
 		android:layout_width="wrap_content"
@@ -197,7 +212,9 @@
 		android:background="#CCCCCC"
 		android:visibility="gone"
 		android:id="@+id/symbolactivityTextViewButtonFloatClass"
-		android:text="@string/targetClass"/>
+		android:text="@string/targetClass"
+		android:layout_alignParentEnd="true"
+		android:layout_marginEnd="90dp" />
 
 	<com.gc.materialdesign.views.ButtonFloat
 		android:layout_width="wrap_content"
@@ -210,7 +227,9 @@
 		android:layout_marginBottom="30dp"
 		android:onClick="toClassActivity"
 		android:id="@+id/symbolactivityButtonFloatClass"
-		android:visibility="gone"/>
+		android:visibility="gone"
+		android:layout_alignParentEnd="true"
+		android:layout_marginEnd="30dp" />
 
 </RelativeLayout>
 

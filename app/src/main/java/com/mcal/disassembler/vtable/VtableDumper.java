@@ -1,11 +1,11 @@
 package com.mcal.disassembler.vtable;
 
-import java.util.HashMap;
-import java.util.Vector;
-
 import com.mcal.disassembler.nativeapi.DisassemblerSymbol;
 import com.mcal.disassembler.nativeapi.DisassemblerVtable;
 import com.mcal.disassembler.nativeapi.Dumper;
+
+import java.util.HashMap;
+import java.util.Vector;
 
 public class VtableDumper
 {
@@ -40,7 +40,7 @@ public class VtableDumper
 		if (sym == null)
 			return null;
 
-		HashMap<Integer,symbol>map=new HashMap<Integer,symbol>();//为了排序
+		HashMap<Integer,symbol>map= new HashMap<>();//为了排序
 		int c=0;
 
 		for (section sec:d.elf.sections)

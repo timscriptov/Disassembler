@@ -16,7 +16,9 @@
 		materialdesign:iconDrawable="@drawable/ic_action_system_update_alt"
 		android:layout_marginBottom="30dp"
 		android:onClick="save"
-		android:id="@+id/saveactivityButtonFloatClass"/>
+		android:id="@+id/saveactivityButtonFloatClass"
+		android:layout_alignParentEnd="true"
+		android:layout_marginEnd="30dp" />
 
 </RelativeLayout>
 

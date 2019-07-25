@@ -38,5 +38,13 @@
 	<string name="demanglerActivity">反修饰器</string>
 	<string name="classActivity">类</string>
 	<string name="savedIn">所有文件保存在:</string>
-	
+    <string name="symbols_menu">Symbols Menu</string>
+	<string name="paste_text_here">Paste text here</string>
+    <string name="cancel">Cancel</string>
+	<string name="accept">Accept</string>
+	<string name="donate">Donate</string>
+	<string name="copyright">© 2019 Тимашков Иван</string>
+    <string name="about_view_github">Github Page</string>
+	<string name="thanks">Thanks</string>
+
 </resources>

@@ -1,12 +1,13 @@
 package com.mcal.disassembler;
 
-import android.content.*;
-import android.net.*;
-import android.os.*;
-import android.view.*;
-import android.widget.*;
-import com.mcal.disassembler.nativeapi.*;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.mcal.disassembler.nativeapi.DisassemblerDumper;
 
 public class NameDemanglerActivity extends AppCompatActivity
 {
@@ -17,8 +18,8 @@ public class NameDemanglerActivity extends AppCompatActivity
 		setContentView(R.layout.name_demangler_activity);
 		int width = getWindowManager().getDefaultDisplay().getWidth();
 
-		EditText editText1=(EditText) findViewById(R.id.namedemangleractivityEditText1);
-		EditText editText2=(EditText) findViewById(R.id.namedemangleractivityEditText2);
+		EditText editText1= findViewById(R.id.namedemangleractivityEditText1);
+		EditText editText2= findViewById(R.id.namedemangleractivityEditText2);
 
 		ViewGroup.LayoutParams params1=editText1.getLayoutParams();
 		params1.width = width / 2 - 1;
@@ -31,8 +32,8 @@ public class NameDemanglerActivity extends AppCompatActivity
 
 	public void demangle(View view)
 	{
-		EditText editText1=(EditText) findViewById(R.id.namedemangleractivityEditText1);
-		EditText editText2=(EditText) findViewById(R.id.namedemangleractivityEditText2);
+		EditText editText1= findViewById(R.id.namedemangleractivityEditText1);
+		EditText editText2= findViewById(R.id.namedemangleractivityEditText2);
 		if (editText1.getText() == null || editText1.getText().toString() == null)
 			return;
 		String toName=DisassemblerDumper.demangle(editText1.getText().toString());

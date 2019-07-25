@@ -29,7 +29,9 @@
 		android:background="#CCCCCC"
 		android:visibility="gone"
 		android:id="@+id/classactivityTextViewButtonFloatVtable"
-		android:text="@string/ownedVtable"/>
+		android:text="@string/ownedVtable"
+		android:layout_alignParentEnd="true"
+		android:layout_marginEnd="90dp" />
 
 	<com.gc.materialdesign.views.ButtonFloat
 		android:layout_width="wrap_content"
@@ -42,7 +44,9 @@
 		android:layout_marginBottom="100dp"
 		android:onClick="toVtableActivity"
 		android:id="@+id/classactivityButtonFloat"
-		android:visibility="gone"/>
+		android:visibility="gone"
+		android:layout_alignParentEnd="true"
+		android:layout_marginEnd="30dp" />
 
 	<com.gc.materialdesign.views.ButtonFloat
 		android:layout_width="wrap_content"
@@ -54,7 +58,9 @@
 		materialdesign:iconDrawable="@drawable/ic_action_system_update_alt"
 		android:layout_marginBottom="30dp"
 		android:onClick="save"
-		android:id="@+id/classactivityButtonFloatSave"/>
+		android:id="@+id/classactivityButtonFloatSave"
+		android:layout_alignParentEnd="true"
+		android:layout_marginEnd="30dp" />
 
 </RelativeLayout>
 

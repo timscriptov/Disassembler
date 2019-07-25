@@ -14,8 +14,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.mcal.disassembler.R;
 import com.gc.materialdesign.utils.Utils;
+import com.mcal.disassembler.R;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 

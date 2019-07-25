@@ -5,7 +5,7 @@ import java.util.Vector;
 public class DisassemblerVtable
 {
 	private String name=new String();
-	private Vector<DisassemblerSymbol> vtables=new Vector<DisassemblerSymbol>();
+	private Vector<DisassemblerSymbol> vtables= new Vector<>();
 	
 	public DisassemblerVtable(String name, Vector<DisassemblerSymbol> vtables)
 	{

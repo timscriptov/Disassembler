@@ -1,13 +1,33 @@
 package com.mcal.disassembler;
 
-import android.os.*;
-import android.widget.*;
-import android.view.*;
-import com.mcal.disassembler.nativeapi.*;
-import java.util.*;
-import android.widget.AdapterView.*;
-import android.content.*;
-import android.support.v7.app.AppCompatActivity;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.mcal.disassembler.nativeapi.DisassemblerSymbol;
+import com.mcal.disassembler.nativeapi.Searcher;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 public class SearchActivity extends AppCompatActivity
 {
@@ -51,6 +71,7 @@ public class SearchActivity extends AppCompatActivity
 		}.start();
 	}
 	com.gc.materialdesign.widgets.ProgressDialog mProgressDialog;
+	@SuppressLint("HandlerLeak")
 	Handler mHandler=new Handler()
 	{
 		@Override
@@ -82,7 +103,7 @@ public class SearchActivity extends AppCompatActivity
 
 	private List<Map<String, Object>> search_datas(String key, boolean usePattern) 
     {
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>(); 
+        List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map;
 		Vector<DisassemblerSymbol> searchResult=null;
 		if (key == null || key.isEmpty() || key == " " || key == "")
@@ -95,7 +116,7 @@ public class SearchActivity extends AppCompatActivity
 			return list;
         for (int i=0;i < searchResult.size();++i)
         { 
-            map = new HashMap<String, Object>(); 
+            map = new HashMap<>();
 			if (searchResult.get(i).getType() == 1)
 				map.put("img", R.drawable.box_blue); 
 			else if (searchResult.get(i).getType() == 2)
@@ -168,9 +189,9 @@ public class SearchActivity extends AppCompatActivity
 			{ 
 				holder = new ViewHolder(); 
 				convertView = mInflater.inflate(R.layout.symbol_list_item, null); 
-				holder.img = (ImageView)convertView.findViewById(R.id.symbolslistitemimg); 
-				holder.title = (TextView)convertView.findViewById(R.id.symbolslistitemTextViewtop); 
-				holder.info = (TextView)convertView.findViewById(R.id.symbolslistitemTextViewbottom); 
+				holder.img = convertView.findViewById(R.id.symbolslistitemimg);
+				holder.title = convertView.findViewById(R.id.symbolslistitemTextViewtop);
+				holder.info = convertView.findViewById(R.id.symbolslistitemTextViewbottom);
 				convertView.setTag(holder);
 			}
 			else 

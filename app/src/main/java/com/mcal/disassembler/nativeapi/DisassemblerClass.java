@@ -16,7 +16,7 @@ public class DisassemblerClass
 	public DisassemblerClass(String name)
 	{
 		this.name = name;
-		this.symbols = new Vector<DisassemblerSymbol>();
+		this.symbols = new Vector<>();
 	}
 
 

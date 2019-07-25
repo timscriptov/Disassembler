@@ -1,10 +1,11 @@
 package com.mcal.disassembler;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PixelFormat;
-import android.view.View.OnTouchListener;
-import android.view.View;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 
 public class FloatingMenu
@@ -24,6 +25,7 @@ public class FloatingMenu
 		path = filePath;
 	}
 
+	@SuppressLint("ClickableViewAccessibility")
 	public void show()
 	{  
 		wm = (WindowManager) context.getApplicationContext()  .getSystemService(Context.WINDOW_SERVICE);  

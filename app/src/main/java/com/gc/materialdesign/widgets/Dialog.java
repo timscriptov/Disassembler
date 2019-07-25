@@ -6,14 +6,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
-import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mcal.disassembler.R;
 import com.gc.materialdesign.views.ButtonFlat;
+import com.mcal.disassembler.R;
 
 public class Dialog extends android.app.Dialog
 {

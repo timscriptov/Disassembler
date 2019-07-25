@@ -90,7 +90,6 @@ public class Dump
 				}
 			}
 		}
-
 		return syms;
 	}
 
@@ -176,5 +175,4 @@ public class Dump
 		}
 		return new String(r);
 	}
-
 }

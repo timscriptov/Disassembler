@@ -1,8 +1,8 @@
 package com.mcal.disassembler.util;
 
 import com.mcal.disassembler.nativeapi.DisassemblerClass;
-import com.mcal.disassembler.nativeapi.Dumper;
 import com.mcal.disassembler.nativeapi.DisassemblerSymbol;
+import com.mcal.disassembler.nativeapi.Dumper;
 
 public class ClassGeter
 {

@@ -1,8 +1,5 @@
 package com.gc.materialdesign.views;
 
-import com.mcal.disassembler.R;
-import com.gc.materialdesign.utils.Utils;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +14,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.gc.materialdesign.utils.Utils;
+import com.mcal.disassembler.R;
 
 public class CheckBox extends CustomView
 {

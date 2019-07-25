@@ -12,13 +12,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.gc.materialdesign.widgets.SnackBar;
 import com.mcal.disassembler.nativeapi.Dumper;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import android.support.v7.app.AppCompatActivity;
 
 public class SymbolsActivity extends AppCompatActivity
 {
@@ -46,7 +49,7 @@ public class SymbolsActivity extends AppCompatActivity
         Map<String, Object> map;
         for (int i=0;i < Dumper.symbols.size();++i)
         { 
-            map = new HashMap<String, Object>(); 
+            map = new HashMap<>();
 			if (Dumper.symbols.get(i).getType() == 1)
 				map.put("img", R.drawable.box_blue); 
 			else if (Dumper.symbols.get(i).getType() == 2)

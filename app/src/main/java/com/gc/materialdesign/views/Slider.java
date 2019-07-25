@@ -19,8 +19,8 @@ import android.view.Window;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.mcal.disassembler.R;
 import com.gc.materialdesign.utils.Utils;
+import com.mcal.disassembler.R;
 import com.nineoldandroids.view.ViewHelper;
 
 public class Slider extends CustomView

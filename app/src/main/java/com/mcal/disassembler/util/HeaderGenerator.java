@@ -1,9 +1,10 @@
 package com.mcal.disassembler.util;
 
-import java.util.Vector;
-import com.mcal.disassembler.nativeapi.DisassemblerSymbol;
 import com.mcal.disassembler.nativeapi.DisassemblerClass;
+import com.mcal.disassembler.nativeapi.DisassemblerSymbol;
 import com.mcal.disassembler.nativeapi.DisassemblerVtable;
+
+import java.util.Vector;
 
 public class HeaderGenerator
 {
@@ -43,7 +44,7 @@ public class HeaderGenerator
 	{
 		try
 		{
-			Vector<String> otherZTVs=new Vector<String>();
+			Vector<String> otherZTVs= new Vector<>();
 			try
 			{
 				for (DisassemblerSymbol sym:vtable.getVtables())
@@ -94,7 +95,7 @@ public class HeaderGenerator
 
 	public String[] generate()
 	{
-		Vector<String> lines=new Vector<String>();
+		Vector<String> lines= new Vector<>();
 		try
 		{
 			lines.addElement("#pragma once");

@@ -4,8 +4,8 @@
 	<string name="done">Done</string>
 	<string name="search">Search</string>
 	<string name="menu">Menu</string>
-	<string name="loading">Loading...</string>
-	<string name="saving">Saving...</string>
+	<string name="loading">Loading…</string>
+	<string name="saving">Saving…</string>
 	<string name="pickFromSdcard">Pick From Sdcard</string>
 	<string name="pickFromInstalled">Pick From Installed</string>
 	<string name="error">ERROR</string>
@@ -38,4 +38,12 @@
 	<string name="vtableActivity">vtable for </string>
 	<string name="demanglerActivity">Name Demangler</string>
 	<string name="savedIn">All files will be saved in:</string>
+    <string name="symbols_menu">Symbols Menu</string>
+	<string name="paste_text_here">Paste text here</string>
+    <string name="cancel">Cancel</string>
+	<string name="accept">Accept</string>
+	<string name="donate">Donate</string>
+	<string name="copyright">© 2019 Тимашков Иван</string>
+    <string name="about_view_github">Github Page</string>
+	<string name="thanks">Thanks</string>
 </resources>

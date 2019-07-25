@@ -1,27 +1,30 @@
 package com.mcal.disassembler;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Message;
 import android.os.Handler;
+import android.os.Message;
 import android.view.View;
+import android.widget.Toast;
 
-import com.gc.materialdesign.widgets.SnackBar;
-
-import com.mcal.disassembler.nativeapi.Dumper;
-import com.mcal.disassembler.util.FileSaver;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
-import android.widget.*;
+import com.gc.materialdesign.widgets.SnackBar;
+import com.mcal.disassembler.nativeapi.Dumper;
+import com.mcal.disassembler.util.FileSaver;
 
 public class MenuActivity extends AppCompatActivity implements BillingProcessor.IBillingHandler
 {
+	private static final String URI_GITHUB = "https://github.com/TimScriptov/Disassembler.git";
+
 	private String path;
 	private BillingProcessor bp;
-	
+
 	@Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -31,26 +34,38 @@ public class MenuActivity extends AppCompatActivity implements BillingProcessor.
 		path = getIntent().getExtras().getString("filePath");
 		
 		bp = new BillingProcessor(this, null, this);
+
+		findViewById(R.id.about_view_github_button).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View p1) {
+				openUri(URI_GITHUB);
+			}
+		});
 	}
-	
+
+	private void openUri(String uri) {
+		Intent intent = new Intent();
+		intent.setAction("android.intent.action.VIEW");
+		Uri content_url = Uri.parse(uri);
+		intent.setData(content_url);
+		startActivity(intent);
+	}
+
 	public void donate(View v) {
         bp.purchase(this, "donate_disassembler");
     }
 
     public void onPurchaseHistoryRestored() {
-
     }
 
     public void onBillingError(int p1, Throwable p2) {
-
     }
 
     public void onBillingInitialized() {
-
     }
 	
     public void onProductPurchased(String p1, TransactionDetails p2) {
-        Toast.makeText(this, "Thanks", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, R.string.thanks, Toast.LENGTH_LONG).show();
         bp.consumePurchase(p1);
     }
 
@@ -84,9 +99,10 @@ public class MenuActivity extends AppCompatActivity implements BillingProcessor.
 
 	private com.gc.materialdesign.widgets.ProgressDialog mDialog;
 	private SnackBar mBar;
+
+	@SuppressLint("HandlerLeak")
 	private Handler mHandler=new Handler()
 	{
-
 		@Override
 		public void handleMessage(Message msg)
 		{

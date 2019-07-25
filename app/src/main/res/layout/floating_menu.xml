@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/dialog_rootView"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
@@ -22,31 +23,35 @@
 
 			<TextView
 				android:layout_height="30dp"
-				android:text="Symbols Menu"
+				android:text="@string/symbols_menu"
 				android:textAppearance="?android:attr/textAppearanceSmall"
 				android:layout_width="wrap_content"
 				android:layout_alignParentLeft="true"
 				android:gravity="center"
 				android:padding="5dp"
-				android:textColor="#FFFFFF"/>
+				android:textColor="#FFFFFF"
+				android:layout_alignParentStart="true"
+				tools:ignore="RelativeOverlap" />
 
 			<com.gc.materialdesign.views.ButtonFlat
 				android:layout_height="30dp"
 				android:layout_width="50dp"
-				android:layout_gravity="right"
 				android:layout_alignParentRight="true"
-				android:text="Ⅹ"
+				android:text="x"
 				android:id="@+id/floatingmenuButtonHide"
-				android:background="#FF0000"/>
+				android:background="#FF0000"
+				android:layout_alignParentEnd="true"
+				tools:ignore="HardcodedText" />
 
 			<com.gc.materialdesign.views.ButtonFlat
 				android:layout_height="30dp"
 				android:layout_width="50dp"
-				android:layout_gravity="right"
 				android:text="_"
 				android:id="@+id/floatingmenuButtonClose"
 				android:layout_toLeftOf="@id/floatingmenuButtonHide"
-				android:background="#FFFFFF"/>
+				android:background="#FFFFFF"
+				tools:ignore="HardcodedText"
+				android:layout_toStartOf="@id/floatingmenuButtonHide" />
 
 		</RelativeLayout>
 
@@ -66,23 +71,25 @@
 				android:singleLine="true"
 				android:id="@+id/floatingmenuEditText"
 				android:inputType="text"
-				android:hint="Paste text here"/>
+				android:hint="@string/paste_text_here"
+				tools:ignore="Autofill" />
 
 			<com.gc.materialdesign.views.ButtonFlat
 				android:layout_height="40dp"
 				android:layout_width="30dp"
-				android:layout_gravity="right"
 				android:layout_alignParentRight="true"
 				android:text="S"
-				android:id="@+id/floatingmenuButtonSearch"/>
+				android:id="@+id/floatingmenuButtonSearch"
+				android:layout_alignParentEnd="true"
+				tools:ignore="HardcodedText" />
 
 			<com.gc.materialdesign.views.ButtonFlat
 				android:layout_height="40dp"
 				android:layout_width="30dp"
-				android:layout_gravity="right"
 				android:text="C"
 				android:id="@+id/floatingmenuButtonClear"
-				android:layout_toLeftOf="@id/floatingmenuButtonSearch"/>
+				android:layout_toLeftOf="@id/floatingmenuButtonSearch"
+				tools:ignore="HardcodedText,RtlHardcoded" />
 
 		</RelativeLayout>
 
@@ -91,7 +98,7 @@
 			android:layout_width="match_parent">
 
 			<TextView
-				android:layout_height="match_parent"
+				android:layout_height="wrap_content"
 				android:layout_width="match_parent"
 				android:textIsSelectable="true"
 				android:id="@+id/floatingmenuTextView"/>
