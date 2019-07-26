@@ -18,7 +18,6 @@ public class ProgressBarIndeterminate extends ProgressBarDeterminate
 		super(context, attrs);
 		Thread runnable=new Thread() 
 		{
-
 			@Override
 			public void run()
 			{
@@ -61,11 +60,9 @@ public class ProgressBarIndeterminate extends ProgressBarDeterminate
 						public void onAnimationCancel(Animator arg0)
 						{}
 					});
-
 				anim2.start();
 			}
 		};
 		post(runnable);
 	}
-
 }

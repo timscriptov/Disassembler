@@ -25,7 +25,6 @@ import com.nineoldandroids.view.ViewHelper;
 
 public class Slider extends CustomView
 {
-
     private int backgroundColor = Color.parseColor("#4CAF50");
     private Ball   ball;
     private Bitmap bitmap;
@@ -101,7 +100,6 @@ public class Slider extends CustomView
 							value * division + getHeight() / 2 - ball.getWidth() / 2);
             ball.changeBackground();
         }
-
     }
 
     @Override
@@ -497,7 +495,5 @@ public class Slider extends CustomView
 										  RelativeLayout.LayoutParams.FILL_PARENT,
 										  RelativeLayout.LayoutParams.FILL_PARENT));
         }
-
     }
-
 }

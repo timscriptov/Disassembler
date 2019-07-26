@@ -11,7 +11,6 @@ import com.mcal.disassembler.R;
 
 public class Card extends CustomView 
 {
-
 	TextView textButton;
 
 	int paddingTop,paddingBottom, paddingLeft, paddingRight;
@@ -60,5 +59,4 @@ public class Card extends CustomView
 		GradientDrawable shape =  (GradientDrawable) layer.findDrawableByLayerId(R.id.shape_bacground);
 		shape.setColor(backgroundColor);
 	}
-
 }

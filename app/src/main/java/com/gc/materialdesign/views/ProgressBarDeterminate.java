@@ -13,7 +13,6 @@ import com.mcal.disassembler.R;
 
 public class ProgressBarDeterminate extends CustomView
 {
-
 	int max = 100;
 	int min = 0;
 	int progress = 0;
@@ -71,7 +70,6 @@ public class ProgressBarDeterminate extends CustomView
 					progressView.setLayoutParams(params);
 				}
 			});
-
 	}
 
 	/**
@@ -147,5 +145,4 @@ public class ProgressBarDeterminate extends CustomView
 		shape.setColor(color);
 		super.setBackgroundColor(makePressColor());
 	}
-
 }

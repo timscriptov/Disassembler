@@ -26,9 +26,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.regex.Pattern;
 
-/**
- * Created by Dimorinny on 24.10.15.
- */
 public class FilePickerActivity extends AppCompatActivity implements DirectoryFragment.FileClickListener {
     public static final String ARG_START_PATH = "arg_start_path";
     public static final String ARG_CURRENT_PATH = "arg_current_path";

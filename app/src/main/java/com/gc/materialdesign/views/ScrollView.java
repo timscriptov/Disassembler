@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 public class ScrollView extends android.widget.ScrollView
 {
-	
 	public ScrollView(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
@@ -37,6 +36,4 @@ public class ScrollView extends android.widget.ScrollView
 	    }
 	    return super.onTouchEvent(ev);
 	}
-	
-
 }

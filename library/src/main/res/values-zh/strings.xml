@@ -9,9 +9,11 @@
     <string name="type_drawing">图片</string>
     <string name="type_excel">EXCEL</string>
     <string name="type_image">照片</string>
-    <string name="type_music">音乐</string>
+    <string name="type_audio">音乐</string>
     <string name="type_pdf">PDF</string>
     <string name="type_power_point">PPT</string>
     <string name="type_word">WORD</string>
     <string name="type_apk">APK</string>
+	<string name="type_text">Text</string>
+	<string name="type_html">Html</string>
 </resources>

@@ -4,9 +4,6 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.Serializable;
 
-/**
- * Created by Dimorinny on 31.05.16.
- */
 public class HiddenFilter implements FileFilter, Serializable {
 
     @Override

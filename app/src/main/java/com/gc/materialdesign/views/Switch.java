@@ -21,7 +21,6 @@ import com.nineoldandroids.view.ViewHelper;
 
 public class Switch extends CustomView
 {
-
     private int backgroundColor = Color.parseColor("#4CAF50");
 
     private Ball ball;
@@ -280,7 +279,6 @@ public class Switch extends CustomView
 			objectAnimator.setDuration(300);
 			objectAnimator.start();
 		}
-
 	}
 
 	public void setOncheckListener(OnCheckListener onCheckListener)
@@ -292,5 +290,4 @@ public class Switch extends CustomView
 	{
 		public void onCheck(Switch view, boolean check);
 	}
-
 }

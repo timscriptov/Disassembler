@@ -20,7 +20,6 @@ import com.mcal.disassembler.R;
 
 public class CheckBox extends CustomView
 {
-
 	int backgroundColor = Color.parseColor("#4CAF50");
 
 	Check checkView;
@@ -121,7 +120,6 @@ public class CheckBox extends CustomView
 		checkView.invalidate();
 		super.invalidate();
 	}
-
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event)
@@ -305,5 +303,4 @@ public class CheckBox extends CustomView
 	{
 		public void onCheck(CheckBox view, boolean check);
 	}
-
 }

@@ -24,7 +24,7 @@
 			android:layout_width="110dp"
 			android:layout_height="110dp"
 			android:layout_gravity="center"
-			android:src="@drawable/ic_file_gray_116dp"
+			android:src="@drawable/ic_file"
 			tools:ignore="ContentDescription" />
 
 		<TextView

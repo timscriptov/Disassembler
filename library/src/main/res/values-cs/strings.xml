@@ -9,10 +9,12 @@
     <string name="type_drawing">Kresba</string>
     <string name="type_excel">Tabulka</string>
     <string name="type_image">Obrázek</string>
-    <string name="type_music">Skladba</string>
+    <string name="type_audio">Skladba</string>
     <string name="type_video">Video</string>
     <string name="type_pdf">PDF dokument</string>
     <string name="type_power_point">Prezentace</string>
     <string name="type_word">Dokument</string>
     <string name="type_apk">APK</string>
+	<string name="type_text">Text</string>
+	<string name="type_html">Html</string>
 </resources>

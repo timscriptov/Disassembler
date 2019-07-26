@@ -14,7 +14,6 @@ import com.mcal.disassembler.R;
 
 public class ButtonFlat extends Button
 {
-
 	TextView textButton;
 
 	public ButtonFlat(Context context, AttributeSet attrs)
@@ -48,8 +47,8 @@ public class ButtonFlat extends Button
 		{
 			text = attrs.getAttributeValue(ANDROIDXML, "text");
 		}
-		if(text==null)
-			text="";
+		if (text == null)
+			text = "";
 		textButton = new TextView(getContext());
 		textButton.setText(text.toUpperCase());
 		textButton.setTextColor(backgroundColor);
@@ -97,7 +96,6 @@ public class ButtonFlat extends Button
 			}
 			invalidate();
 		}		
-
 	}
 
 	/**
@@ -134,5 +132,4 @@ public class ButtonFlat extends Button
 	{
 		return textButton.getText().toString();
  	}
-
 }

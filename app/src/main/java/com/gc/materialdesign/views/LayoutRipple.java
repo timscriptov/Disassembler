@@ -12,7 +12,6 @@ import android.view.MotionEvent;
 
 public class LayoutRipple extends CustomView
 {
-
 	int background;
 	float rippleSpeed = 100f;
 	int rippleSize = 3;
@@ -234,5 +233,4 @@ public class LayoutRipple extends CustomView
 	{
 		this.yRippleOrigin = yRippleOrigin;
 	}
-
 }

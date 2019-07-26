@@ -8,10 +8,6 @@ import android.widget.ListView;
 
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
-/**
- * Created by hamedpc on 4/25/2015.
- * This widget uses NineOldAndroid to animate the view so you're gonna need to include it in your project
- */
 public class AutoHideButtonFloat extends ButtonFloat implements AbsListView.OnScrollListener 
 {
     ListView listView;

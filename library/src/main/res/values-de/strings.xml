@@ -9,10 +9,12 @@
     <string name="type_drawing">Bild</string>
     <string name="type_excel">Excel Tabelle</string>
     <string name="type_image">Bild</string>
-    <string name="type_music">Musik</string>
+    <string name="type_audio">Musik</string>
     <string name="type_video">Video</string>
     <string name="type_pdf">PDF Dokument</string>
     <string name="type_power_point">Presentation</string>
     <string name="type_word">Dokument</string>
     <string name="type_apk">APK</string>
+	<string name="type_text">Text</string>
+	<string name="type_html">Html</string>
 </resources>

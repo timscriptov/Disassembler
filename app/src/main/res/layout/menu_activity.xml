@@ -19,18 +19,18 @@
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:onClick="saveSymbols"
-		style="?android:attr/buttonBarButtonStyle"
+		android:background="@drawable/bg_clickable"
 		android:layout_height="55dp"
-		tools:ignore="UseCompoundDrawables">
+		tools:ignore="UseCompoundDrawables"
+		android:gravity="left|center">
 
 		<ImageView
 			android:layout_width="35dp"
 			android:layout_height="35dp"
 			android:src="@drawable/ic_action_save"
 			android:id="@+id/imageViewOutPut"
-			android:paddingLeft="5dp"
-			android:paddingTop="5dp"
-			tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry"/>
+			tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry"
+			android:layout_marginLeft="10dp"/>
 
 		<TextView
 			android:layout_width="match_parent"
@@ -39,7 +39,7 @@
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:textColor="#000000"
 			android:layout_marginLeft="10dp"
-			android:layout_marginStart="10dp" />
+			android:layout_marginRight="10dp"/>
 
 	</LinearLayout>
 
@@ -56,7 +56,7 @@
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:onClick="donate"
-		style="?android:attr/buttonBarButtonStyle"
+		android:background="@drawable/bg_clickable"
 		android:layout_height="55dp"
 		android:gravity="left|center"
 		android:id="@+id/donate"
@@ -66,9 +66,8 @@
 			android:layout_width="35dp"
 			android:layout_height="35dp"
 			android:src="@drawable/ic_action_attach_money"
-			android:paddingLeft="5dp"
-			android:paddingTop="5dp"
-			tools:ignore="ContentDescription,RtlSymmetry" />
+			tools:ignore="ContentDescription,RtlSymmetry"
+			android:layout_marginLeft="10dp"/>
 
 		<TextView
 			android:layout_width="match_parent"
@@ -76,7 +75,9 @@
 			android:text="@string/donate"
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:textColor="#000000"
-			android:layout_marginLeft="10dp"/>
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"
+			android:typeface="monospace"/>
 
 	</LinearLayout>
 
@@ -88,7 +89,7 @@
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:onClick="donate"
-		style="?android:attr/buttonBarButtonStyle"
+		android:background="@drawable/bg_clickable"
 		android:layout_height="55dp"
 		android:gravity="left|center"
 		android:id="@+id/about_view_github_button"
@@ -98,9 +99,8 @@
 			android:layout_width="35dp"
 			android:layout_height="35dp"
 			android:src="@drawable/ic_github"
-			android:paddingLeft="5dp"
-			android:paddingTop="5dp"
-			tools:ignore="ContentDescription,RtlSymmetry" />
+			tools:ignore="ContentDescription,RtlSymmetry"
+			android:layout_marginLeft="10dp"/>
 
 		<TextView
 			android:layout_width="match_parent"
@@ -108,7 +108,8 @@
 			android:text="@string/about_view_github"
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:textColor="#000000"
-			android:layout_marginLeft="10dp"/>
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"/>
 
 	</LinearLayout>
 
@@ -128,7 +129,8 @@
 			android:layout_height="35dp"
 			android:paddingLeft="5dp"
 			android:paddingTop="5dp"
-			tools:ignore="ContentDescription,RtlSymmetry" />
+			tools:ignore="ContentDescription,RtlSymmetry"
+			android:layout_marginLeft="10dp"/>
 
 		<TextView
 			android:layout_width="match_parent"
@@ -136,7 +138,8 @@
 			android:text="@string/copyright"
 			android:textAppearance="?android:attr/textAppearanceMedium"
 			android:textColor="#000000"
-			android:layout_marginLeft="10dp"/>
+			android:layout_marginLeft="10dp"
+			android:layout_marginRight="10dp"/>
 
 	</LinearLayout>
 

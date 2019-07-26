@@ -14,24 +14,19 @@ import com.gc.materialdesign.utils.Utils;
 
 public class ProgressBarCircularIndeterminate extends CustomView
 {
-
-
 	final static String ANDROIDXML = "http://schemas.android.com/apk/res/android";
 
 	int backgroundColor = Color.parseColor("#1E88E5");
-
 
 	public ProgressBarCircularIndeterminate(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
 		setAttributes(attrs);
-
 	}
 
 	// Set atributtes of XML to View
 	protected void setAttributes(AttributeSet attrs)
 	{
-
 		setMinimumHeight(Utils.dpToPx(32, getResources()));
 		setMinimumWidth(Utils.dpToPx(32, getResources()));
 
@@ -51,10 +46,7 @@ public class ProgressBarCircularIndeterminate extends CustomView
 			else
 				setBackgroundColor(Color.parseColor("#1E88E5"));
 		}
-
 		setMinimumHeight(Utils.dpToPx(3, getResources()));
-
-
 	}
 
 	/**
@@ -82,7 +74,6 @@ public class ProgressBarCircularIndeterminate extends CustomView
 		if (cont > 0)
 			drawSecondAnimation(canvas);
 		invalidate();
-
 	}
 
 	float radius1 = 0;
@@ -174,10 +165,6 @@ public class ProgressBarCircularIndeterminate extends CustomView
 	    canvas.drawBitmap(bitmap, 0, 0, new Paint());
 	}
 
-
-
-
-
 	// Set color of background
 	public void setBackgroundColor(int color)
 	{
@@ -186,5 +173,4 @@ public class ProgressBarCircularIndeterminate extends CustomView
 			beforeBackground = backgroundColor;
 		this.backgroundColor = color;
 	}
-
 }

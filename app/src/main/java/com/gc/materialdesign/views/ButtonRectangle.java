@@ -19,12 +19,12 @@ public class ButtonRectangle extends Button
 
 	int paddingTop,paddingBottom, paddingLeft, paddingRight;
 
-
 	public ButtonRectangle(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
 		setDefaultProperties();
 	}
+	
 	@Override
 	protected void setDefaultProperties()
 	{
@@ -34,11 +34,8 @@ public class ButtonRectangle extends Button
 		super.setDefaultProperties();
 	}
 
-
-
 	protected void setAttributes(AttributeSet attrs)
 	{
-
 		int bacgroundColor = attrs.getAttributeResourceValue(ANDROIDXML, "background", -1);
 		if (bacgroundColor != -1)
 		{
@@ -111,5 +108,4 @@ public class ButtonRectangle extends Button
 			invalidate();
 		}
 	}
-
 }

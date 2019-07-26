@@ -21,13 +21,10 @@ import com.mcal.disassembler.R;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
-
 public class ButtonFloat extends Button
 {
-
 	int sizeIcon = 24;
 	int sizeRadius = 28;
-
 
 	ImageView icon; // Icon of float button
 	Drawable drawableIcon;
@@ -36,8 +33,6 @@ public class ButtonFloat extends Button
 
 	float showPosition;
 	float hidePosition;
-
-
 
 	public ButtonFloat(Context context, AttributeSet attrs)
 	{
@@ -139,7 +134,6 @@ public class ButtonFloat extends Button
 					}
 				}
 			});
-
 	}
 
 	Integer height;
@@ -239,5 +233,4 @@ public class ButtonFloat extends Button
 	{
 		return isShow;
 	}
-
 }

@@ -45,10 +45,10 @@ public class MainActivity extends AppCompatActivity implements MainView
 			}
 		}
 		
-		TextView textViewSavePath=(TextView) findViewById(R.id.mainactivityTextViewSavePath);
+		TextView textViewSavePath=findViewById(R.id.mainactivityTextViewSavePath);
 		textViewSavePath.setText(getString(R.string.savedIn) + Environment.getExternalStorageDirectory().toString() + "/Disassembler/*");
 		new Database(this);
-		recentOpened = (RecyclerView) findViewById(R.id.items);
+		recentOpened = findViewById(R.id.items);
 		recentOpened.setLayoutManager(new LinearLayoutManager(this));
 		Cursor cursor = RecentsManager.getRecents();
         if (cursor.getCount() > 0) {

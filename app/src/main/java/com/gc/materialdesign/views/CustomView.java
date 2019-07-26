@@ -8,8 +8,6 @@ import android.widget.RelativeLayout;
 
 public class CustomView extends RelativeLayout
 {
-
-
 	final static String MATERIALDESIGNXML = "http://schemas.android.com/apk/res-auto";
 	final static String ANDROIDXML = "http://schemas.android.com/apk/res/android";
 

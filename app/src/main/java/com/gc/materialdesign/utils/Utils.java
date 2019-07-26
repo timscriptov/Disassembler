@@ -27,5 +27,4 @@ public class Utils
 		else
 			return myView.getLeft() + getRelativeLeft((View) myView.getParent());
 	}
-	
 }

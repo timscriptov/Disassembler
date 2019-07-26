@@ -10,12 +10,9 @@ import com.nineoldandroids.view.ViewHelper;
 
 public class ProgressBarIndeterminateDeterminate extends ProgressBarDeterminate
 {
-
 	boolean firstProgress = true;
 	boolean runAnimation = true;
 	ObjectAnimator animation;
-
-
 
 	public ProgressBarIndeterminateDeterminate(Context context, AttributeSet attrs)
 	{
@@ -88,5 +85,4 @@ public class ProgressBarIndeterminateDeterminate extends ProgressBarDeterminate
 		ViewHelper.setX(progressView, 0);
 		runAnimation = false;
 	}
-
 }

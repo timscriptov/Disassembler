@@ -12,7 +12,6 @@ import com.gc.materialdesign.utils.Utils;
 
 public class ButtonIcon extends ButtonFloat
 {
-
 	public ButtonIcon(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
@@ -68,5 +67,4 @@ public class ButtonIcon extends ButtonFloat
 	{
 		return backgroundColor;
 	}
-
 }

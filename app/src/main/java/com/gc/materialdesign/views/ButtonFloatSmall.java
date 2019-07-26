@@ -9,7 +9,6 @@ import com.mcal.disassembler.R;
 
 public class ButtonFloatSmall extends ButtonFloat
 {
-
 	public ButtonFloatSmall(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
@@ -32,5 +31,4 @@ public class ButtonFloatSmall extends ButtonFloat
 		setBackgroundResource(R.drawable.background_button_float);
 //		setBackgroundColor(backgroundColor);
 	}
-
 }
