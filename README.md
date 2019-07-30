@@ -1,0 +1,1 @@
+[![License Info](https://img.shields.io/badge/license-Apache-blue.svg?style=flat-square)](https://github.com/TimScriptov/Disassembler) [![Play Store Info](https://img.shields.io/badge/Play_Store-v1.6-blue.svg?style=flat-square)](https://play.google.com/store/apps/details?id=com.mcal.disassembler)
