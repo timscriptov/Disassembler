@@ -26,7 +26,7 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_alignParentRight="true"
-		materialdesign:iconDrawable="@drawable/ic_action_folder"
+		materialdesign:iconDrawable="@drawable/ic_folder"
 		android:background="#008577"
 		android:onClick="chooseSdcard"
 		android:layout_above="@id/mainactivityLinearLayout1"

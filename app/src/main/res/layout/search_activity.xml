@@ -47,7 +47,7 @@
 		android:layout_alignParentBottom="true"
 		android:layout_marginRight="30dp"
 		android:background="#008577"
-		materialdesign:iconDrawable="@drawable/ic_action_search"
+		materialdesign:iconDrawable="@drawable/ic_search"
 		android:layout_marginBottom="30dp"
 		android:onClick="search"
 		android:layout_alignParentEnd="true"

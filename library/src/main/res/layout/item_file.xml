@@ -26,7 +26,7 @@
 			android:src="@drawable/ic_folder"
 			android:alpha="0.6"
 			tools:ignore="ContentDescription"
-			android:background="#FF000000"
+			android:background="#000000"
 			android:padding="10dp"/>
 
 	</androidx.cardview.widget.CardView>

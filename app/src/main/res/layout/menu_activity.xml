@@ -27,7 +27,7 @@
 		<ImageView
 			android:layout_width="35dp"
 			android:layout_height="35dp"
-			android:src="@drawable/ic_action_save"
+			android:src="@drawable/ic_save"
 			android:id="@+id/imageViewOutPut"
 			tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry"
 			android:layout_marginLeft="10dp"/>
@@ -65,7 +65,7 @@
 		<ImageView
 			android:layout_width="35dp"
 			android:layout_height="35dp"
-			android:src="@drawable/ic_action_attach_money"
+			android:src="@drawable/ic_money"
 			tools:ignore="ContentDescription,RtlSymmetry"
 			android:layout_marginLeft="10dp"/>
 

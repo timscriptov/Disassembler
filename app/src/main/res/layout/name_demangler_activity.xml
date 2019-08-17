@@ -37,7 +37,7 @@
 		android:layout_alignParentBottom="true"
 		android:layout_marginRight="30dp"
 		android:background="#FF1A73E8"
-		materialdesign:iconDrawable="@drawable/ic_action_settings_backup_restore"
+		materialdesign:iconDrawable="@drawable/ic_backup_restore"
 		android:layout_marginBottom="30dp"
 		android:onClick="demangle"
 		android:layout_alignParentEnd="true"
