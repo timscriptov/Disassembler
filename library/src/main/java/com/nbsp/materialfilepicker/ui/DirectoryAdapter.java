@@ -16,43 +16,13 @@ import java.io.File;
 import java.util.List;
 
 public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.DirectoryViewHolder> {
-    public interface OnItemClickListener {
-        void onItemClick(View view, int position);
-    }
-
-    public class DirectoryViewHolder extends RecyclerView.ViewHolder {
-        private ImageView mFileImage;
-        private TextView mFileTitle;
-        private TextView mFileSubtitle;
-		private TextView mFileSize;
-
-        public DirectoryViewHolder(View itemView, final OnItemClickListener clickListener) {
-            super(itemView);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clickListener.onItemClick(v, getAdapterPosition());
-                }
-            });
-
-            mFileImage = (ImageView) itemView.findViewById(R.id.item_file_image);
-            mFileTitle = (TextView) itemView.findViewById(R.id.item_file_title);
-            mFileSubtitle = (TextView) itemView.findViewById(R.id.item_file_subtitle);
-			mFileSize = (TextView) itemView.findViewById(R.id.item_file_size);
-        }
-    }
-
     private List<File> mFiles;
-    private Context mContext;
     private OnItemClickListener mOnItemClickListener;
-
-    public DirectoryAdapter(Context context, List<File> files) {
-        mContext = context;
+    DirectoryAdapter(Context context, List<File> files) {
         mFiles = files;
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    void setOnItemClickListener(OnItemClickListener listener) {
         mOnItemClickListener = listener;
     }
 
@@ -72,8 +42,8 @@ public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.Dire
         FileTypeUtils.FileType fileType = FileTypeUtils.getFileType(currentFile);
         holder.mFileImage.setImageResource(fileType.getIcon());
         holder.mFileSubtitle.setText(fileType.getDescription());
-		if(!fileType.equals(FileTypeUtils.FileType.DIRECTORY))
-		holder.mFileSize.setText(SpaceFormatter.format(currentFile.length()));
+        if (!fileType.equals(FileTypeUtils.FileType.DIRECTORY))
+            holder.mFileSize.setText(SpaceFormatter.format(currentFile.length()));
         holder.mFileTitle.setText(currentFile.getName());
     }
 
@@ -82,7 +52,29 @@ public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.Dire
         return mFiles.size();
     }
 
-    public File getModel(int index) {
+    File getModel(int index) {
         return mFiles.get(index);
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    class DirectoryViewHolder extends RecyclerView.ViewHolder {
+        private ImageView mFileImage;
+        private TextView mFileTitle;
+        private TextView mFileSubtitle;
+        private TextView mFileSize;
+
+        DirectoryViewHolder(View itemView, final OnItemClickListener clickListener) {
+            super(itemView);
+
+            itemView.setOnClickListener(v -> clickListener.onItemClick(v, getAdapterPosition()));
+
+            mFileImage = itemView.findViewById(R.id.item_file_image);
+            mFileTitle = itemView.findViewById(R.id.item_file_title);
+            mFileSubtitle = itemView.findViewById(R.id.item_file_subtitle);
+            mFileSize = itemView.findViewById(R.id.item_file_size);
+        }
     }
 }

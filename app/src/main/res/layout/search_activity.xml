@@ -1,57 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-	<LinearLayout
-		android:id="@+id/symbols_activity_list_view"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/symbols_activity_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-		<TextView
-			android:layout_height="wrap_content"
-			android:text="@string/search"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:layout_width="match_parent"/>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:hint="@string/search">
 
-		<EditText
-			android:layout_height="wrap_content"
-			android:ems="10"
-			android:layout_width="match_parent"
-			android:id="@+id/searchactivityEditText"
-			android:singleLine="true"
-			android:lines="1"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/searchactivityEditText"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:inputType="textNoSuggestions"
+                android:singleLine="true"
+                android:lines="1"/>
 
-		<CheckBox
-			android:layout_height="wrap_content"
-			android:layout_width="match_parent"
-			android:text="@string/usePattern"
-			android:id="@+id/searchactivityCheckBoxUsePattern"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-		<ListView
-			android:id="@+id/search_activity_list_view"
-			android:layout_width="fill_parent"
-			android:layout_height="match_parent"
-			android:fastScrollEnabled="true"/>
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/searchactivityCheckBoxUsePattern"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/usePattern" />
 
-	</LinearLayout>
+        <ListView
+            android:id="@+id/search_activity_list_view"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:fastScrollEnabled="true" />
 
-	<com.gc.materialdesign.views.ButtonFloat
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentRight="true"
-		android:layout_alignParentBottom="true"
-		android:layout_marginRight="30dp"
-		android:background="#008577"
-		materialdesign:iconDrawable="@drawable/ic_search"
-		android:layout_marginBottom="30dp"
-		android:onClick="search"
-		android:layout_alignParentEnd="true"
-		android:layout_marginEnd="30dp" />
+    </LinearLayout>
+
+    <com.gc.materialdesign.views.ButtonFloat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="30dp"
+        android:background="#000"
+        android:onClick="search"
+        materialdesign:iconDrawable="@drawable/ic_search" />
 
 </RelativeLayout>
 

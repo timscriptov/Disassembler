@@ -1,66 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:orientation="vertical"
-		android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-		<ListView
-			android:id="@+id/class_activity_list_view"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:fastScrollEnabled="true"/>
+        <ListView
+            android:id="@+id/class_activity_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fastScrollEnabled="true" />
 
-	</LinearLayout>
+    </LinearLayout>
 
-	<TextView
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentRight="true"
-		android:layout_alignParentBottom="true"
-		android:layout_marginRight="90dp"
-		android:layout_marginBottom="120dp"
-		android:background="#CCCCCC"
-		android:visibility="gone"
-		android:id="@+id/classactivityTextViewButtonFloatVtable"
-		android:text="@string/ownedVtable"
-		android:layout_alignParentEnd="true"
-		android:layout_marginEnd="90dp" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/classactivityTextViewButtonFloatVtable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="90dp"
+        android:layout_marginRight="90dp"
+        android:layout_marginBottom="120dp"
+        android:background="#CCCCCC"
+        android:text="@string/ownedVtable"
+        android:visibility="gone" />
 
-	<com.gc.materialdesign.views.ButtonFloat
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentRight="true"
-		android:layout_alignParentBottom="true"
-		android:layout_marginRight="30dp"
-		android:background="#008577"
-		materialdesign:iconDrawable="@drawable/box_blue"
-		android:layout_marginBottom="100dp"
-		android:onClick="toVtableActivity"
-		android:id="@+id/classactivityButtonFloat"
-		android:visibility="gone"
-		android:layout_alignParentEnd="true"
-		android:layout_marginEnd="30dp" />
+    <com.gc.materialdesign.views.ButtonFloat
+        android:id="@+id/classactivityButtonFloat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="100dp"
+        android:background="#000"
+        android:onClick="toVtableActivity"
+        android:visibility="gone"
+        materialdesign:iconDrawable="@drawable/box_blue" />
 
-	<com.gc.materialdesign.views.ButtonFloat
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentRight="true"
-		android:layout_alignParentBottom="true"
-		android:layout_marginRight="30dp"
-		android:background="#008577"
-		materialdesign:iconDrawable="@drawable/ic_download"
-		android:layout_marginBottom="30dp"
-		android:onClick="save"
-		android:id="@+id/classactivityButtonFloatSave"
-		android:layout_alignParentEnd="true"
-		android:layout_marginEnd="30dp" />
+    <com.gc.materialdesign.views.ButtonFloat
+        android:id="@+id/classactivityButtonFloatSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="30dp"
+        android:background="#000"
+        android:onClick="save"
+        materialdesign:iconDrawable="@drawable/ic_download" />
 
 </RelativeLayout>
 

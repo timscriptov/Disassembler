@@ -20,7 +20,6 @@ public class CompositeFilter implements FileFilter, Serializable {
                 return false;
             }
         }
-
         return true;
     }
 }

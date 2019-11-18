@@ -103,7 +103,7 @@ public class MaterialFilePicker {
      *
      * @see MaterialFilePicker#withFilter
      */
-    public MaterialFilePicker withFilterDirectories(boolean directoriesFilter) {
+    private MaterialFilePicker withFilterDirectories(boolean directoriesFilter) {
         mDirectoriesFilter = directoriesFilter;
         return this;
     }
@@ -155,7 +155,7 @@ public class MaterialFilePicker {
         return this;
     }
 
-    public CompositeFilter getFilter() {
+    private CompositeFilter getFilter() {
         ArrayList<FileFilter> filters = new ArrayList<>();
 
         if (!mShowHidden) {

@@ -19,150 +19,133 @@ import com.gc.materialdesign.views.Slider;
 import com.gc.materialdesign.views.Slider.OnValueChangedListener;
 import com.mcal.disassembler.R;
 
-public class ColorSelector extends android.app.Dialog implements OnValueChangedListener
-{
+public class ColorSelector extends android.app.Dialog implements OnValueChangedListener {
 
-	int color = Color.BLACK;
-	Context context;
-	View colorView;
-	View view, backView;//background
+    int color = Color.BLACK;
+    Context context;
+    View colorView;
+    View view, backView;//background
 
-	OnColorSelectedListener onColorSelectedListener;
-	Slider red, green, blue;
-
-
-	public ColorSelector(Context context, Integer color, OnColorSelectedListener onColorSelectedListener)
-	{
-		super(context, android.R.style.Theme_Translucent);
-		this.context = context;
-		this.onColorSelectedListener = onColorSelectedListener;
-		if (color != null)
-			this.color = color;
-		setOnDismissListener(new OnDismissListener() {
-
-				@Override
-				public void onDismiss(DialogInterface dialog)
-				{
-					if (ColorSelector.this.onColorSelectedListener != null)
-						ColorSelector.this.onColorSelectedListener.onColorSelected(ColorSelector.this.color);
-				}
-			});
-	}
+    OnColorSelectedListener onColorSelectedListener;
+    Slider red, green, blue;
 
 
+    public ColorSelector(Context context, Integer color, OnColorSelectedListener onColorSelectedListener) {
+        super(context, android.R.style.Theme_Translucent);
+        this.context = context;
+        this.onColorSelectedListener = onColorSelectedListener;
+        if (color != null)
+            this.color = color;
+        setOnDismissListener(new OnDismissListener() {
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-	    super.onCreate(savedInstanceState);
-	    setContentView(R.layout.gc_materialdesign_color_selector);
-
-	    view = (LinearLayout)findViewById(R.id.contentSelector);
-		backView = (RelativeLayout)findViewById(R.id.rootSelector);
-		backView.setOnTouchListener(new OnTouchListener() {
-
-				@Override
-				public boolean onTouch(View v, MotionEvent event)
-				{
-					if (event.getX() < view.getLeft() || event.getX() > view.getRight()
-						|| event.getY() > view.getBottom() || event.getY() < view.getTop())
-					{
-						dismiss();
-					}
-					return false;
-				}
-			});
-
-	    colorView = findViewById(R.id.viewColor);
-	    colorView.setBackgroundColor(color);
-	    // Resize ColorView
-	    colorView.post(new Runnable() {
-
-				@Override
-				public void run()
-				{
-					LayoutParams params = (LayoutParams) colorView.getLayoutParams();
-					params.height = colorView.getWidth();
-					colorView.setLayoutParams(params);
-				}
-			});
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (ColorSelector.this.onColorSelectedListener != null)
+                    ColorSelector.this.onColorSelectedListener.onColorSelected(ColorSelector.this.color);
+            }
+        });
+    }
 
 
-	    // Configure Sliders
-	    red = (Slider) findViewById(R.id.red);
-	    green = (Slider) findViewById(R.id.green);
-	    blue = (Slider) findViewById(R.id.blue);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.gc_materialdesign_color_selector);
 
-	    int r = (this.color >> 16) & 0xFF;
-		int g = (this.color >> 8) & 0xFF;
-		int b = (this.color >> 0) & 0xFF;
+        view = (LinearLayout) findViewById(R.id.contentSelector);
+        backView = (RelativeLayout) findViewById(R.id.rootSelector);
+        backView.setOnTouchListener(new OnTouchListener() {
 
-		red.setValue(r);
-		green.setValue(g);
-		blue.setValue(b);
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getX() < view.getLeft() || event.getX() > view.getRight()
+                        || event.getY() > view.getBottom() || event.getY() < view.getTop()) {
+                    dismiss();
+                }
+                return false;
+            }
+        });
 
-		red.setOnValueChangedListener(this);
-		green.setOnValueChangedListener(this);
-		blue.setOnValueChangedListener(this);
-	}
+        colorView = findViewById(R.id.viewColor);
+        colorView.setBackgroundColor(color);
+        // Resize ColorView
+        colorView.post(new Runnable() {
 
-	@Override
-	public void show()
-	{
-		super.show();
-		view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.dialog_main_show_amination));
-		backView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.dialog_root_show_amin));
-	}
-
-	@Override
-	public void onValueChanged(int value)
-	{
-		color = Color.rgb(red.getValue(), green.getValue(), blue.getValue());
-		colorView.setBackgroundColor(color);
-	}
+            @Override
+            public void run() {
+                LayoutParams params = (LayoutParams) colorView.getLayoutParams();
+                params.height = colorView.getWidth();
+                colorView.setLayoutParams(params);
+            }
+        });
 
 
-	// Event that execute when color selector is closed
-	public interface OnColorSelectedListener
-	{
-		public void onColorSelected(int color);
-	}
+        // Configure Sliders
+        red = (Slider) findViewById(R.id.red);
+        green = (Slider) findViewById(R.id.green);
+        blue = (Slider) findViewById(R.id.blue);
 
-	@Override
-	public void dismiss()
-	{
-		Animation anim = AnimationUtils.loadAnimation(context, R.anim.dialog_main_hide_amination);
+        int r = (this.color >> 16) & 0xFF;
+        int g = (this.color >> 8) & 0xFF;
+        int b = (this.color >> 0) & 0xFF;
 
-		anim.setAnimationListener(new AnimationListener() {
+        red.setValue(r);
+        green.setValue(g);
+        blue.setValue(b);
 
-				@Override
-				public void onAnimationStart(Animation animation)
-				{
-				}
+        red.setOnValueChangedListener(this);
+        green.setOnValueChangedListener(this);
+        blue.setOnValueChangedListener(this);
+    }
 
-				@Override
-				public void onAnimationRepeat(Animation animation)
-				{
-				}
+    @Override
+    public void show() {
+        super.show();
+        view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.dialog_main_show_amination));
+        backView.startAnimation(AnimationUtils.loadAnimation(context, R.anim.dialog_root_show_amin));
+    }
 
-				@Override
-				public void onAnimationEnd(Animation animation)
-				{
-					view.post(new Runnable() {
-							@Override
-							public void run()
-							{
-								ColorSelector.super.dismiss();
-							}
-						});
-				}
-			});
+    @Override
+    public void onValueChanged(int value) {
+        color = Color.rgb(red.getValue(), green.getValue(), blue.getValue());
+        colorView.setBackgroundColor(color);
+    }
 
-		Animation backAnim = AnimationUtils.loadAnimation(context, R.anim.dialog_root_hide_amin);
+    @Override
+    public void dismiss() {
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.dialog_main_hide_amination);
 
-		view.startAnimation(anim);
-		backView.startAnimation(backAnim);
-	}
+        anim.setAnimationListener(new AnimationListener() {
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ColorSelector.super.dismiss();
+                    }
+                });
+            }
+        });
+
+        Animation backAnim = AnimationUtils.loadAnimation(context, R.anim.dialog_root_hide_amin);
+
+        view.startAnimation(anim);
+        backView.startAnimation(backAnim);
+    }
+
+    // Event that execute when color selector is closed
+    public interface OnColorSelectedListener {
+        public void onColorSelected(int color);
+    }
 
 }

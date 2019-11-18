@@ -18,40 +18,51 @@ import com.gc.materialdesign.widgets.SnackBar;
 import com.mcal.disassembler.nativeapi.Dumper;
 import com.mcal.disassembler.util.FileSaver;
 
-public class MenuActivity extends AppCompatActivity implements BillingProcessor.IBillingHandler
-{
-	private static final String URI_GITHUB = "https://github.com/TimScriptov/Disassembler.git";
+import java.util.Objects;
 
-	private String path;
-	private BillingProcessor bp;
+public class MenuActivity extends AppCompatActivity implements BillingProcessor.IBillingHandler {
+    private static final String URI_GITHUB = "https://github.com/TimScriptov/Disassembler.git";
 
-	@Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    private String path;
+    private BillingProcessor bp;
+    private com.gc.materialdesign.widgets.ProgressDialog mDialog;
+    private SnackBar mBar;
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (mDialog != null)
+                mDialog.dismiss();
+            mDialog = null;
+            if (mBar != null)
+                mBar.show();
+            else
+                new SnackBar(MenuActivity.this, MenuActivity.this.getString(R.string.done)).show();
+        }
+    };
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-		setContentView(R.layout.menu_activity);
+        setContentView(R.layout.menu_activity);
 
-		path = getIntent().getExtras().getString("filePath");
-		
-		bp = new BillingProcessor(this, null, this);
+        path = Objects.requireNonNull(getIntent().getExtras()).getString("filePath");
 
-		findViewById(R.id.about_view_github_button).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View p1) {
-				openUri(URI_GITHUB);
-			}
-		});
-	}
+        bp = new BillingProcessor(this, null, this);
 
-	private void openUri(String uri) {
-		Intent intent = new Intent();
-		intent.setAction("android.intent.action.VIEW");
-		Uri content_url = Uri.parse(uri);
-		intent.setData(content_url);
-		startActivity(intent);
-	}
+        findViewById(R.id.about_view_github_button).setOnClickListener(p1 -> openUri());
+    }
 
-	public void donate(View v) {
+    private void openUri() {
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        Uri content_url = Uri.parse(MenuActivity.URI_GITHUB);
+        intent.setData(content_url);
+        startActivity(intent);
+    }
+
+    public void donate(View v) {
         bp.purchase(this, "donate_disassembler");
     }
 
@@ -63,72 +74,47 @@ public class MenuActivity extends AppCompatActivity implements BillingProcessor.
 
     public void onBillingInitialized() {
     }
-	
+
     public void onProductPurchased(String p1, TransactionDetails p2) {
         Toast.makeText(this, R.string.thanks, Toast.LENGTH_LONG).show();
         bp.consumePurchase(p1);
     }
 
-	public void toNameDemangler(View view)
-	{
-		startActivity(new Intent(this, NameDemanglerActivity.class));
-	}
+    public void toNameDemangler(View view) {
+        startActivity(new Intent(this, NameDemanglerActivity.class));
+    }
 
-	public void showFloatingMenu(View view)
-	{
-		new FloatingButton(this, path).show();
-	}
+    public void showFloatingMenu(View view) {
+        new FloatingButton(this, path).show();
+    }
 
-	private void _saveSymbols()
-	{
-		String [] strings=new String[Dumper.symbols.size()];
-		for (int i=0;i < Dumper.symbols.size();++i)
-			strings[i] = Dumper.symbols.get(i).getName();
+    private void _saveSymbols() {
+        String[] strings = new String[Dumper.symbols.size()];
+        for (int i = 0; i < Dumper.symbols.size(); ++i)
+            strings[i] = Dumper.symbols.get(i).getName();
 
-		FileSaver saver=new FileSaver(this, Environment.getExternalStorageDirectory().toString() + "/Disassembler/symbols/", "Symbols.txt", strings);
-		saver.save();
+        FileSaver saver = new FileSaver(Environment.getExternalStorageDirectory().toString() + "/Disassembler/symbols/", "Symbols.txt", strings);
+        saver.save();
 
-		String [] strings_=new String[Dumper.symbols.size()];
-		for (int i=0;i < Dumper.symbols.size();++i)
-			strings_[i] = Dumper.symbols.get(i).getDemangledName();
-		FileSaver saver_=new FileSaver(this, Environment.getExternalStorageDirectory().toString() + "/Disassembler/symbols/", "Symbols_demangled.txt", strings_);
-		saver_.save();
+        String[] strings_ = new String[Dumper.symbols.size()];
+        for (int i = 0; i < Dumper.symbols.size(); ++i)
+            strings_[i] = Dumper.symbols.get(i).getDemangledName();
+        FileSaver saver_ = new FileSaver(Environment.getExternalStorageDirectory().toString() + "/Disassembler/symbols/", "Symbols_demangled.txt", strings_);
+        saver_.save();
 
 
-	}
+    }
 
-	private com.gc.materialdesign.widgets.ProgressDialog mDialog;
-	private SnackBar mBar;
-
-	@SuppressLint("HandlerLeak")
-	private Handler mHandler=new Handler()
-	{
-		@Override
-		public void handleMessage(Message msg)
-		{
-			super.handleMessage(msg);
-			if (mDialog != null)
-				mDialog.dismiss();
-			mDialog = null;
-			if (mBar != null)
-				mBar.show();
-			else
-				new SnackBar(MenuActivity.this, MenuActivity.this.getString(R.string.done)).show();
-		}
-	};
-	public void saveSymbols(View view)
-	{
-		mDialog = new com.gc.materialdesign.widgets.ProgressDialog(this, getString(R.string.saving));
-		mDialog.show();
-		mBar = new SnackBar(this, getString(R.string.done));
-		new Thread()
-		{
-			public void run()
-			{
-				_saveSymbols();
-				Message msg=new Message();
-				mHandler.sendMessage(msg);
-			}
-		}.start();
-	}
+    public void saveSymbols(View view) {
+        mDialog = new com.gc.materialdesign.widgets.ProgressDialog(this, getString(R.string.saving));
+        mDialog.show();
+        mBar = new SnackBar(this, getString(R.string.done));
+        new Thread() {
+            public void run() {
+                _saveSymbols();
+                Message msg = new Message();
+                mHandler.sendMessage(msg);
+            }
+        }.start();
+    }
 }

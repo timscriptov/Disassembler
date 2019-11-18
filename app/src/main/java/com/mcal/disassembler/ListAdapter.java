@@ -2,7 +2,6 @@ package com.mcal.disassembler;
 
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
@@ -16,7 +15,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     private ArrayList<String> paths;
     private MainView mainView;
 
-    public ListAdapter(ArrayList<String> paths, MainView mainView) {
+    ListAdapter(ArrayList<String> paths, MainView mainView) {
         this.paths = paths;
         this.mainView = mainView;
     }
@@ -31,23 +30,14 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         final String text = paths.get(position);
 
         holder.itemText.setText(text);
-		holder.itemName.setText(text.replaceAll(".*/(\\w+?\\.so)", "$1"));
-        holder.item.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View p1) {
-					mainView.loadSo(paths.get(holder.getAdapterPosition()));
-				}
-			});
+        holder.itemName.setText(text.replaceAll(".*/(\\w+?\\.so)", "$1"));
+        holder.item.setOnClickListener(p1 -> mainView.loadSo(paths.get(holder.getAdapterPosition())));
 
-        holder.remove.setOnClickListener(new OnClickListener(){
-
-				@Override
-				public void onClick(View p1) {
-					RecentsManager.remove(paths.get(holder.getAdapterPosition()));
-					paths.remove(holder.getAdapterPosition());
-					notifyItemRemoved(holder.getAdapterPosition());
-				}
-		});
+        holder.remove.setOnClickListener(p1 -> {
+            RecentsManager.remove(paths.get(holder.getAdapterPosition()));
+            paths.remove(holder.getAdapterPosition());
+            notifyItemRemoved(holder.getAdapterPosition());
+        });
     }
 
     @Override
@@ -65,9 +55,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             super(view);
             item = view.findViewById(R.id.list_item);
             itemText = view.findViewById(R.id.item_path);
-			itemName = view.findViewById(R.id.item_name);
+            itemName = view.findViewById(R.id.item_name);
             remove = view.findViewById(R.id.item_remove);
         }
     }
 }
- 

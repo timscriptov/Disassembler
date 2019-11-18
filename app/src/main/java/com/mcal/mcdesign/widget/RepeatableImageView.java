@@ -11,41 +11,36 @@ import androidx.appcompat.widget.AppCompatImageView;
 
 import com.mcal.mcdesign.utils.BitmapRepeater;
 
-public class RepeatableImageView extends AppCompatImageView
-{
-	public RepeatableImageView(Context context)
-	{
-		super(context);
-	}
-	public RepeatableImageView(Context context, AttributeSet attrs)
-	{
-		super(context, attrs);
-	}
-	public RepeatableImageView(Context context, AttributeSet attrs, int defStyleAttr)
-	{
-		super(context, attrs, defStyleAttr);
-	}
+public class RepeatableImageView extends AppCompatImageView {
+    public RepeatableImageView(Context context) {
+        super(context);
+    }
 
-	@Override
-	protected void onSizeChanged(int w, int h, int oldw, int oldh)
-	{
-		super.onSizeChanged(w, h, oldw, oldh);
+    public RepeatableImageView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
 
-		Drawable image = getDrawable();
-		if (image != null)
-		{
-			Bitmap bitmap=drawableToBitmap(image);
-			bitmap = BitmapRepeater.repeat(w, h, bitmap);
-			setImageBitmap(bitmap);
-		}
-	}
+    public RepeatableImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+    }
 
-	private Bitmap drawableToBitmap(Drawable drawable)
-	{
-		Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888: Bitmap.Config.RGB_565);
-		Canvas canvas = new Canvas(bitmap);
-		drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-		drawable.draw(canvas);
-		return bitmap;
-	}
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+
+        Drawable image = getDrawable();
+        if (image != null) {
+            Bitmap bitmap = drawableToBitmap(image);
+            bitmap = BitmapRepeater.repeat(w, h, bitmap);
+            setImageBitmap(bitmap);
+        }
+    }
+
+    private Bitmap drawableToBitmap(Drawable drawable) {
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        drawable.draw(canvas);
+        return bitmap;
+    }
 }

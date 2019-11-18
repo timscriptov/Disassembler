@@ -16,6 +16,7 @@
 package com.mcal.mcdesign.app;
 
 //##################################################################
+
 /**
  * @author Тимашков Иван
  * @author https://github.com/TimScriptov
@@ -23,21 +24,17 @@ package com.mcal.mcdesign.app;
 public class MCDAlertDialog extends androidx.appcompat.app.AlertDialog
 //##################################################################
 {
-	protected MCDAlertDialog(android.content.Context context)
-	{
-		super(context, android.R.style.Theme_Translucent);
-	}
+    protected MCDAlertDialog(android.content.Context context) {
+        super(context, android.R.style.Theme_Translucent);
+    }
 
-	public static class Builder extends androidx.appcompat.app.AlertDialog.Builder
-	{
-		public Builder(android.content.Context context) 
-		{
-			super(context);
-		}
+    public static class Builder extends androidx.appcompat.app.AlertDialog.Builder {
+        public Builder(android.content.Context context) {
+            super(context);
+        }
 
-        public Builder(android.content.Context context, int themeResId)
-		{
-			super(context, themeResId);
-		}
-	}
+        public Builder(android.content.Context context, int themeResId) {
+            super(context, themeResId);
+        }
+    }
 }

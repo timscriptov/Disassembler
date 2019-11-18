@@ -8,9 +8,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Objects;
+
 public class EmptyRecyclerView extends RecyclerView {
     @Nullable
     View mEmptyView;
+    final
+    @NonNull
+    AdapterDataObserver observer = new AdapterDataObserver() {
+        @Override
+        public void onChanged() {
+            super.onChanged();
+            checkIfEmpty();
+        }
+    };
 
     public EmptyRecyclerView(Context context) {
         super(context);
@@ -26,19 +37,9 @@ public class EmptyRecyclerView extends RecyclerView {
 
     void checkIfEmpty() {
         if (mEmptyView != null) {
-            mEmptyView.setVisibility(getAdapter().getItemCount() > 0 ? GONE : VISIBLE);
+            mEmptyView.setVisibility(Objects.requireNonNull(getAdapter()).getItemCount() > 0 ? GONE : VISIBLE);
         }
     }
-
-    final
-    @NonNull
-    AdapterDataObserver observer = new AdapterDataObserver() {
-        @Override
-        public void onChanged() {
-            super.onChanged();
-            checkIfEmpty();
-        }
-    };
 
     @Override
     public void setAdapter(@Nullable Adapter adapter) {

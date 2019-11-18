@@ -1,62 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:orientation="horizontal">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal"
-		android:layout_marginBottom="5dp"
-		android:layout_marginLeft="5dp"
-		android:layout_marginTop="5dp"
-		android:layout_marginStart="5dp"
-		tools:ignore="UselessParent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal"
+        tools:ignore="UselessParent">
 
-		<RelativeLayout
-			android:layout_width="30dp"
-			android:layout_height="wrap_content"
-			android:gravity="center"
-			android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-			<ImageView
-				android:id="@+id/symbolslistitemimg"
-				android:layout_width="30dp"
-				android:layout_height="30dp"
-				android:layout_centerInParent="true"
-				android:layout_centerHorizontal="true"
-				android:layout_centerVertical="true"
-				tools:ignore="ContentDescription" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/symbolslistitemimg"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                tools:ignore="ContentDescription" />
 
-		</RelativeLayout>
+        </RelativeLayout>
 
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-			<TextView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:textSize="20sp"
-				android:id="@+id/symbolslistitemTextViewtop"
-				android:layout_marginLeft="5dp"
-				android:layout_marginStart="5dp" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/symbolslistitemTextViewtop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:textSize="20sp" />
 
-			<TextView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:textSize="15sp"
-				android:id="@+id/symbolslistitemTextViewbottom"
-				android:layout_marginLeft="5dp"
-				android:layout_marginStart="5dp" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/symbolslistitemTextViewbottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:textSize="15sp" />
 
-		</LinearLayout>
+        </LinearLayout>
 
-	</LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
 

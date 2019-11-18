@@ -1,118 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:id="@+id/rootSelector"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:padding="40dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootSelector"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="40dp">
 
-	<LinearLayout
-		android:id="@+id/contentSelector"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_centerInParent="true"
-		android:orientation="vertical"
-		tools:ignore="UselessParent">
+    <LinearLayout
+        android:id="@+id/contentSelector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
-		<View
-			android:id="@+id/viewColor"
-			android:layout_width="match_parent"
-			android:layout_height="10dp"/>
+        <View
+            android:id="@+id/viewColor"
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
 
-		<LinearLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			android:padding="16dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-			<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:gravity="center_vertical"
-				android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginRight="8dp"
-					android:textSize="17sp"
-					android:text="R"
-					android:textColor="#4D4D4D"
-					android:layout_marginEnd="8dp"
-					tools:ignore="HardcodedText" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:text="R"
+                    android:textColor="#4D4D4D"
+                    android:textSize="17sp"
+                    tools:ignore="HardcodedText" />
 
-				<com.gc.materialdesign.views.Slider
-					android:id="@+id/red"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:background="#4D4D4D"
-					materialdesign:max="255"
-					materialdesign:min="0"
-					materialdesign:showNumberIndicator="true"/>
+                <com.gc.materialdesign.views.Slider
+                    android:id="@+id/red"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#4D4D4D"
+                    materialdesign:max="255"
+                    materialdesign:min="0"
+                    materialdesign:showNumberIndicator="true" />
 
-			</LinearLayout>
+            </LinearLayout>
 
-			<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="16dp"
-				android:gravity="center_vertical"
-				android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginRight="8dp"
-					android:textSize="17sp"
-					android:text="G"
-					android:textColor="#4D4D4D"
-					android:layout_marginEnd="8dp"
-					tools:ignore="HardcodedText" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:text="G"
+                    android:textColor="#4D4D4D"
+                    android:textSize="17sp"
+                    tools:ignore="HardcodedText" />
 
-				<com.gc.materialdesign.views.Slider
-					android:id="@+id/green"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:background="#4D4D4D"
-					materialdesign:max="255"
-					materialdesign:min="0"
-					materialdesign:showNumberIndicator="true"/>
+                <com.gc.materialdesign.views.Slider
+                    android:id="@+id/green"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#4D4D4D"
+                    materialdesign:max="255"
+                    materialdesign:min="0"
+                    materialdesign:showNumberIndicator="true" />
 
-			</LinearLayout>
+            </LinearLayout>
 
-			<LinearLayout
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="16dp"
-				android:gravity="center_vertical"
-				android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginRight="8dp"
-					android:textSize="17sp"
-					android:text="B"
-					android:textColor="#4D4D4D"
-					android:layout_marginEnd="8dp"
-					tools:ignore="HardcodedText" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:text="B"
+                    android:textColor="#4D4D4D"
+                    android:textSize="17sp"
+                    tools:ignore="HardcodedText" />
 
-				<com.gc.materialdesign.views.Slider
-					android:id="@+id/blue"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:background="#4D4D4D"
-					materialdesign:max="255"
-					materialdesign:min="0"
-					materialdesign:showNumberIndicator="true"/>
+                <com.gc.materialdesign.views.Slider
+                    android:id="@+id/blue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#4D4D4D"
+                    materialdesign:max="255"
+                    materialdesign:min="0"
+                    materialdesign:showNumberIndicator="true" />
 
-			</LinearLayout>
+            </LinearLayout>
 
-		</LinearLayout>
+        </LinearLayout>
 
-	</LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>
 

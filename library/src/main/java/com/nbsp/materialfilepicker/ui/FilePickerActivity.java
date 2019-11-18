@@ -35,9 +35,8 @@ public class FilePickerActivity extends AppCompatActivity implements DirectoryFr
     public static final String ARG_TITLE = "arg_title";
 
     public static final String STATE_START_PATH = "state_start_path";
-    private static final String STATE_CURRENT_PATH = "state_current_path";
-
     public static final String RESULT_FILE_PATH = "result_file_path";
+    private static final String STATE_CURRENT_PATH = "state_current_path";
     private static final int HANDLE_CLICK_DELAY = 150;
 
     private Toolbar mToolbar;
@@ -133,7 +132,7 @@ public class FilePickerActivity extends AppCompatActivity implements DirectoryFr
     }
 
     private void initViews() {
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = findViewById(R.id.toolbar);
     }
 
     private void initFragment() {
@@ -219,12 +218,7 @@ public class FilePickerActivity extends AppCompatActivity implements DirectoryFr
 
     @Override
     public void onFileClicked(final File clickedFile) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                handleFileClicked(clickedFile);
-            }
-        }, HANDLE_CLICK_DELAY);
+        new Handler().postDelayed(() -> handleFileClicked(clickedFile), HANDLE_CLICK_DELAY);
     }
 
     private void handleFileClicked(final File clickedFile) {

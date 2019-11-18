@@ -9,54 +9,46 @@ import android.widget.TextView;
 
 import com.mcal.disassembler.R;
 
-public class Card extends CustomView 
-{
-	TextView textButton;
+public class Card extends CustomView {
+    TextView textButton;
 
-	int paddingTop,paddingBottom, paddingLeft, paddingRight;
-	int backgroundColor = Color.parseColor("#FFFFFF");
+    int paddingTop, paddingBottom, paddingLeft, paddingRight;
+    int backgroundColor = Color.parseColor("#FFFFFF");
 
-	public Card(Context context, AttributeSet attrs)
-	{
-		super(context, attrs);
-		setAttributes(attrs);
-	}
+    public Card(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        setAttributes(attrs);
+    }
 
-	public Card(Context context) 
-	{
-		super(context);
-	}
+    public Card(Context context) {
+        super(context);
+    }
 
-	// Set atributtes of XML to View
-	protected void setAttributes(AttributeSet attrs)
-	{
-		setBackgroundResource(R.drawable.background_button_rectangle);
-		//Set background Color
-		// Color by resource
-		int bacgroundColor = attrs.getAttributeResourceValue(ANDROIDXML, "background", -1);
-		if (bacgroundColor != -1)
-		{
-			setBackgroundColor(getResources().getColor(bacgroundColor));
-		}
-		else
-		{
-			// Color by hexadecimal
-			String background = attrs.getAttributeValue(ANDROIDXML, "background");
-			if (background != null)
-				setBackgroundColor(Color.parseColor(background));
-			else
-				setBackgroundColor(this.backgroundColor);
-		}
-	}
+    // Set atributtes of XML to View
+    protected void setAttributes(AttributeSet attrs) {
+        setBackgroundResource(R.drawable.background_button_rectangle);
+        //Set background Color
+        // Color by resource
+        int bacgroundColor = attrs.getAttributeResourceValue(ANDROIDXML, "background", -1);
+        if (bacgroundColor != -1) {
+            setBackgroundColor(getResources().getColor(bacgroundColor));
+        } else {
+            // Color by hexadecimal
+            String background = attrs.getAttributeValue(ANDROIDXML, "background");
+            if (background != null)
+                setBackgroundColor(Color.parseColor(background));
+            else
+                setBackgroundColor(this.backgroundColor);
+        }
+    }
 
-	// Set color of background
-	public void setBackgroundColor(int color)
-	{
-		this.backgroundColor = color;
-		if (isEnabled())
-			beforeBackground = backgroundColor;
-		LayerDrawable layer = (LayerDrawable) getBackground();
-		GradientDrawable shape =  (GradientDrawable) layer.findDrawableByLayerId(R.id.shape_bacground);
-		shape.setColor(backgroundColor);
-	}
+    // Set color of background
+    public void setBackgroundColor(int color) {
+        this.backgroundColor = color;
+        if (isEnabled())
+            beforeBackground = backgroundColor;
+        LayerDrawable layer = (LayerDrawable) getBackground();
+        GradientDrawable shape = (GradientDrawable) layer.findDrawableByLayerId(R.id.shape_bacground);
+        shape.setColor(backgroundColor);
+    }
 }

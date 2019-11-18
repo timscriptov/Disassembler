@@ -6,14 +6,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public final class Database extends SQLiteOpenHelper {
 
-	private static SQLiteDatabase database;
+    private static SQLiteDatabase database;
 
-    public Database(Context context) {
+    Database(Context context) {
         super(context, "assembler.db", null, 1);
-		database = getWritableDatabase();
+        database = getWritableDatabase();
     }
 
-    public static SQLiteDatabase getDatabase() {
+    static SQLiteDatabase getDatabase() {
         return database;
     }
 
@@ -24,8 +24,6 @@ public final class Database extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		
-    }
 
+    }
 }
- 

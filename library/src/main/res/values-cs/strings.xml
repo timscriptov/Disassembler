@@ -15,6 +15,6 @@
     <string name="type_power_point">Prezentace</string>
     <string name="type_word">Dokument</string>
     <string name="type_apk">APK</string>
-	<string name="type_text">Text</string>
-	<string name="type_html">Html</string>
+    <string name="type_text">Text</string>
+    <string name="type_html">Html</string>
 </resources>

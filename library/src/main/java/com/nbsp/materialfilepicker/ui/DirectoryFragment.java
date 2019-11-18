@@ -18,21 +18,26 @@ import com.nbsp.materialfilepicker.widget.EmptyRecyclerView;
 import java.io.File;
 
 public class DirectoryFragment extends Fragment {
-    interface FileClickListener {
-        void onFileClicked(File clickedFile);
-    }
-
     private static final String ARG_FILE_PATH = "arg_file_path";
     private static final String ARG_FILTER = "arg_filter";
-
     private View mEmptyView;
     private String mPath;
-
     private CompositeFilter mFilter;
-
     private EmptyRecyclerView mDirectoryRecyclerView;
     private DirectoryAdapter mDirectoryAdapter;
     private FileClickListener mFileClickListener;
+
+    public static DirectoryFragment getInstance(
+            String path, CompositeFilter filter) {
+        DirectoryFragment instance = new DirectoryFragment();
+
+        Bundle args = new Bundle();
+        args.putString(ARG_FILE_PATH, path);
+        args.putSerializable(ARG_FILTER, filter);
+        instance.setArguments(args);
+
+        return instance;
+    }
 
     @SuppressWarnings("deprecation")
     @Override
@@ -47,23 +52,11 @@ public class DirectoryFragment extends Fragment {
         mFileClickListener = null;
     }
 
-    public static DirectoryFragment getInstance(
-            String path, CompositeFilter filter) {
-        DirectoryFragment instance = new DirectoryFragment();
-
-        Bundle args = new Bundle();
-        args.putString(ARG_FILE_PATH, path);
-        args.putSerializable(ARG_FILTER, filter);
-        instance.setArguments(args);
-
-        return instance;
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_directory, container, false);
-        mDirectoryRecyclerView = (EmptyRecyclerView) view.findViewById(R.id.directory_recycler_view);
+        mDirectoryRecyclerView = view.findViewById(R.id.directory_recycler_view);
         mEmptyView = view.findViewById(R.id.directory_empty_view);
         return view;
     }
@@ -79,12 +72,9 @@ public class DirectoryFragment extends Fragment {
         mDirectoryAdapter = new DirectoryAdapter(getActivity(),
                 FileUtils.getFileListByDirPath(mPath, mFilter));
 
-        mDirectoryAdapter.setOnItemClickListener(new DirectoryAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                if (mFileClickListener != null) {
-                    mFileClickListener.onFileClicked(mDirectoryAdapter.getModel(position));
-                }
+        mDirectoryAdapter.setOnItemClickListener((view, position) -> {
+            if (mFileClickListener != null) {
+                mFileClickListener.onFileClicked(mDirectoryAdapter.getModel(position));
             }
         });
 
@@ -100,5 +90,9 @@ public class DirectoryFragment extends Fragment {
         }
 
         mFilter = (CompositeFilter) getArguments().getSerializable(ARG_FILTER);
+    }
+
+    interface FileClickListener {
+        void onFileClicked(File clickedFile);
     }
 }

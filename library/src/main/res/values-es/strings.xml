@@ -15,6 +15,6 @@
     <string name="type_power_point">Powerpoint</string>
     <string name="type_video">Vídeo</string>
     <string name="type_word">Documento Word</string>
-	<string name="type_text">Text</string>
-	<string name="type_html">Html</string>
+    <string name="type_text">Text</string>
+    <string name="type_html">Html</string>
 </resources>

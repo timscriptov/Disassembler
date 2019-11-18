@@ -1,152 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-	<TextView
-		android:layout_height="wrap_content"
-		android:text="@string/general"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:layout_width="match_parent"
-		android:textColor="#D5281E"
-		android:layout_marginLeft="10dp"
-		android:layout_marginRight="10dp"
-		android:layout_marginTop="10dp"/>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/general"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#448aff" />
 
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:onClick="saveSymbols"
-		android:background="@drawable/bg_clickable"
-		android:layout_height="55dp"
-		tools:ignore="UseCompoundDrawables"
-		android:gravity="left|center">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@drawable/bg_clickable"
+        android:gravity="left|center"
+        android:onClick="saveSymbols"
+        tools:ignore="RtlHardcoded,UseCompoundDrawables">
 
-		<ImageView
-			android:layout_width="35dp"
-			android:layout_height="35dp"
-			android:src="@drawable/ic_save"
-			android:id="@+id/imageViewOutPut"
-			tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry"
-			android:layout_marginLeft="10dp"/>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewOutPut"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_save"
+            tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry" />
 
-		<TextView
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/saveSymbols"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:textColor="#000000"
-			android:layout_marginLeft="10dp"
-			android:layout_marginRight="10dp"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/saveSymbols"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000" />
 
-	</LinearLayout>
+    </LinearLayout>
 
-	<TextView
-		android:layout_height="wrap_content"
-		android:text="@string/others"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:layout_width="match_parent"
-		android:textColor="#D5281E"
-		android:layout_marginLeft="10dp"
-		android:layout_marginRight="10dp"
-		android:layout_marginTop="10dp"/>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:text="@string/others"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#448aff" />
 
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:onClick="donate"
-		android:background="@drawable/bg_clickable"
-		android:layout_height="55dp"
-		android:gravity="left|center"
-		android:id="@+id/donate"
-		tools:ignore="RtlHardcoded,UseCompoundDrawables">
+    <LinearLayout
+        android:id="@+id/donate"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@drawable/bg_clickable"
+        android:gravity="left|center"
+        android:onClick="donate"
+        tools:ignore="RtlHardcoded,UseCompoundDrawables">
 
-		<ImageView
-			android:layout_width="35dp"
-			android:layout_height="35dp"
-			android:src="@drawable/ic_money"
-			tools:ignore="ContentDescription,RtlSymmetry"
-			android:layout_marginLeft="10dp"/>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_money"
+            tools:ignore="ContentDescription,RtlSymmetry" />
 
-		<TextView
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/donate"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:textColor="#000000"
-			android:layout_marginLeft="10dp"
-			android:layout_marginRight="10dp"
-			android:typeface="monospace"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/donate"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"
+            android:typeface="monospace" />
 
-	</LinearLayout>
+    </LinearLayout>
 
-	<View
-		android:background="?android:attr/dividerVertical"
-		android:layout_width="match_parent"
-		android:layout_height="1dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/dividerVertical" />
 
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:onClick="donate"
-		android:background="@drawable/bg_clickable"
-		android:layout_height="55dp"
-		android:gravity="left|center"
-		android:id="@+id/about_view_github_button"
-		tools:ignore="RtlHardcoded,UseCompoundDrawables">
+    <LinearLayout
+        android:id="@+id/about_view_github_button"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@drawable/bg_clickable"
+        android:gravity="left|center"
+        android:onClick="donate"
+        tools:ignore="RtlHardcoded,UseCompoundDrawables">
 
-		<ImageView
-			android:layout_width="35dp"
-			android:layout_height="35dp"
-			android:src="@drawable/ic_github"
-			tools:ignore="ContentDescription,RtlSymmetry"
-			android:layout_marginLeft="10dp"/>
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_github"
+            tools:ignore="ContentDescription,RtlSymmetry" />
 
-		<TextView
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/about_view_github"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:textColor="#000000"
-			android:layout_marginLeft="10dp"
-			android:layout_marginRight="10dp"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/about_view_github"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000" />
 
-	</LinearLayout>
+    </LinearLayout>
 
-	<View
-		android:background="?android:attr/dividerVertical"
-		android:layout_width="match_parent"
-		android:layout_height="1dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/dividerVertical" />
 
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="55dp"
-		android:gravity="left|center"
-		tools:ignore="RtlHardcoded,UseCompoundDrawables">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="left|center"
+        tools:ignore="RtlHardcoded,UseCompoundDrawables">
 
-		<ImageView
-			android:layout_width="35dp"
-			android:layout_height="35dp"
-			android:paddingLeft="5dp"
-			android:paddingTop="5dp"
-			tools:ignore="ContentDescription,RtlSymmetry"
-			android:layout_marginLeft="10dp"/>
+        <View
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="10dp"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            tools:ignore="RtlSymmetry" />
 
-		<TextView
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/copyright"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:textColor="#000000"
-			android:layout_marginLeft="10dp"
-			android:layout_marginRight="10dp"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/copyright"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000" />
 
-	</LinearLayout>
+    </LinearLayout>
 
-	<View
-		android:background="?android:attr/dividerVertical"
-		android:layout_width="match_parent"
-		android:layout_height="1dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/dividerVertical" />
 
 </LinearLayout>
 
