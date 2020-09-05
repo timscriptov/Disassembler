@@ -1,5 +1,7 @@
 package com.mcal.disassembler.vtable;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -45,6 +47,7 @@ public final class Utils {
         return false;
     }
 
+    @Nullable
     static byte[] readFile(String fileName) {
         try {
             File file = new File(fileName);

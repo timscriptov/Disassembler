@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/toolbar_demangler"
+        layout="@layout/toolbar" />
+
     <LinearLayout
+        android:layout_below="@+id/toolbar_demangler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
@@ -29,7 +33,7 @@
 
     </LinearLayout>
 
-    <com.gc.materialdesign.views.ButtonFloat
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -40,7 +44,7 @@
         android:layout_marginBottom="30dp"
         android:background="#000"
         android:onClick="demangle"
-        materialdesign:iconDrawable="@drawable/ic_backup_restore" />
+        android:src="@drawable/ic_backup_restore" />
 
 </RelativeLayout>
 

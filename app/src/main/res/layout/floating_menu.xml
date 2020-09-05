@@ -32,7 +32,7 @@
                 android:textColor="#FFFFFF"
                 tools:ignore="RelativeOverlap" />
 
-            <com.gc.materialdesign.views.ButtonFlat
+            <com.mcal.disassembler.view.ButtonFlat
                 android:id="@+id/floatingmenuButtonHide"
                 android:layout_width="50dp"
                 android:layout_height="30dp"
@@ -42,7 +42,7 @@
                 android:text="x"
                 tools:ignore="HardcodedText" />
 
-            <com.gc.materialdesign.views.ButtonFlat
+            <com.mcal.disassembler.view.ButtonFlat
                 android:id="@+id/floatingmenuButtonClose"
                 android:layout_width="50dp"
                 android:layout_height="30dp"
@@ -73,7 +73,7 @@
                 android:singleLine="true"
                 tools:ignore="Autofill" />
 
-            <com.gc.materialdesign.views.ButtonFlat
+            <com.mcal.disassembler.view.ButtonFlat
                 android:id="@+id/floatingmenuButtonSearch"
                 android:layout_width="30dp"
                 android:layout_height="40dp"
@@ -82,7 +82,7 @@
                 android:text="S"
                 tools:ignore="HardcodedText" />
 
-            <com.gc.materialdesign.views.ButtonFlat
+            <com.mcal.disassembler.view.ButtonFlat
                 android:id="@+id/floatingmenuButtonClear"
                 android:layout_width="30dp"
                 android:layout_height="40dp"

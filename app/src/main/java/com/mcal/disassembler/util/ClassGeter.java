@@ -4,7 +4,10 @@ import com.mcal.disassembler.nativeapi.DisassemblerClass;
 import com.mcal.disassembler.nativeapi.DisassemblerSymbol;
 import com.mcal.disassembler.nativeapi.Dumper;
 
+import org.jetbrains.annotations.Nullable;
+
 public class ClassGeter {
+    @Nullable
     public static DisassemblerClass getClass(String name) {
         for (DisassemblerClass clasz : Dumper.classes)
             if (clasz.getName().equals(name))

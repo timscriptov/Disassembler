@@ -4,6 +4,8 @@ import com.mcal.disassembler.nativeapi.DisassemblerClass;
 import com.mcal.disassembler.nativeapi.DisassemblerSymbol;
 import com.mcal.disassembler.nativeapi.DisassemblerVtable;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Vector;
 
 public class HeaderGenerator {
@@ -186,6 +188,7 @@ public class HeaderGenerator {
         return "virtual void " + name + ";";
     }
 
+    @Nullable
     private DisassemblerSymbol[] getObjects() {
         Vector<DisassemblerSymbol> symbols = new Vector<DisassemblerSymbol>();
         for (DisassemblerSymbol symbol : disassemblerClass.getSymbols())
@@ -199,6 +202,7 @@ public class HeaderGenerator {
         return ret;
     }
 
+    @Nullable
     private DisassemblerSymbol[] getVtables() {
         if (vtable == null)
             return null;
@@ -216,6 +220,7 @@ public class HeaderGenerator {
         return ret;
     }
 
+    @Nullable
     private DisassemblerSymbol[] getMethods() {
         Vector<DisassemblerSymbol> symbols = new Vector<DisassemblerSymbol>();
         for (DisassemblerSymbol symbol : disassemblerClass.getSymbols())

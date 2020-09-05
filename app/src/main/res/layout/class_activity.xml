@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/toolbar_class"
+        layout="@layout/toolbar" />
+
     <LinearLayout
+        android:layout_below="@+id/toolbar_class"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -32,7 +36,7 @@
         android:text="@string/ownedVtable"
         android:visibility="gone" />
 
-    <com.gc.materialdesign.views.ButtonFloat
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/classactivityButtonFloat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,10 +48,10 @@
         android:layout_marginBottom="100dp"
         android:background="#000"
         android:onClick="toVtableActivity"
-        android:visibility="gone"
-        materialdesign:iconDrawable="@drawable/box_blue" />
+        android:src="@drawable/box_blue"
+        android:visibility="gone" />
 
-    <com.gc.materialdesign.views.ButtonFloat
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/classactivityButtonFloatSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,7 +63,7 @@
         android:layout_marginBottom="30dp"
         android:background="#000"
         android:onClick="save"
-        materialdesign:iconDrawable="@drawable/ic_download" />
+        android:src="@drawable/ic_download" />
 
 </RelativeLayout>
 

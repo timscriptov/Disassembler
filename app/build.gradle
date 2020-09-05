@@ -1,14 +1,16 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
+    buildToolsVersion = '30.0.1'
 
     defaultConfig {
         applicationId "com.mcal.disassembler"
         minSdkVersion 14
         targetSdkVersion 29
-        versionCode 19
-        versionName "1.9"
+        versionCode 20
+        versionName "2.0"
         /*ndk {
             abiFilters 'armeabi-v7a', 'x86', 'arm64-v8a', 'x86_64'
         }*/
@@ -32,7 +34,6 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
-    buildToolsVersion = '29.0.2'
 }
 
 dependencies {
@@ -40,9 +41,16 @@ dependencies {
 	implementation fileTree(dir: 'libs', include: ['*.jar'])
 	implementation 'androidx.cardview:cardview:1.0.0'
 	implementation 'androidx.annotation:annotation:1.1.0'
-	implementation 'com.google.android.material:material:1.0.0'
+	implementation 'com.google.android.material:material:1.2.0'
 	implementation 'com.anjlab.android.iab.v3:library:1.1.0'
     implementation  'com.jakewharton:butterknife:8.5.1'
     //annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'org.jetbrains:annotations:15.0'
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+}
+repositories {
+    mavenCentral()
 }

@@ -6,11 +6,14 @@ import com.mcal.disassembler.nativeapi.DisassemblerSymbol;
 import com.mcal.disassembler.nativeapi.DisassemblerVtable;
 import com.mcal.disassembler.nativeapi.Dumper;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Vector;
 
 public class VtableDumper {
+    @org.jetbrains.annotations.Nullable
     public static DisassemblerVtable dump(String path, String classn) {
         for (DisassemblerVtable ztv : Dumper.exploed)
             if (ztv.getName().contains(classn))
@@ -71,6 +74,7 @@ public class VtableDumper {
         return vtable__;
     }
 
+    @Nullable
     private static DisassemblerSymbol getSymbol(String name) {
         for (DisassemblerSymbol symbol : Dumper.symbols)
             if (symbol.getName().equals(name))

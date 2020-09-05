@@ -9,7 +9,8 @@ public class Tables {
     public static HashMap<Integer, String> version = new HashMap<>();
     @SuppressLint("UseSparseArrays")
     public static HashMap<Integer, String> type = new HashMap<>();
-
+    @SuppressLint("UseSparseArrays")
+    public static HashMap<Integer, String> symbol_type = new HashMap<>();
     @SuppressLint("UseSparseArrays")
     private static HashMap<Integer, String> section_type = new HashMap<>();
     @SuppressLint("UseSparseArrays")
@@ -18,8 +19,6 @@ public class Tables {
     private static HashMap<Integer, String> segment_flag = new HashMap<>();
     @SuppressLint("UseSparseArrays")
     private static HashMap<Integer, String> symbol_bind = new HashMap<>();
-    @SuppressLint("UseSparseArrays")
-    public static HashMap<Integer, String> symbol_type = new HashMap<>();
     @SuppressLint("UseSparseArrays")
     private static HashMap<Integer, String> dynamic_tag = new HashMap<>();
 

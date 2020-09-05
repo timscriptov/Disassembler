@@ -5,9 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Objects;
 
 public class FileUtils {
+    @Nullable
     @SuppressLint("Recycle")
     public static String getPath(Context context, Uri uri) {
         if ("content".equalsIgnoreCase(uri.getScheme())) {

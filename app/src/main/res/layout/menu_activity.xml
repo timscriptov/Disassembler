@@ -5,15 +5,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include
+        layout="@layout/toolbar" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
+        android:background="?android:attr/windowBackground"
+        android:paddingStart="72dp"
+        android:paddingLeft="72dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp"
+        android:paddingRight="16dp"
         android:text="@string/general"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#448aff" />
+        android:textColor="?colorAccent"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,7 +41,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="25dp"
             android:layout_marginRight="10dp"
             android:text="@string/saveSymbols"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -42,15 +49,29 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/pref_shadow_top" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/pref_shadow_bottom" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
+        android:background="?android:attr/windowBackground"
+        android:paddingStart="72dp"
+        android:paddingLeft="72dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp"
+        android:paddingRight="16dp"
         android:text="@string/others"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#448aff" />
+        android:textColor="?colorAccent"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/donate"
@@ -71,19 +92,13 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="25dp"
             android:layout_marginRight="10dp"
             android:text="@string/donate"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#000000"
-            android:typeface="monospace" />
+            android:textColor="#000000" />
 
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/dividerVertical" />
 
     <LinearLayout
         android:id="@+id/about_view_github_button"
@@ -104,7 +119,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="25dp"
             android:layout_marginRight="10dp"
             android:text="@string/about_view_github"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -114,8 +129,13 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/dividerVertical" />
+        android:layout_height="4dp"
+        android:background="@drawable/pref_shadow_top" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/pref_shadow_bottom" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -123,29 +143,15 @@
         android:gravity="left|center"
         tools:ignore="RtlHardcoded,UseCompoundDrawables">
 
-        <View
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginLeft="10dp"
-            android:paddingLeft="5dp"
-            android:paddingTop="5dp"
-            tools:ignore="RtlSymmetry" />
-
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:gravity="center"
             android:text="@string/copyright"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#000000" />
 
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/dividerVertical" />
 
 </LinearLayout>
 

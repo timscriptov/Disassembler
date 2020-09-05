@@ -3,6 +3,7 @@
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#448aff</color>
-    <color name="green">#00FF00</color>
-    <color name="thumbColor">#66aaaaaa</color>
+
+    <color name="textColorPrimary">#FF000000</color>
+    <color name="textColorSecondary">#FF000000</color>
 </resources>

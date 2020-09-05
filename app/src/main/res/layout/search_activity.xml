@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/toolbar_search"
+        layout="@layout/toolbar" />
+
     <LinearLayout
         android:id="@+id/symbols_activity_list_view"
+        android:layout_below="@+id/toolbar_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -15,10 +19,10 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
             android:hint="@string/search">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -27,8 +31,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:inputType="textNoSuggestions"
-                android:singleLine="true"
-                android:lines="1"/>
+                android:lines="1"
+                android:singleLine="true" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -46,7 +50,7 @@
 
     </LinearLayout>
 
-    <com.gc.materialdesign.views.ButtonFloat
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -57,7 +61,7 @@
         android:layout_marginBottom="30dp"
         android:background="#000"
         android:onClick="search"
-        materialdesign:iconDrawable="@drawable/ic_search" />
+        android:src="@drawable/ic_search" />
 
 </RelativeLayout>
 

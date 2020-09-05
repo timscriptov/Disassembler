@@ -3,8 +3,8 @@ package com.mcal.disassembler.vtable;
 import java.util.Vector;
 
 class Dump {
-    private byte[] bs;
     Elf elf;
+    private byte[] bs;
 
     Dump(String path) {
         bs = Utils.readFile(path);

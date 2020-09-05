@@ -3,17 +3,17 @@ package com.mcal.disassembler.vtable;
 import java.util.Vector;
 
 public class Elf {
+    public Vector<section> sections = new Vector<>();
     header hdr = new header();
     Vector<segment> segments = new Vector<>();
-    public Vector<section> sections = new Vector<>();
 
     Elf() {
     }
 }
 
 class relocation {
-    int offset;
     public int info;
+    int offset;
 }
 
 class symbol {
@@ -21,20 +21,20 @@ class symbol {
     public int value;
     public int size;
     public byte other;
+    public int type;
     int shndx;
     int bind;
-    public int type;
 }
 
 class header {
-    byte[] ident = new byte[16];
     public int type;
-    int machine;
     public int version;
+    public int flags;
+    byte[] ident = new byte[16];
+    int machine;
     int entry;
     int phoff;
     int shoff;
-    public int flags;
     int ehsize;
     int phentsize;
     int phnum;
@@ -45,25 +45,25 @@ class header {
 
 class segment {
     public int type;
+    public int flags;
+    public Vector<section> sections = new Vector<>();
     int offset;
     int vaddr;
     int paddr;
     int filesz;
     int memsz;
-    public int flags;
     int align;
-    public Vector<section> sections = new Vector<>();
 }
 
 class section {
     public String name;
     public int type;
     public int flags;
+    public int size;
+    public int info;
     int addr;
     int offset;
-    public int size;
     int link;
-    public int info;
     int addralign;
     int entsize;
 }

@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/toolbar_symbol"
+        layout="@layout/toolbar" />
+
     <ScrollView
+        android:layout_below="@+id/toolbar_symbol"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -81,7 +85,7 @@
                     android:textColor="#448aff" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/symbolactivityTextViewType"
+                    android:id="@+id/symbolactivityTextViewType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -186,7 +190,7 @@
         android:text="@string/ownedVtable"
         android:visibility="gone" />
 
-    <com.gc.materialdesign.views.ButtonFloat
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/symbolactivityButtonFloat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -198,8 +202,8 @@
         android:layout_marginBottom="100dp"
         android:background="#D81B60"
         android:onClick="toVtableActivity"
-        android:visibility="gone"
-        materialdesign:iconDrawable="@drawable/box_blue" />
+        android:src="@drawable/box_blue"
+        android:visibility="gone" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/symbolactivityTextViewButtonFloatClass"
@@ -215,7 +219,7 @@
         android:text="@string/targetClass"
         android:visibility="gone" />
 
-    <com.gc.materialdesign.views.ButtonFloat
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/symbolactivityButtonFloatClass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -227,8 +231,8 @@
         android:layout_marginBottom="30dp"
         android:background="#000"
         android:onClick="toClassActivity"
-        android:visibility="gone"
-        materialdesign:iconDrawable="@drawable/objects" />
+        android:src="@drawable/objects"
+        android:visibility="gone" />
 
 </RelativeLayout>
 

@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/toolbar_symbols"
+        layout="@layout/toolbar" />
+
     <ListView
         android:id="@+id/symbols_activity_list_view"
+        android:layout_below="@+id/toolbar_symbols"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:fastScrollEnabled="true" />
 
-    <com.gc.materialdesign.views.ButtonFloat
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -22,9 +26,9 @@
         android:layout_marginBottom="100dp"
         android:background="#000"
         android:onClick="showMenu"
-        materialdesign:iconDrawable="@drawable/ic_menu" />
+        android:src="@drawable/ic_menu" />
 
-    <com.gc.materialdesign.views.ButtonFloat
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -35,7 +39,7 @@
         android:layout_marginBottom="30dp"
         android:background="#000"
         android:onClick="showSearch"
-        materialdesign:iconDrawable="@drawable/ic_search" />
+        android:src="@drawable/ic_search" />
 
 </RelativeLayout>
 

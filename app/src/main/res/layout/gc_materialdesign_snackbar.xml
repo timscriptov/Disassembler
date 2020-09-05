@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -11,40 +12,47 @@
         android:minHeight="55dp"
         tools:ignore="UselessParent">
 
-        <RelativeLayout
-            android:id="@+id/snackbar"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="24dp"
-            android:paddingTop="18dp"
-            android:paddingRight="24dp"
-            android:paddingBottom="18dp"
-            android:visibility="invisible">
+            android:layout_margin="5dp"
+            app:cardCornerRadius="6dip">
 
-            <com.gc.materialdesign.views.ButtonFlat
-                android:id="@+id/snackbarbuttonflat"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/snackbar"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="24dp"
-                android:layout_marginLeft="24dp"
-                android:text="ACTION"
-                tools:ignore="HardcodedText" />
+                android:paddingLeft="24dp"
+                android:paddingTop="18dp"
+                android:paddingRight="24dp"
+                android:paddingBottom="18dp"
+                android:visibility="invisible">
 
-            <TextView
-                android:id="@+id/snackbartext"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toStartOf="@id/snackbarbuttonflat"
-                android:layout_toLeftOf="@id/snackbarbuttonflat"
-                android:textColor="#FFF" />
+                <com.mcal.disassembler.view.ButtonFlat
+                    android:id="@+id/snackbarbuttonflat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginLeft="24dp"
+                    android:text="ACTION"
+                    tools:ignore="HardcodedText" />
 
-        </RelativeLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/snackbartext"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@id/snackbarbuttonflat"
+                    android:layout_toLeftOf="@id/snackbarbuttonflat"
+                    android:textColor="#FFF" />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
 
     </RelativeLayout>
 
 </RelativeLayout>
-
