@@ -3,6 +3,7 @@ package com.mcal.disassembler.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public final class Database extends SQLiteOpenHelper {
 
@@ -24,6 +25,6 @@ public final class Database extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        Log.e("onUpgrade", ": " + db + ": " + oldVersion + ": " + newVersion);
     }
 }

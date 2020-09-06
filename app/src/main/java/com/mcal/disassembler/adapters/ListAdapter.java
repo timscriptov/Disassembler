@@ -3,6 +3,8 @@ package com.mcal.disassembler.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.widget.AppCompatImageView;
@@ -15,13 +17,20 @@ import com.mcal.disassembler.interfaces.MainView;
 
 import java.util.ArrayList;
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
+public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> implements Filterable {
+    private SearchFilter filter;
     private ArrayList<String> paths;
     private MainView mainView;
 
     public ListAdapter(ArrayList<String> paths, MainView mainView) {
         this.paths = paths;
         this.mainView = mainView;
+        filter = new SearchFilter();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
     }
 
     @Override
@@ -61,6 +70,30 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             itemText = view.findViewById(R.id.item_path);
             itemName = view.findViewById(R.id.item_name);
             remove = view.findViewById(R.id.item_remove);
+        }
+    }
+
+    private class SearchFilter extends Filter {
+        private ArrayList<String> items_backup = paths;
+        private ArrayList<String> filteredItems = new ArrayList<>();
+
+        @Override
+        protected Filter.FilterResults performFiltering(CharSequence p1) {
+            filteredItems.clear();
+
+            for (int x = 0; x < items_backup.size(); x++) {
+                String query = p1.toString().toLowerCase();
+                if (items_backup.get(x).toLowerCase().contains((query))) {
+                    filteredItems.add(items_backup.get(x));
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void publishResults(CharSequence p1, Filter.FilterResults p2) {
+            paths = filteredItems;
+            notifyDataSetChanged();
         }
     }
 }

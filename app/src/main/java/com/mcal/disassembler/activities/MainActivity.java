@@ -5,20 +5,16 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.database.DataSetObserver;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.mcal.disassembler.R;
-import com.mcal.disassembler.adapters.ListAdapter;
 import com.mcal.disassembler.data.Database;
 import com.mcal.disassembler.data.RecentsManager;
 import com.mcal.disassembler.interfaces.MainView;
@@ -29,7 +25,6 @@ import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity implements MainView {
@@ -41,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     ProgressDialog dialog;
     private MaterialToolbar toolbar;
-    private LinearLayout welcomeLayout;
+    //private LinearLayout welcomeLayout;
     private RecyclerView recentOpened;
     private ArrayList<String> paths = new ArrayList<>();
     private String path;
@@ -58,9 +53,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
         }
 
         new Database(this);
-        welcomeLayout = findViewById(R.id.welcome_layout);
+        //welcomeLayout = findViewById(R.id.welcome_layout);
         recentOpened = findViewById(R.id.items);
-        setupList();
+
+        //setupList();
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -72,11 +68,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
         getSupportActionBar().setDisplayShowHomeEnabled(false);
     }
 
-    public void setupList() {
+    /*public void setupList() {
         Cursor cursor = RecentsManager.getRecents();
         if (cursor.getCount() == 0) {
             recentOpened.setVisibility(View.GONE);
             welcomeLayout.setVisibility(View.VISIBLE);
+            recentOpened.setAdapter(new ListAdapter(paths, this));
         } else {
             welcomeLayout.setVisibility(View.INVISIBLE);
             recentOpened.setVisibility(View.VISIBLE);
@@ -88,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
             }
             recentOpened.setAdapter(new ListAdapter(paths, this));
         }
-    }
+    }*/
 
     void updateRecents() {
         paths.clear();

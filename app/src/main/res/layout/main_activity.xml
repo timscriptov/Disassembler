@@ -29,7 +29,7 @@
                     android:gravity="center_horizontal"
                     android:orientation="horizontal" />
 
-                <RelativeLayout
+                <!-- RelativeLayout
                     android:id="@+id/layoutHolder"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -52,7 +52,7 @@
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:textSize="35sp" />
 
-                    </LinearLayout>
+                    </LinearLayout -->
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/items"
@@ -60,10 +60,9 @@
                         android:layout_height="match_parent"
                         android:divider="@null"
                         android:listSelector="@android:color/transparent"
-                        android:scrollbarStyle="outsideOverlay"
-                        android:visibility="gone" />
+                        android:scrollbarStyle="outsideOverlay" />
 
-                </RelativeLayout>
+                <!-- /RelativeLayout -->
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fab"
