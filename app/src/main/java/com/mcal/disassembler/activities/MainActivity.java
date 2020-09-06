@@ -9,12 +9,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.mcal.disassembler.R;
+import com.mcal.disassembler.adapters.ListAdapter;
 import com.mcal.disassembler.data.Database;
 import com.mcal.disassembler.data.RecentsManager;
 import com.mcal.disassembler.interfaces.MainView;
@@ -36,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     ProgressDialog dialog;
     private MaterialToolbar toolbar;
-    //private LinearLayout welcomeLayout;
     private RecyclerView recentOpened;
     private ArrayList<String> paths = new ArrayList<>();
     private String path;
@@ -55,7 +57,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
         new Database(this);
         //welcomeLayout = findViewById(R.id.welcome_layout);
         recentOpened = findViewById(R.id.items);
-
+        recentOpened.setLayoutManager(new LinearLayoutManager(this));
+        Cursor cursor = RecentsManager.getRecents();
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                paths.add(cursor.getString(0));
+            }
+        }
+        recentOpened.setAdapter(new ListAdapter(paths, this));
         //setupList();
     }
 
