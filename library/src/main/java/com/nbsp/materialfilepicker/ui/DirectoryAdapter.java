@@ -4,13 +4,15 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nbsp.materialfilepicker.R;
 import com.nbsp.materialfilepicker.utils.FileTypeUtils;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.List;
 public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.DirectoryViewHolder> {
     private List<File> mFiles;
     private OnItemClickListener mOnItemClickListener;
+
     DirectoryAdapter(Context context, List<File> files) {
         mFiles = files;
     }
@@ -26,8 +29,9 @@ public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.Dire
         mOnItemClickListener = listener;
     }
 
+    @NotNull
     @Override
-    public DirectoryViewHolder onCreateViewHolder(ViewGroup parent,
+    public DirectoryViewHolder onCreateViewHolder(@NotNull ViewGroup parent,
                                                   int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_file, parent, false);
@@ -36,7 +40,7 @@ public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.Dire
     }
 
     @Override
-    public void onBindViewHolder(DirectoryViewHolder holder, int position) {
+    public void onBindViewHolder(@NotNull DirectoryViewHolder holder, int position) {
         File currentFile = mFiles.get(position);
 
         FileTypeUtils.FileType fileType = FileTypeUtils.getFileType(currentFile);
@@ -60,11 +64,11 @@ public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.Dire
         void onItemClick(View view, int position);
     }
 
-    class DirectoryViewHolder extends RecyclerView.ViewHolder {
-        private ImageView mFileImage;
-        private TextView mFileTitle;
-        private TextView mFileSubtitle;
-        private TextView mFileSize;
+    static class DirectoryViewHolder extends RecyclerView.ViewHolder {
+        private AppCompatImageView mFileImage;
+        private AppCompatTextView mFileTitle;
+        private AppCompatTextView mFileSubtitle;
+        private AppCompatTextView mFileSize;
 
         DirectoryViewHolder(View itemView, final OnItemClickListener clickListener) {
             super(itemView);

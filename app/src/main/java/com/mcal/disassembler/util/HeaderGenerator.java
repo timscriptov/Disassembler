@@ -4,6 +4,7 @@ import com.mcal.disassembler.nativeapi.DisassemblerClass;
 import com.mcal.disassembler.nativeapi.DisassemblerSymbol;
 import com.mcal.disassembler.nativeapi.DisassemblerVtable;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Vector;
@@ -14,7 +15,7 @@ public class HeaderGenerator {
     private String[] namespace;
     private String className;
 
-    public HeaderGenerator(DisassemblerClass disassemblerClass, DisassemblerVtable vtable, String path) {
+    public HeaderGenerator(@NotNull DisassemblerClass disassemblerClass, DisassemblerVtable vtable, String path) {
         this.disassemblerClass = disassemblerClass;
         this.vtable = vtable;
 
@@ -31,25 +32,26 @@ public class HeaderGenerator {
         }
     }
 
-    private static boolean hasItemInList(Vector<DisassemblerSymbol> syms, DisassemblerSymbol sym) {
+    private static boolean hasItemInList(@NotNull Vector<DisassemblerSymbol> syms, DisassemblerSymbol sym) {
         for (DisassemblerSymbol iSym : syms)
             if (sym.getDemangledName().equals(iSym.getDemangledName()))
                 return false;
         return true;
     }
 
-    private static boolean isObjectItem(DisassemblerSymbol sym) {
+    private static boolean isObjectItem(@NotNull DisassemblerSymbol sym) {
         String dname = sym.getDemangledName();
         String name = sym.getName();
         return !dname.contains("(") && !dname.contains(")") && name.startsWith("_ZN");
     }
 
-    private static boolean isMethodItem(DisassemblerSymbol sym) {
+    private static boolean isMethodItem(@NotNull DisassemblerSymbol sym) {
         String dname = sym.getDemangledName();
         String name = sym.getName();
         return dname.contains("(") && dname.contains(")") && name.startsWith("_ZN");
     }
 
+    @Nullable
     private String[] getExtendedClasses() {
         try {
             Vector<String> otherZTVs = new Vector<>();
@@ -77,10 +79,11 @@ public class HeaderGenerator {
         return null;
     }
 
-    private boolean isMethodBelongToOtherClass(DisassemblerSymbol symbol) {
+    private boolean isMethodBelongToOtherClass(@NotNull DisassemblerSymbol symbol) {
         return !symbol.getDemangledName().startsWith(disassemblerClass.getName());
     }
 
+    @NotNull
     private String getOwnerClass(DisassemblerSymbol sym) throws Exception {
         try {
             String dname = sym.getDemangledName().substring(0, sym.getDemangledName().indexOf("("));
@@ -160,12 +163,14 @@ public class HeaderGenerator {
         return ret;
     }
 
-    private String getObjectDefinition(DisassemblerSymbol symbol) {
+    @NotNull
+    private String getObjectDefinition(@NotNull DisassemblerSymbol symbol) {
         String name = symbol.getDemangledName().substring(disassemblerClass.getName().length() + 2);
         return "static " + disassemblerClass.getName() + " * " + name + ";";
     }
 
-    private String getMethodDefinition(DisassemblerSymbol symbol) {
+    @NotNull
+    private String getMethodDefinition(@NotNull DisassemblerSymbol symbol) {
         String name = symbol.getDemangledName().substring(disassemblerClass.getName().length() + 2);
         if (name.startsWith("~" + className))
             return name + ";";
@@ -174,7 +179,8 @@ public class HeaderGenerator {
         return "void " + name + ";";
     }
 
-    private String getVirtualMethodDefinition(DisassemblerSymbol symbol) throws Exception {
+    @NotNull
+    private String getVirtualMethodDefinition(@NotNull DisassemblerSymbol symbol) throws Exception {
         String name_ = symbol.getDemangledName();
         if (name_.equals("__cxa_pure_virtual"))
             return "//pure virtual method";
@@ -244,7 +250,8 @@ public class HeaderGenerator {
         return false;
     }
 
-    private Vector<DisassemblerSymbol> moveConOrDesToStart(Vector<DisassemblerSymbol> syms) {
+    @NotNull
+    private Vector<DisassemblerSymbol> moveConOrDesToStart(@NotNull Vector<DisassemblerSymbol> syms) {
         Vector<DisassemblerSymbol> ret = new Vector<DisassemblerSymbol>();
         for (DisassemblerSymbol sym : syms)
             if (isCon(sym))

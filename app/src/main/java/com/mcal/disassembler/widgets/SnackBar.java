@@ -82,7 +82,7 @@ public class SnackBar extends Dialog {
         setCanceledOnTouchOutside(false);
         ((AppCompatTextView) findViewById(R.id.snackbartext)).setText(text);
         ((AppCompatTextView) findViewById(R.id.snackbartext)).setTextSize(textSize); //set textSize
-        button = (ButtonFlat) findViewById(R.id.snackbarbuttonflat);
+        button = findViewById(R.id.snackbarbuttonflat);
         if (text == null || onClickListener == null)
             button.setVisibility(View.GONE);
         else if (text != null && onClickListener != null) {

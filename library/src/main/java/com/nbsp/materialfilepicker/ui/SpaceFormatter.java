@@ -1,8 +1,11 @@
 package com.nbsp.materialfilepicker.ui;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Locale;
 
 public class SpaceFormatter {
+    @NotNull
     public static String format(long originalSize) {
         String label = "B";
         double size = originalSize;

@@ -4,6 +4,8 @@ import android.webkit.MimeTypeMap;
 
 import com.nbsp.materialfilepicker.R;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -21,7 +23,7 @@ public class FileTypeUtils {
         }
     }
 
-    public static FileType getFileType(File file) {
+    public static FileType getFileType(@NotNull File file) {
         if (file.isDirectory()) {
             return FileType.DIRECTORY;
         }
@@ -34,6 +36,7 @@ public class FileTypeUtils {
         return FileType.DOCUMENT;
     }
 
+    @NotNull
     public static String getExtension(String fileName) {
         String encoded;
         try {

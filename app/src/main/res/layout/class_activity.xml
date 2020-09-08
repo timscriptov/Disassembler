@@ -46,9 +46,8 @@
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginBottom="100dp"
-        android:background="#000"
         android:onClick="toVtableActivity"
-        android:src="@drawable/box_blue"
+        android:src="@drawable/ic_box_blue"
         android:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -61,7 +60,6 @@
         android:layout_marginEnd="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginBottom="30dp"
-        android:background="#000"
         android:onClick="save"
         android:src="@drawable/ic_download" />
 

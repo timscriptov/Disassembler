@@ -29,8 +29,7 @@ public class FloatingButton {
         floatView = new View(context);
         floatView.setClickable(true);
 
-
-        floatView.setBackgroundResource(R.drawable.box_pink);
+        floatView.setBackgroundResource(R.drawable.ic_box_green);
         floatView.setOnClickListener(p1 -> {
             FloatingMenu menu = new FloatingMenu(context, path);
             menu.show();
@@ -39,11 +38,9 @@ public class FloatingButton {
         wm = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         params = new WindowManager.LayoutParams();
 
-
         params.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
 
         params.format = PixelFormat.TRANSPARENT;
-
 
         params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                 | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
@@ -51,7 +48,6 @@ public class FloatingButton {
         params.height = 50;
         params.x = xPos;
         params.y = yPos;
-
 
         floatView.setOnTouchListener(new OnTouchListener() {
             int lastX, lastY;

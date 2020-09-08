@@ -1,5 +1,8 @@
 package com.mcal.disassembler.vtable;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Vector;
 
 class Dump {
@@ -81,11 +84,11 @@ class Dump {
         return syms;
     }
 
-    int getSymNum(section sec) {
+    int getSymNum(@NotNull section sec) {
         return sec.size / 16;
     }
 
-    symbol getSym(section sec, int index) {
+    symbol getSym(@NotNull section sec, int index) {
         byte[] des = Utils.cp(bs, index * 16 + sec.offset, 16);
         symbol sym = new symbol();
         sym.name = getString(elf.sections.get(sec.link), Utils.cb2i(des, 0, 4));
@@ -99,7 +102,7 @@ class Dump {
         return sym;
     }
 
-    int getRelNum(section sec) {
+    int getRelNum(@NotNull section sec) {
         return sec.size / sec.entsize;
     }
 
@@ -116,7 +119,7 @@ class Dump {
         return rels;
     }
 
-    relocation getRel(section sec, int index) {
+    relocation getRel(@NotNull section sec, int index) {
         byte[] des = Utils.cp(bs, index * 8 + sec.offset, 8);
         relocation rel = new relocation();
         rel.offset = Utils.cb2i(des, 0, 4);
@@ -133,7 +136,9 @@ class Dump {
         return null;
     }
 
-    private String getString(section strtb, int off) {
+    @NotNull
+    @Contract("_, _ -> new")
+    private String getString(@NotNull section strtb, int off) {
         Vector<Byte> tmp = new Vector<>();
         for (int i = 0; ; ++i) {
             byte b = bs[strtb.offset + off + i];

@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import org.jetbrains.annotations.NotNull;
+
 public final class Database extends SQLiteOpenHelper {
 
     private static SQLiteDatabase database;
@@ -19,7 +21,7 @@ public final class Database extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(@NotNull SQLiteDatabase db) {
         db.execSQL("CREATE TABLE Recents (Path TEXT PRIMARY KEY)");
     }
 

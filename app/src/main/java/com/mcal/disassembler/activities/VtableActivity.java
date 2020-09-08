@@ -90,6 +90,7 @@ public class VtableActivity extends AppCompatActivity {
         new SnackBar(this, getString(R.string.done)).show();
     }
 
+    @NotNull
     private List<Map<String, Object>> getData() {
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         Map<String, Object> map;
@@ -98,7 +99,7 @@ public class VtableActivity extends AppCompatActivity {
             return list;
         for (int i = 0; i < vtable.getVtables().size(); ++i) {
             map = new HashMap<>();
-            map.put("img", R.drawable.box_blue);
+            map.put("img", R.drawable.ic_box_blue);
             map.put("title", vtable.getVtables().get(i).getDemangledName());
             map.put("info", vtable.getVtables().get(i).getName());
             map.put("type", vtable.getVtables().get(i).getType());
@@ -126,7 +127,7 @@ public class VtableActivity extends AppCompatActivity {
 
     private final class ItemClickListener implements OnItemClickListener {
         @Override
-        public void onItemClick(AdapterView<?> arg0, View view, int arg2, long arg3) {
+        public void onItemClick(AdapterView<?> arg0, @NotNull View view, int arg2, long arg3) {
             Bundle bundle = new Bundle();
             bundle.putString("demangledName", (String) (((ViewHolder) view.getTag()).title.getText()));
             bundle.putString("name", (String) (((ViewHolder) view.getTag()).info.getText()));

@@ -4,8 +4,8 @@
 
     <application>
 
-        <activity android:name=".ui.FilePickerActivity"
-            android:theme="@style/MFP_BaseTheme">
-        </activity>
+        <activity
+            android:name="com.nbsp.materialfilepicker.ui.FilePickerActivity"/>
+
     </application>
 </manifest>

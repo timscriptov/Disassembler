@@ -202,7 +202,7 @@
         android:layout_marginBottom="100dp"
         android:background="#D81B60"
         android:onClick="toVtableActivity"
-        android:src="@drawable/box_blue"
+        android:src="@drawable/ic_box_blue"
         android:visibility="gone" />
 
     <androidx.appcompat.widget.AppCompatTextView

@@ -2,6 +2,7 @@ package com.nbsp.materialfilepicker.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,7 @@ import com.nbsp.materialfilepicker.filter.CompositeFilter;
 import com.nbsp.materialfilepicker.utils.FileUtils;
 import com.nbsp.materialfilepicker.widget.EmptyRecyclerView;
 
-import java.io.File;
+import org.jetbrains.annotations.NotNull;
 
 public class DirectoryFragment extends Fragment {
     private static final String ARG_FILE_PATH = "arg_file_path";
@@ -27,6 +28,7 @@ public class DirectoryFragment extends Fragment {
     private DirectoryAdapter mDirectoryAdapter;
     private FileClickListener mFileClickListener;
 
+    @NotNull
     public static DirectoryFragment getInstance(
             String path, CompositeFilter filter) {
         DirectoryFragment instance = new DirectoryFragment();
@@ -47,6 +49,12 @@ public class DirectoryFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mFileClickListener = (FileClickListener) context;
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mFileClickListener = null;
@@ -54,7 +62,7 @@ public class DirectoryFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_directory, container, false);
         mDirectoryRecyclerView = view.findViewById(R.id.directory_recycler_view);
         mEmptyView = view.findViewById(R.id.directory_empty_view);
@@ -90,9 +98,5 @@ public class DirectoryFragment extends Fragment {
         }
 
         mFilter = (CompositeFilter) getArguments().getSerializable(ARG_FILTER);
-    }
-
-    interface FileClickListener {
-        void onFileClicked(File clickedFile);
     }
 }

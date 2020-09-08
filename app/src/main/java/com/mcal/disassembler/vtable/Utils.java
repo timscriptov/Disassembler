@@ -1,5 +1,6 @@
 package com.mcal.disassembler.vtable;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -7,7 +8,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 public final class Utils {
-    private static String b2hex(byte[] bytes) {
+    @NotNull
+    private static String b2hex(@NotNull byte[] bytes) {
         StringBuilder result = new StringBuilder();
         for (byte b : bytes) {
             String h;

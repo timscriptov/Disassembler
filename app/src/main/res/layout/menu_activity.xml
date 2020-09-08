@@ -44,8 +44,7 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="10dp"
             android:text="@string/saveSymbols"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#000000" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </LinearLayout>
 
@@ -95,8 +94,7 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="10dp"
             android:text="@string/donate"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#000000" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </LinearLayout>
 
@@ -122,8 +120,7 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="10dp"
             android:text="@string/about_view_github"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#000000" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </LinearLayout>
 
@@ -148,8 +145,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/copyright"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#000000" />
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </LinearLayout>
 

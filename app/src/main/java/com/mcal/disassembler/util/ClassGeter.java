@@ -4,6 +4,7 @@ import com.mcal.disassembler.nativeapi.DisassemblerClass;
 import com.mcal.disassembler.nativeapi.DisassemblerSymbol;
 import com.mcal.disassembler.nativeapi.Dumper;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ClassGeter {
@@ -23,7 +24,7 @@ public class ClassGeter {
         return clasz;
     }
 
-    private static boolean hasClass(String name) {
+    private static boolean hasClass(@NotNull String name) {
         String symbolMainName;
         if (name.contains("("))
             symbolMainName = name.substring(0, name.indexOf("("));
@@ -35,7 +36,8 @@ public class ClassGeter {
         else return symbolMainName.startsWith("vtable");
     }
 
-    private static String getClassName(String demangledName) {
+    @NotNull
+    private static String getClassName(@NotNull String demangledName) {
         String symbolMainName;
         if (demangledName.contains("("))
             symbolMainName = demangledName.substring(0, demangledName.indexOf("("));

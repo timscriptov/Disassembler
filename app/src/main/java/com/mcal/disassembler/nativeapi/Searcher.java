@@ -1,10 +1,13 @@
 package com.mcal.disassembler.nativeapi;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Searcher {
+    @NotNull
     public static Vector<DisassemblerSymbol> search(String key) {
         Vector<DisassemblerSymbol> returnValue = new Vector<DisassemblerSymbol>();
         if (key == null || key.isEmpty() || key.equals(" "))

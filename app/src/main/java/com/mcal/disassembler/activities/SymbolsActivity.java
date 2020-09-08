@@ -58,16 +58,17 @@ public class SymbolsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
+    @NotNull
     private List<Map<String, Object>> getData() {
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map;
         for (int i = 0; i < Dumper.symbols.size(); ++i) {
             map = new HashMap<>();
             if (Dumper.symbols.get(i).getType() == 1)
-                map.put("img", R.drawable.box_blue);
+                map.put("img", R.drawable.ic_box_blue);
             else if (Dumper.symbols.get(i).getType() == 2)
-                map.put("img", R.drawable.box_red);
-            else map.put("img", R.drawable.box_pink);
+                map.put("img", R.drawable.ic_box_red);
+            else map.put("img", R.drawable.ic_box_green);
             map.put("title", Dumper.symbols.get(i).getDemangledName());
             map.put("info", Dumper.symbols.get(i).getName());
             map.put("type", Dumper.symbols.get(i).getType());
@@ -119,7 +120,7 @@ public class SymbolsActivity extends AppCompatActivity {
 
     private final class ItemClickListener implements OnItemClickListener {
         @Override
-        public void onItemClick(AdapterView<?> arg0, View view, int arg2, long arg3) {
+        public void onItemClick(AdapterView<?> arg0, @NotNull View view, int arg2, long arg3) {
             Bundle bundle = new Bundle();
             bundle.putString("demangledName", (String) (((ViewHolder) view.getTag()).title.getText()));
             bundle.putString("name", (String) (((ViewHolder) view.getTag()).info.getText()));

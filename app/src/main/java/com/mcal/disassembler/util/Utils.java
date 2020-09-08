@@ -4,20 +4,22 @@ import android.content.res.Resources;
 import android.util.TypedValue;
 import android.view.View;
 
+import org.jetbrains.annotations.NotNull;
+
 public class Utils {
-    public static int dpToPx(float dp, Resources resources) {
+    public static int dpToPx(float dp, @NotNull Resources resources) {
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
         return (int) px;
     }
 
-    public static int getRelativeTop(View myView) {
+    public static int getRelativeTop(@NotNull View myView) {
         if (myView.getId() == android.R.id.content)
             return myView.getTop();
         else
             return myView.getTop() + getRelativeTop((View) myView.getParent());
     }
 
-    public static int getRelativeLeft(View myView) {
+    public static int getRelativeLeft(@NotNull View myView) {
         if (myView.getId() == android.R.id.content)
             return myView.getLeft();
         else

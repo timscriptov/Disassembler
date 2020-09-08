@@ -8,15 +8,17 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.nbsp.materialfilepicker.R;
 import com.nbsp.materialfilepicker.filter.CompositeFilter;
 import com.nbsp.materialfilepicker.filter.PatternFilter;
 import com.nbsp.materialfilepicker.utils.FileUtils;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -26,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.regex.Pattern;
 
-public class FilePickerActivity extends AppCompatActivity implements DirectoryFragment.FileClickListener {
+public class FilePickerActivity extends AppCompatActivity implements FileClickListener {
     public static final String ARG_START_PATH = "arg_start_path";
     public static final String ARG_CURRENT_PATH = "arg_current_path";
 
@@ -120,7 +122,7 @@ public class FilePickerActivity extends AppCompatActivity implements DirectoryFr
             }
 
             f.setAccessible(true);
-            TextView textView = (TextView) f.get(mToolbar);
+            AppCompatTextView textView = (AppCompatTextView) f.get(mToolbar);
             textView.setEllipsize(TextUtils.TruncateAt.START);
         } catch (Exception ignored) {
         }
@@ -186,7 +188,7 @@ public class FilePickerActivity extends AppCompatActivity implements DirectoryFr
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
+    public boolean onOptionsItemSelected(@NotNull MenuItem menuItem) {
         if (menuItem.getItemId() == android.R.id.home) {
             onBackPressed();
         } else if (menuItem.getItemId() == R.id.action_close) {
@@ -221,7 +223,7 @@ public class FilePickerActivity extends AppCompatActivity implements DirectoryFr
         new Handler().postDelayed(() -> handleFileClicked(clickedFile), HANDLE_CLICK_DELAY);
     }
 
-    private void handleFileClicked(final File clickedFile) {
+    private void handleFileClicked(@NotNull final File clickedFile) {
         if (clickedFile.isDirectory()) {
             mCurrentPath = clickedFile.getPath();
             // If the user wanna go to the emulated directory, he will be taken to the

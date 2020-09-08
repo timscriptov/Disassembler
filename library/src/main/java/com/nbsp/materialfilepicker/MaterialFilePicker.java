@@ -9,6 +9,9 @@ import com.nbsp.materialfilepicker.filter.HiddenFilter;
 import com.nbsp.materialfilepicker.filter.PatternFilter;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -155,6 +158,8 @@ public class MaterialFilePicker {
         return this;
     }
 
+    @NotNull
+    @Contract(" -> new")
     private CompositeFilter getFilter() {
         ArrayList<FileFilter> filters = new ArrayList<>();
 

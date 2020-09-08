@@ -1,5 +1,7 @@
 package com.nbsp.materialfilepicker.filter;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.io.Serializable;
@@ -16,7 +18,7 @@ public class PatternFilter implements FileFilter, Serializable {
     }
 
     @Override
-    public boolean accept(File f) {
+    public boolean accept(@NotNull File f) {
         return f.isDirectory() && !mDirectoriesFilter || mPattern.matcher(f.getName()).matches();
     }
 }

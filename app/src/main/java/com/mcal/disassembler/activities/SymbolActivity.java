@@ -40,11 +40,11 @@ public class SymbolActivity extends AppCompatActivity {
 
         AppCompatImageView imageTitile = findViewById(R.id.symbolactivityImageView);
         if (type == 1)
-            imageTitile.setImageResource(R.drawable.box_blue);
+            imageTitile.setImageResource(R.drawable.ic_box_blue);
         else if (type == 2)
-            imageTitile.setImageResource(R.drawable.box_red);
+            imageTitile.setImageResource(R.drawable.ic_box_red);
         else
-            imageTitile.setImageResource(R.drawable.box_pink);
+            imageTitile.setImageResource(R.drawable.ic_box_green);
 
         AppCompatTextView textName = findViewById(R.id.symbolactivityTextViewName);
         textName.setText(name);

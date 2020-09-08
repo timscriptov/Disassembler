@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">?colorPrimary</color>
+    <color name="colorPrimaryDark">?colorPrimaryDark</color>
+    <color name="colorAccent">?colorAccent</color>
+
+    <color name="textColorPrimary">#FFF</color>
+    <color name="textColorSecondary">#FFF</color>
+
+    <color name="compatibility_pressed_color">#1aFFFFFF</color>
+    <color name="compatibility_focus_color">#48FFFFFF</color>
+    <color name="transparent">#FFF</color>
+</resources>

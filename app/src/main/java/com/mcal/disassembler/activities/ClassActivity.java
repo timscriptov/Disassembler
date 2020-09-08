@@ -97,6 +97,7 @@ public class ClassActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
+    @NotNull
     private List<Map<String, Object>> getData() {
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map;
@@ -106,10 +107,10 @@ public class ClassActivity extends AppCompatActivity {
         for (int i = 0; i < classThis.getSymbols().size(); ++i) {
             map = new HashMap<>();
             if (classThis.getSymbols().get(i).getType() == 1)
-                map.put("img", R.drawable.box_blue);
+                map.put("img", R.drawable.ic_box_blue);
             else if (classThis.getSymbols().get(i).getType() == 2)
-                map.put("img", R.drawable.box_red);
-            else map.put("img", R.drawable.box_pink);
+                map.put("img", R.drawable.ic_box_red);
+            else map.put("img", R.drawable.ic_box_green);
             map.put("title", classThis.getSymbols().get(i).getDemangledName());
             map.put("info", classThis.getSymbols().get(i).getName());
             map.put("type", classThis.getSymbols().get(i).getType());
@@ -144,7 +145,8 @@ public class ClassActivity extends AppCompatActivity {
         return VtableDumper.dump(path, getZTVName(name));
     }
 
-    private String getZTVName(String mangledName) {
+    @NotNull
+    private String getZTVName(@NotNull String mangledName) {
         StringBuilder ret = new StringBuilder("_ZTV");
         String[] names = mangledName.split("::");
         for (String str : names)
@@ -152,7 +154,8 @@ public class ClassActivity extends AppCompatActivity {
         return ret.toString();
     }
 
-    private String getSaveName(String mangledName) {
+    @NotNull
+    private String getSaveName(@NotNull String mangledName) {
         StringBuilder ret = new StringBuilder();
         String[] names = mangledName.split("::");
         boolean isFirstName = true;
@@ -233,7 +236,7 @@ public class ClassActivity extends AppCompatActivity {
 
     private final class ItemClickListener implements OnItemClickListener {
         @Override
-        public void onItemClick(AdapterView<?> arg0, View view, int arg2, long arg3) {
+        public void onItemClick(AdapterView<?> arg0, @NotNull View view, int arg2, long arg3) {
             Bundle bundle = new Bundle();
             bundle.putString("demangledName", (String) (((ViewHolder) view.getTag()).title.getText()));
             bundle.putString("name", (String) (((ViewHolder) view.getTag()).info.getText()));

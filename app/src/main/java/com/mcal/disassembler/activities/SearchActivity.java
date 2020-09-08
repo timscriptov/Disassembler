@@ -42,6 +42,8 @@ public class SearchActivity extends AppCompatActivity {
     private List<Map<String, Object>> data;
     private String path;
     private ListView list;
+    private MaterialToolbar toolbar;
+
     @SuppressLint("HandlerLeak")
     Handler mHandler = new Handler() {
         @Override
@@ -67,7 +69,6 @@ public class SearchActivity extends AppCompatActivity {
             }
         }
     };
-    private MaterialToolbar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -109,6 +110,7 @@ public class SearchActivity extends AppCompatActivity {
         }.start();
     }
 
+    @NotNull
     private List<Map<String, Object>> search_datas(String key, boolean usePattern) {
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map;
@@ -124,10 +126,10 @@ public class SearchActivity extends AppCompatActivity {
         for (int i = 0; i < searchResult.size(); ++i) {
             map = new HashMap<>();
             if (searchResult.get(i).getType() == 1)
-                map.put("img", R.drawable.box_blue);
+                map.put("img", R.drawable.ic_box_blue);
             else if (searchResult.get(i).getType() == 2)
-                map.put("img", R.drawable.box_red);
-            else map.put("img", R.drawable.box_pink);
+                map.put("img", R.drawable.ic_box_red);
+            else map.put("img", R.drawable.ic_box_green);
             map.put("title", searchResult.get(i).getDemangledName());
             map.put("info", searchResult.get(i).getName());
             map.put("type", searchResult.get(i).getType());
@@ -155,7 +157,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private final class ItemClickListener implements OnItemClickListener {
         @Override
-        public void onItemClick(AdapterView<?> arg0, View view, int arg2, long arg3) {
+        public void onItemClick(AdapterView<?> arg0, @NotNull View view, int arg2, long arg3) {
             Bundle bundle = new Bundle();
             bundle.putString("demangledName", (String) (((ViewHolder) view.getTag()).title.getText()));
             bundle.putString("name", (String) (((ViewHolder) view.getTag()).info.getText()));

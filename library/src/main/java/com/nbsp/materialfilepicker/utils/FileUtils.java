@@ -1,5 +1,7 @@
 package com.nbsp.materialfilepicker.utils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.text.DecimalFormat;
@@ -9,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class FileUtils {
+    @NotNull
     public static List<File> getFileListByDirPath(String path, FileFilter filter) {
         File directory = new File(path);
         File[] files = directory.listFiles(filter);
@@ -22,7 +25,8 @@ public class FileUtils {
         return result;
     }
 
-    public static String cutLastSegmentOfPath(String path) {
+    @NotNull
+    public static String cutLastSegmentOfPath(@NotNull String path) {
         if (path.length() - path.replace("/", "").length() <= 1)
             return "/";
         String newPath = path.substring(0, path.lastIndexOf("/"));
@@ -32,6 +36,7 @@ public class FileUtils {
         return newPath;
     }
 
+    @NotNull
     public static String getReadableFileSize(long size) {
         if (size <= 0) return "0";
         final String[] units = new String[]{"B", "KB", "MB", "GB", "TB"};
