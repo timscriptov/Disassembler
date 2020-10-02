@@ -8,14 +8,14 @@ import android.view.ViewGroup;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatEditText;
 
-import com.google.android.material.appbar.MaterialToolbar;
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.nativeapi.DisassemblerDumper;
+import com.mcal.disassembler.view.CenteredToolBar;
 
 import org.jetbrains.annotations.NotNull;
 
 public class NameDemanglerActivity extends AppCompatActivity {
-    private MaterialToolbar toolbar;
+    private CenteredToolBar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -18,12 +18,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 
-import com.google.android.material.appbar.MaterialToolbar;
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.nativeapi.DisassemblerDumper;
 import com.mcal.disassembler.nativeapi.DisassemblerVtable;
 import com.mcal.disassembler.nativeapi.Dumper;
 import com.mcal.disassembler.util.FileSaver;
+import com.mcal.disassembler.view.CenteredToolBar;
 import com.mcal.disassembler.widgets.SnackBar;
 
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class VtableActivity extends AppCompatActivity {
-    private MaterialToolbar toolbar;
+    private CenteredToolBar toolbar;
     private List<Map<String, Object>> data;
 
     private String path;

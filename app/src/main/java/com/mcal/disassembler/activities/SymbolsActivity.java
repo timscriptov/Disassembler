@@ -16,9 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 
-import com.google.android.material.appbar.MaterialToolbar;
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.nativeapi.Dumper;
+import com.mcal.disassembler.view.CenteredToolBar;
 import com.mcal.disassembler.widgets.SnackBar;
 
 import org.jetbrains.annotations.NotNull;
@@ -33,7 +33,7 @@ public class SymbolsActivity extends AppCompatActivity {
     SnackBar bar;
     private List<Map<String, Object>> data;
     private String path;
-    private MaterialToolbar toolbar;
+    private CenteredToolBar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -12,7 +12,6 @@ import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +19,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.appbar.MaterialToolbar;
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.adapters.ListAdapter;
 import com.mcal.disassembler.data.Database;
@@ -29,6 +27,7 @@ import com.mcal.disassembler.data.RecentsManager;
 import com.mcal.disassembler.interfaces.MainView;
 import com.mcal.disassembler.nativeapi.DisassemblerDumper;
 import com.mcal.disassembler.nativeapi.Dumper;
+import com.mcal.disassembler.view.CenteredToolBar;
 import com.mcal.disassembler.widgets.SnackBar;
 import com.nbsp.materialfilepicker.MaterialFilePicker;
 import com.nbsp.materialfilepicker.ui.FilePickerActivity;
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     ProgressDialog dialog;
-    private MaterialToolbar toolbar;
+    private CenteredToolBar toolbar;
     private RecyclerView recentOpened;
     private ArrayList<String> paths = new ArrayList<>();
     private String path;

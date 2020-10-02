@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion = '30.0.1'
+    buildToolsVersion = '30.0.2'
 
     defaultConfig {
         minSdkVersion 14
@@ -28,7 +28,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 	implementation 'androidx.cardview:cardview:1.0.0'
 
-    implementation 'com.google.android.material:material:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
 
     implementation 'org.jetbrains:annotations:19.0.0'
 }

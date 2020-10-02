@@ -21,11 +21,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.nativeapi.DisassemblerSymbol;
 import com.mcal.disassembler.nativeapi.Searcher;
+import com.mcal.disassembler.view.CenteredToolBar;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -42,8 +42,6 @@ public class SearchActivity extends AppCompatActivity {
     private List<Map<String, Object>> data;
     private String path;
     private ListView list;
-    private MaterialToolbar toolbar;
-
     @SuppressLint("HandlerLeak")
     Handler mHandler = new Handler() {
         @Override
@@ -69,6 +67,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         }
     };
+    private CenteredToolBar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

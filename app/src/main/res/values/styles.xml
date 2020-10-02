@@ -10,6 +10,7 @@
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="windowActionModeOverlay">true</item>
+        <item name="materialAlertDialogTheme">@style/AlertDialogTheme</item>
         <item name="alertDialogTheme">@style/AlertDialogTheme</item>
     </style>
 

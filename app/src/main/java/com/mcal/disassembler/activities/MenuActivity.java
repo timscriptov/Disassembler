@@ -16,10 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.nativeapi.Dumper;
 import com.mcal.disassembler.util.FileSaver;
+import com.mcal.disassembler.view.CenteredToolBar;
 import com.mcal.disassembler.view.FloatingButton;
 import com.mcal.disassembler.widgets.SnackBar;
 
@@ -34,7 +34,7 @@ public class MenuActivity extends AppCompatActivity implements BillingProcessor.
     private BillingProcessor bp;
     private ProgressDialog mDialog;
     private SnackBar mBar;
-    private MaterialToolbar toolbar;
+    private CenteredToolBar toolbar;
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {

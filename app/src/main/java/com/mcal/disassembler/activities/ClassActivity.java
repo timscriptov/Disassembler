@@ -21,7 +21,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 
-import com.google.android.material.appbar.MaterialToolbar;
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.nativeapi.DisassemblerClass;
 import com.mcal.disassembler.nativeapi.DisassemblerSymbol;
@@ -30,6 +29,7 @@ import com.mcal.disassembler.nativeapi.Dumper;
 import com.mcal.disassembler.util.ClassGeter;
 import com.mcal.disassembler.util.FileSaver;
 import com.mcal.disassembler.util.HeaderGenerator;
+import com.mcal.disassembler.view.CenteredToolBar;
 import com.mcal.disassembler.vtable.VtableDumper;
 import com.mcal.disassembler.widgets.SnackBar;
 
@@ -59,7 +59,7 @@ public class ClassActivity extends AppCompatActivity {
             }
         }
     };
-    private MaterialToolbar toolbar;
+    private CenteredToolBar toolbar;
     private String path;
     private String name;
     private List<Map<String, Object>> data;

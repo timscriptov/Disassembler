@@ -6,6 +6,7 @@
 	
 	<!--uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>  
 	<uses-permission android:name="android.permission.READ_PHONE_STATE" /-->
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="com.android.vending.BILLING" />
 	
@@ -15,15 +16,17 @@
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:name="com.mcal.disassembler.App"
 		android:largeHeap="true"
+		android:testOnly="false"
+		android:debuggable="false"
 		android:theme="@style/AppTheme"
-		android:allowBackup="true"
-		android:fullBackupContent="true"
+		android:allowBackup="false"
+		android:fullBackupContent="false"
 		android:requestLegacyExternalStorage="true"
-		tools:ignore="GoogleAppIndexingWarning"
+		tools:ignore="GoogleAppIndexingWarning,HardcodedDebugMode"
 		tools:targetApi="q">
 		
         <activity
-			android:name="com.mcal.disassembler.activities.MainActivity"
+			android:name=".activities.MainActivity"
 			android:label="@string/app_name">
 			
             <intent-filter>
@@ -37,31 +40,31 @@
         </activity>
 		
 		<activity
-			android:name="com.mcal.disassembler.activities.SymbolsActivity"
+			android:name=".activities.SymbolsActivity"
 			android:label="@string/symbolsActivity"/>
 		
 		<activity
-			android:name="com.mcal.disassembler.activities.ClassActivity"
+			android:name=".activities.ClassActivity"
 			android:label="@string/classActivity"/>
 		
 		<activity
-			android:name="com.mcal.disassembler.activities.SymbolActivity"
+			android:name=".activities.SymbolActivity"
 			android:label="@string/symbolActivity"/>
 		
 		<activity
-			android:name="com.mcal.disassembler.activities.MenuActivity"
+			android:name=".activities.MenuActivity"
 			android:label="@string/menuActivity"/>
 		
 		<activity
-			android:name="com.mcal.disassembler.activities.SearchActivity"
+			android:name=".activities.SearchActivity"
 			android:label="@string/searchActivity"/>
 		
 		<activity
-			android:name="com.mcal.disassembler.activities.VtableActivity"
+			android:name=".activities.VtableActivity"
 			android:label="@string/vtableActivity"/>
 		
 		<activity
-			android:name="com.mcal.disassembler.activities.NameDemanglerActivity"
+			android:name=".activities.NameDemanglerActivity"
 			android:label="@string/nameDemangler"/>
 
 		<provider

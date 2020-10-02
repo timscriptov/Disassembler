@@ -6,8 +6,6 @@ import androidx.preference.PreferenceManager;
 
 import com.mcal.disassembler.App;
 
-import org.jetbrains.annotations.Contract;
-
 public class Preferences {
     private static SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(App.getContext());
 

@@ -10,10 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 
-import com.google.android.material.appbar.MaterialToolbar;
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.nativeapi.DisassemblerVtable;
 import com.mcal.disassembler.nativeapi.Dumper;
+import com.mcal.disassembler.view.CenteredToolBar;
 import com.mcal.disassembler.vtable.Tables;
 import com.mcal.disassembler.vtable.VtableDumper;
 
@@ -23,7 +23,7 @@ import java.util.Objects;
 
 public class SymbolActivity extends AppCompatActivity {
     ProgressDialog dialog;
-    private MaterialToolbar toolbar;
+    private CenteredToolBar toolbar;
     private String path;
     private String name;
     private String className;
