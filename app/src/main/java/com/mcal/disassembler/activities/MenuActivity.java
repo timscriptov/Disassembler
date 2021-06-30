@@ -14,9 +14,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.anjlab.android.iab.v3.BillingProcessor;
-import com.anjlab.android.iab.v3.TransactionDetails;
+import com.mcal.disassembler.BuildConfig;
 import com.mcal.disassembler.R;
+import com.mcal.disassembler.data.Constants;
+import com.mcal.disassembler.iap.DataWrappers;
+import com.mcal.disassembler.iap.IapConnector;
+import com.mcal.disassembler.iap.PurchaseServiceListener;
+import com.mcal.disassembler.iap.SubscriptionServiceListener;
 import com.mcal.disassembler.nativeapi.Dumper;
 import com.mcal.disassembler.util.FileSaver;
 import com.mcal.disassembler.view.CenteredToolBar;
@@ -25,19 +29,23 @@ import com.mcal.disassembler.widgets.SnackBar;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
-public class MenuActivity extends AppCompatActivity implements BillingProcessor.IBillingHandler {
+public class MenuActivity extends AppCompatActivity {
     private static final String URI_GITHUB = "https://github.com/TimScriptov/Disassembler.git";
 
     private String path;
-    private BillingProcessor bp;
     private ProgressDialog mDialog;
     private SnackBar mBar;
     private CenteredToolBar toolbar;
+    private IapConnector iapConnector;
 
     @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -58,9 +66,50 @@ public class MenuActivity extends AppCompatActivity implements BillingProcessor.
         setupToolbar(getString(R.string.app_settings));
         path = Objects.requireNonNull(getIntent().getExtras()).getString("filePath");
 
-        bp = new BillingProcessor(this, null, this);
-
         findViewById(R.id.about_view_github_button).setOnClickListener(p1 -> openUri());
+
+        List<String> nonConsumablesList = Collections.singletonList("premium");
+        List<String> consumablesList = Arrays.asList("donate_disassembler", "moderate", "quite", "plenty", "yearly");
+        List<String> subsList = Collections.singletonList("subscription");
+
+        iapConnector = new IapConnector(
+                this,
+                nonConsumablesList,
+                consumablesList,
+                subsList,
+                Constants.LK,
+                BuildConfig.DEBUG
+        );
+
+        iapConnector.addPurchaseListener(new PurchaseServiceListener() {
+            public void onPricesUpdated(@NotNull Map<String, String> iapKeyPrices) {
+
+            }
+
+            public void onProductPurchased(DataWrappers.@NotNull PurchaseInfo purchaseInfo) {
+                if (purchaseInfo.getSku().equals("donate_disassembler")) {
+
+                }
+            }
+
+            public void onProductRestored(DataWrappers.@NotNull PurchaseInfo purchaseInfo) {
+
+            }
+        });
+        iapConnector.addSubscriptionListener(new SubscriptionServiceListener() {
+            public void onSubscriptionRestored(DataWrappers.@NotNull PurchaseInfo purchaseInfo) {
+            }
+
+            public void onSubscriptionPurchased(DataWrappers.@NotNull PurchaseInfo purchaseInfo) {
+                if (purchaseInfo.getSku().equals("subscription")) {
+
+                }
+            }
+
+            public void onPricesUpdated(@NotNull Map<String, String> iapKeyPrices) {
+
+            }
+        });
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -81,22 +130,9 @@ public class MenuActivity extends AppCompatActivity implements BillingProcessor.
     }
 
     public void donate(View v) {
-        bp.purchase(this, "donate_disassembler");
+        iapConnector.purchase(this, "donate_disassembler");
     }
 
-    public void onPurchaseHistoryRestored() {
-    }
-
-    public void onBillingError(int p1, Throwable p2) {
-    }
-
-    public void onBillingInitialized() {
-    }
-
-    public void onProductPurchased(String p1, TransactionDetails p2) {
-        Toast.makeText(this, R.string.thanks, Toast.LENGTH_LONG).show();
-        bp.consumePurchase(p1);
-    }
 
     public void toNameDemangler(View view) {
         startActivity(new Intent(this, NameDemanglerActivity.class));
