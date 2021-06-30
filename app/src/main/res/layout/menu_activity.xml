@@ -8,15 +8,22 @@
     <include
         layout="@layout/toolbar" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/pref_shadow_top" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/pref_shadow_bottom" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
         android:paddingStart="72dp"
-        android:paddingLeft="72dp"
         android:paddingTop="16dp"
         android:paddingEnd="16dp"
-        android:paddingRight="16dp"
         android:text="@string/general"
         android:textColor="?colorAccent"
         android:textSize="14sp"
@@ -28,7 +35,7 @@
         android:background="@drawable/bg_clickable"
         android:gravity="left|center"
         android:onClick="saveSymbols"
-        tools:ignore="RtlHardcoded,UseCompoundDrawables">
+        tools:ignore="RtlHardcoded,UseCompoundDrawables,UsingOnClickInXml">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageViewOutPut"
@@ -61,12 +68,9 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
         android:paddingStart="72dp"
-        android:paddingLeft="72dp"
         android:paddingTop="16dp"
         android:paddingEnd="16dp"
-        android:paddingRight="16dp"
         android:text="@string/others"
         android:textColor="?colorAccent"
         android:textSize="14sp"
@@ -79,7 +83,7 @@
         android:background="@drawable/bg_clickable"
         android:gravity="left|center"
         android:onClick="donate"
-        tools:ignore="RtlHardcoded,UseCompoundDrawables">
+        tools:ignore="RtlHardcoded,UseCompoundDrawables,UsingOnClickInXml">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="35dp"
@@ -105,7 +109,7 @@
         android:background="@drawable/bg_clickable"
         android:gravity="left|center"
         android:onClick="donate"
-        tools:ignore="RtlHardcoded,UseCompoundDrawables">
+        tools:ignore="RtlHardcoded,UseCompoundDrawables,UsingOnClickInXml">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="35dp"

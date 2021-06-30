@@ -18,7 +18,7 @@ import java.io.File;
 import java.util.List;
 
 public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.DirectoryViewHolder> {
-    private List<File> mFiles;
+    private final List<File> mFiles;
     private OnItemClickListener mOnItemClickListener;
 
     DirectoryAdapter(Context context, List<File> files) {
@@ -65,10 +65,10 @@ public class DirectoryAdapter extends RecyclerView.Adapter<DirectoryAdapter.Dire
     }
 
     static class DirectoryViewHolder extends RecyclerView.ViewHolder {
-        private AppCompatImageView mFileImage;
-        private AppCompatTextView mFileTitle;
-        private AppCompatTextView mFileSubtitle;
-        private AppCompatTextView mFileSize;
+        private final AppCompatImageView mFileImage;
+        private final AppCompatTextView mFileTitle;
+        private final AppCompatTextView mFileSubtitle;
+        private final AppCompatTextView mFileSize;
 
         DirectoryViewHolder(View itemView, final OnItemClickListener clickListener) {
             super(itemView);

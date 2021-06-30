@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <include
         android:id="@+id/toolbar_demangler"
@@ -37,14 +38,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="30dp"
-        android:background="#000"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:onClick="demangle"
-        android:src="@drawable/ic_backup_restore" />
+        android:src="@drawable/ic_backup_restore"
+        app:backgroundTint="@color/colorAccent"
+        app:tint="#FFFFFF"
+        tools:ignore="ContentDescription,UsingOnClickInXml" />
 
 </RelativeLayout>
 

@@ -124,7 +124,8 @@ public class FilePickerActivity extends AppCompatActivity implements FileClickLi
             f.setAccessible(true);
             AppCompatTextView textView = (AppCompatTextView) f.get(mToolbar);
             textView.setEllipsize(TextUtils.TruncateAt.START);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         if (!TextUtils.isEmpty(mTitle)) {

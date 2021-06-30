@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class CompositeFilter implements FileFilter, Serializable {
 
-    private ArrayList<FileFilter> mFilters;
+    private final ArrayList<FileFilter> mFilters;
 
     public CompositeFilter(ArrayList<FileFilter> filters) {
         mFilters = filters;

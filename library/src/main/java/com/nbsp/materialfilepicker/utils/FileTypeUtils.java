@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FileTypeUtils {
-    private static Map<String, FileType> fileTypeExtensions = new HashMap<>();
+    private static final Map<String, FileType> fileTypeExtensions = new HashMap<>();
 
     static {
         for (FileType fileType : FileType.values()) {
@@ -64,9 +64,9 @@ public class FileTypeUtils {
         TXT(R.drawable.ic_text, R.string.type_text, "txt", "text", "java", "css", "c", "cpp", "h", "hpp", "kt", "js", "php", "lua", "mk", "xml", "bat", "properties", "gradle", "md", "gitignore", "json", "conf", "prop", "log", "py", "smali", "cfg", "ini", "mf", "mtd"),
         HTML(R.drawable.ic_html, R.string.type_html, "htm", "html");
 
-        private int icon;
-        private int description;
-        private String[] extensions;
+        private final int icon;
+        private final int description;
+        private final String[] extensions;
 
         FileType(int icon, int description, String... extensions) {
             this.icon = icon;

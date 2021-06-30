@@ -9,8 +9,8 @@ import java.util.regex.Pattern;
 
 public class PatternFilter implements FileFilter, Serializable {
 
-    private Pattern mPattern;
-    private boolean mDirectoriesFilter;
+    private final Pattern mPattern;
+    private final boolean mDirectoriesFilter;
 
     public PatternFilter(Pattern pattern, boolean directoriesFilter) {
         mPattern = pattern;

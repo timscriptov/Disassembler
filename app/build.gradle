@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.mcal.disassembler"
-        minSdkVersion 14
+        minSdkVersion 21
         //noinspection OldTargetApi
         targetSdkVersion 29
         versionCode 23

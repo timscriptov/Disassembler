@@ -91,12 +91,10 @@ public class SymbolActivity extends AppCompatActivity {
 
         if (name.startsWith("_ZTV")) {
             findViewById(R.id.symbolactivityButtonFloat).setVisibility(View.VISIBLE);
-            findViewById(R.id.symbolactivityTextViewButtonFloat).setVisibility(View.VISIBLE);
         }
 
         if (!className.equals("NULL")) {
             findViewById(R.id.symbolactivityButtonFloatClass).setVisibility(View.VISIBLE);
-            findViewById(R.id.symbolactivityTextViewButtonFloatClass).setVisibility(View.VISIBLE);
         }
     }
 
