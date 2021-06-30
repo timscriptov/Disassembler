@@ -5,9 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class FileSaver {
-    private String name;
-    private String[] file;
-    private String path;
+    private final String name;
+    private final String[] file;
+    private final String path;
 
     public FileSaver(String path, String name, String[] file) {
         this.name = name;
