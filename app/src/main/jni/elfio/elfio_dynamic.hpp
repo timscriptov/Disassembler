@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2001-2015 by Serge Lamikhov-Center
+Copyright (C) 2001-present by Serge Lamikhov-Center
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -23,58 +23,64 @@ THE SOFTWARE.
 #ifndef ELFIO_DYNAMIC_HPP
 #define ELFIO_DYNAMIC_HPP
 
+#include <algorithm>
+
 namespace ELFIO {
 
 //------------------------------------------------------------------------------
-template< class S >
-class dynamic_section_accessor_template
+template <class S> class dynamic_section_accessor_template
 {
   public:
-//------------------------------------------------------------------------------
-    dynamic_section_accessor_template( const elfio& elf_file_, S* section_ ) :
-                                       elf_file( elf_file_ ),
-                                       dynamic_section( section_ )
+    //------------------------------------------------------------------------------
+    dynamic_section_accessor_template( const elfio& elf_file, S* section )
+        : elf_file( elf_file ), dynamic_section( section ), entries_num( 0 )
     {
     }
 
-//------------------------------------------------------------------------------
-    Elf_Xword
-    get_entries_num() const
+    //------------------------------------------------------------------------------
+    Elf_Xword get_entries_num() const
     {
-        Elf_Xword nRet = 0;
-
-        if ( 0 != dynamic_section->get_entry_size() ) {
-            nRet = dynamic_section->get_size() / dynamic_section->get_entry_size();
+        if ( ( 0 == entries_num ) &&
+             ( 0 != dynamic_section->get_entry_size() ) ) {
+            entries_num =
+                dynamic_section->get_size() / dynamic_section->get_entry_size();
+            Elf_Xword   i;
+            Elf_Xword   tag;
+            Elf_Xword   value;
+            std::string str;
+            for ( i = 0; i < entries_num; i++ ) {
+                get_entry( i, tag, value, str );
+                if ( tag == DT_NULL )
+                    break;
+            }
+            entries_num = std::min<Elf_Xword>( entries_num, i + 1 );
         }
 
-        return nRet;
+        return entries_num;
     }
 
-//------------------------------------------------------------------------------
-    bool
-    get_entry( Elf_Xword    index,
-               Elf_Xword&   tag,
-               Elf_Xword&   value,
-               std::string& str ) const
+    //------------------------------------------------------------------------------
+    bool get_entry( Elf_Xword    index,
+                    Elf_Xword&   tag,
+                    Elf_Xword&   value,
+                    std::string& str ) const
     {
-        if ( index >= get_entries_num() ) {    // Is index valid
+        if ( index >= get_entries_num() ) { // Is index valid
             return false;
         }
 
         if ( elf_file.get_class() == ELFCLASS32 ) {
-            generic_get_entry_dyn< Elf32_Dyn >( index, tag, value );
+            generic_get_entry_dyn<Elf32_Dyn>( index, tag, value );
         }
         else {
-            generic_get_entry_dyn< Elf64_Dyn >( index, tag, value );
+            generic_get_entry_dyn<Elf64_Dyn>( index, tag, value );
         }
 
         // If the tag may have a string table reference, prepare the string
-        if ( tag == DT_NEEDED ||
-             tag == DT_SONAME ||
-             tag == DT_RPATH  ||
+        if ( tag == DT_NEEDED || tag == DT_SONAME || tag == DT_RPATH ||
              tag == DT_RUNPATH ) {
             string_section_accessor strsec =
-                elf_file.sections[ get_string_table_index() ];
+                elf_file.sections[get_string_table_index()];
             const char* result = strsec.get_string( value );
             if ( 0 == result ) {
                 str.clear();
@@ -89,59 +95,54 @@ class dynamic_section_accessor_template
         return true;
     }
 
-//------------------------------------------------------------------------------
-    void
-    add_entry( Elf_Xword& tag,
-               Elf_Xword& value )
+    //------------------------------------------------------------------------------
+    void add_entry( Elf_Xword tag, Elf_Xword value )
     {
         if ( elf_file.get_class() == ELFCLASS32 ) {
-            generic_add_entry< Elf32_Dyn >( tag, value );
+            generic_add_entry_dyn<Elf32_Dyn>( tag, value );
         }
         else {
-            generic_add_entry< Elf64_Dyn >( tag, value );
+            generic_add_entry_dyn<Elf64_Dyn>( tag, value );
         }
     }
 
-//------------------------------------------------------------------------------
-    void
-    add_entry( Elf_Xword&   tag,
-               std::string& str )
+    //------------------------------------------------------------------------------
+    void add_entry( Elf_Xword tag, const std::string& str )
     {
         string_section_accessor strsec =
-            elf_file.sections[ get_string_table_index() ];
+            elf_file.sections[get_string_table_index()];
         Elf_Xword value = strsec.add_string( str );
         add_entry( tag, value );
     }
 
-//------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------
   private:
-//------------------------------------------------------------------------------
-    Elf_Half
-    get_string_table_index() const
+    //------------------------------------------------------------------------------
+    Elf_Half get_string_table_index() const
     {
         return (Elf_Half)dynamic_section->get_link();
     }
 
-//------------------------------------------------------------------------------
-    template< class T >
-    void
-    generic_get_entry_dyn( Elf_Xword  index,
-                           Elf_Xword& tag,
-                           Elf_Xword& value ) const
+    //------------------------------------------------------------------------------
+    template <class T>
+    void generic_get_entry_dyn( Elf_Xword  index,
+                                Elf_Xword& tag,
+                                Elf_Xword& value ) const
     {
         const endianess_convertor& convertor = elf_file.get_convertor();
 
         // Check unusual case when dynamic section has no data
-        if( dynamic_section->get_data() == 0 ||
-            ( index + 1 ) * dynamic_section->get_entry_size() > dynamic_section->get_size() ) {
+        if ( dynamic_section->get_data() == 0 ||
+             ( index + 1 ) * dynamic_section->get_entry_size() >
+                 dynamic_section->get_size() ) {
             tag   = DT_NULL;
             value = 0;
             return;
         }
 
         const T* pEntry = reinterpret_cast<const T*>(
-                dynamic_section->get_data() +
-                index * dynamic_section->get_entry_size() );
+            dynamic_section->get_data() +
+            index * dynamic_section->get_entry_size() );
         tag = convertor( pEntry->d_tag );
         switch ( tag ) {
         case DT_NULL:
@@ -187,10 +188,8 @@ class dynamic_section_accessor_template
         }
     }
 
-//------------------------------------------------------------------------------
-    template< class T >
-    void
-    generic_add_entry( Elf_Xword tag, Elf_Xword value )
+    //------------------------------------------------------------------------------
+    template <class T> void generic_add_entry_dyn( Elf_Xword tag, Elf_Xword value )
     {
         const endianess_convertor& convertor = elf_file.get_convertor();
 
@@ -240,17 +239,20 @@ class dynamic_section_accessor_template
 
         entry.d_tag = convertor( tag );
 
-        dynamic_section->append_data( reinterpret_cast<char*>( &entry ), sizeof( entry ) );
+        dynamic_section->append_data( reinterpret_cast<char*>( &entry ),
+                                      sizeof( entry ) );
     }
 
-//------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------
   private:
-    const elfio& elf_file;
-    S*           dynamic_section;
+    const elfio&      elf_file;
+    S*                dynamic_section;
+    mutable Elf_Xword entries_num;
 };
 
 using dynamic_section_accessor = dynamic_section_accessor_template<section>;
-using const_dynamic_section_accessor = dynamic_section_accessor_template<const section>;
+using const_dynamic_section_accessor =
+    dynamic_section_accessor_template<const section>;
 
 } // namespace ELFIO
 
