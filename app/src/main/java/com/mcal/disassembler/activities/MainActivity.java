@@ -1,6 +1,7 @@
 package com.mcal.disassembler.activities;
 
 import android.Manifest;
+import android.animation.LayoutTransition;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,8 +47,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
     ProgressDialog dialog;
     private CenteredToolBar toolbar;
     private RecyclerView recentOpened;
-    private ArrayList<String> paths = new ArrayList<>();
+    private final ArrayList<String> paths = new ArrayList<>();
     private String path;
+    private LinearLayout welcomeLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,19 +61,18 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Settings.ACTION_MANAGE_OVERLAY_PERMISSION}, 1);
             }
         }
-
         new Database(this);
-        //welcomeLayout = findViewById(R.id.welcome_layout);
+        welcomeLayout = findViewById(R.id.welcome_layout);
         recentOpened = findViewById(R.id.items);
         recentOpened.setLayoutManager(new LinearLayoutManager(this));
-        Cursor cursor = RecentsManager.getRecents();
+        /*Cursor cursor = RecentsManager.getRecents();
         if (cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
                 paths.add(cursor.getString(0));
             }
         }
-        recentOpened.setAdapter(new ListAdapter(paths, this));
-        //setupList();
+        recentOpened.setAdapter(new ListAdapter(paths, this));*/
+        updateRecents();
     }
 
     @Override
@@ -105,9 +107,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
         getSupportActionBar().setDisplayShowHomeEnabled(false);
     }
 
-    /*public void setupList() {
+    void updateRecents() {
+        paths.clear();
         Cursor cursor = RecentsManager.getRecents();
-        if (cursor.getCount() == 0) {
+        if (cursor.getCount() == 0) { // TODO: FIXME
             recentOpened.setVisibility(View.GONE);
             welcomeLayout.setVisibility(View.VISIBLE);
             recentOpened.setAdapter(new ListAdapter(paths, this));
@@ -122,11 +125,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
             }
             recentOpened.setAdapter(new ListAdapter(paths, this));
         }
-    }*/
 
-    void updateRecents() {
-        paths.clear();
-        Cursor cursor = RecentsManager.getRecents();
         if (cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
                 paths.add(cursor.getString(0));

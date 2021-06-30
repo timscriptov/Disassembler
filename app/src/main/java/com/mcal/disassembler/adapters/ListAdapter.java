@@ -20,9 +20,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> implements Filterable {
-    private SearchFilter filter;
+    private final SearchFilter filter;
     private ArrayList<String> paths;
-    private MainView mainView;
+    private final MainView mainView;
 
     public ListAdapter(ArrayList<String> paths, MainView mainView) {
         this.paths = paths;
@@ -56,7 +56,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
     }
 
     @Override
-    public ListAdapter.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int p2) {
+    public ListAdapter.@NotNull ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int p2) {
         View item = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
         return new ViewHolder(item);
     }
@@ -76,8 +76,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
     }
 
     private class SearchFilter extends Filter {
-        private ArrayList<String> items_backup = paths;
-        private ArrayList<String> filteredItems = new ArrayList<>();
+        private final ArrayList<String> items_backup = paths;
+        private final ArrayList<String> filteredItems = new ArrayList<>();
 
         @Override
         protected Filter.FilterResults performFiltering(CharSequence p1) {
