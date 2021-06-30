@@ -153,11 +153,11 @@ public class HeaderGenerator {
                 }
             }
             lines.addElement("};//" + className);
-            lines.addElement("");
-            lines.addElement("#endif // _" + className.toUpperCase() + "_H");
             for (String space : namespace) {
                 lines.addElement("}//" + space);
             }
+            lines.addElement("");
+            lines.addElement("#endif // _" + className.toUpperCase() + "_H");
         } catch (Exception e) {
             e.printStackTrace();
         }
