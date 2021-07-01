@@ -96,7 +96,8 @@ public class HeaderGenerator {
     public String[] generate() {
         Vector<String> lines = new Vector<>();
         try {
-            lines.addElement("#ifdef _" + className.toUpperCase() + "_H");
+            lines.addElement("#ifndef _" + className.toUpperCase() + "_H");
+lines.addElement("#define _" + className.toUpperCase() + "_H");
             lines.addElement("");
             lines.addElement("#pragma once");
             lines.addElement("");
