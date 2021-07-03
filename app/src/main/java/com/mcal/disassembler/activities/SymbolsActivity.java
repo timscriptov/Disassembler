@@ -30,10 +30,8 @@ import java.util.Map;
 import java.util.Objects;
 
 public class SymbolsActivity extends AppCompatActivity {
-    SnackBar bar;
     private List<Map<String, Object>> data;
     private String path;
-    private CenteredToolBar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,7 +49,7 @@ public class SymbolsActivity extends AppCompatActivity {
 
     @SuppressWarnings("ConstantConditions")
     private void setupToolbar(String title) {
-        toolbar = findViewById(R.id.toolbar);
+        CenteredToolBar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -95,7 +93,7 @@ public class SymbolsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        bar = new SnackBar(this, getString(R.string.againToExit));
+        SnackBar bar = new SnackBar(this, getString(R.string.againToExit));
         bar.show();
         bar.setDismissTimer(2500);
         bar.setOnBackPressedListener(SymbolsActivity.this::finish);

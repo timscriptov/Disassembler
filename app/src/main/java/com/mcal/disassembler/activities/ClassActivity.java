@@ -59,7 +59,6 @@ public class ClassActivity extends AppCompatActivity {
             }
         }
     };
-    private CenteredToolBar toolbar;
     private String path;
     private String name;
     private List<Map<String, Object>> data;
@@ -79,8 +78,6 @@ public class ClassActivity extends AppCompatActivity {
         list.setOnItemClickListener(new ItemClickListener());
 
         setTitle(name);
-        //TextView title=(TextView) findViewById(R.id.classactivityTextViewName);
-        //title.setText(name);
 
         if (hasVtable()) {
             findViewById(R.id.classactivityTextViewButtonFloatVtable).setVisibility(View.VISIBLE);
@@ -90,7 +87,7 @@ public class ClassActivity extends AppCompatActivity {
 
     @SuppressWarnings("ConstantConditions")
     private void setupToolbar(String title) {
-        toolbar = findViewById(R.id.toolbar);
+        CenteredToolBar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -249,7 +246,7 @@ public class ClassActivity extends AppCompatActivity {
     }
 
     public class SymbolsAdapter extends BaseAdapter {
-        private LayoutInflater mInflater = null;
+        private LayoutInflater mInflater;
 
         private SymbolsAdapter(Context context) {
             this.mInflater = LayoutInflater.from(context);

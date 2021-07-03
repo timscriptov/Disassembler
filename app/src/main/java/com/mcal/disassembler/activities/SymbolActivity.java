@@ -23,7 +23,6 @@ import java.util.Objects;
 
 public class SymbolActivity extends AppCompatActivity {
     ProgressDialog dialog;
-    private CenteredToolBar toolbar;
     private String path;
     private String name;
     private String className;
@@ -100,7 +99,7 @@ public class SymbolActivity extends AppCompatActivity {
 
     @SuppressWarnings("ConstantConditions")
     private void setupToolbar(String title) {
-        toolbar = findViewById(R.id.toolbar);
+        CenteredToolBar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

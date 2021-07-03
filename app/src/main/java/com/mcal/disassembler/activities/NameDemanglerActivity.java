@@ -15,8 +15,6 @@ import com.mcal.disassembler.view.CenteredToolBar;
 import org.jetbrains.annotations.NotNull;
 
 public class NameDemanglerActivity extends AppCompatActivity {
-    private CenteredToolBar toolbar;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +36,7 @@ public class NameDemanglerActivity extends AppCompatActivity {
 
     @SuppressWarnings("ConstantConditions")
     private void setupToolbar(String title) {
-        toolbar = findViewById(R.id.toolbar);
+        CenteredToolBar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

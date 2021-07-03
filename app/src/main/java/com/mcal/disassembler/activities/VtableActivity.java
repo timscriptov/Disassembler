@@ -35,7 +35,6 @@ import java.util.Map;
 import java.util.Objects;
 
 public class VtableActivity extends AppCompatActivity {
-    private CenteredToolBar toolbar;
     private List<Map<String, Object>> data;
 
     private String path;
@@ -63,7 +62,7 @@ public class VtableActivity extends AppCompatActivity {
 
     @SuppressWarnings("ConstantConditions")
     private void setupToolbar(String title) {
-        toolbar = findViewById(R.id.toolbar);
+        CenteredToolBar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -140,7 +139,7 @@ public class VtableActivity extends AppCompatActivity {
     }
 
     public class VtablesAdapter extends BaseAdapter {
-        private LayoutInflater mInflater;
+        private final LayoutInflater mInflater;
 
         private VtablesAdapter(Context context) {
             this.mInflater = LayoutInflater.from(context);

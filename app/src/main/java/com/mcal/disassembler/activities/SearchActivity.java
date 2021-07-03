@@ -67,7 +67,6 @@ public class SearchActivity extends AppCompatActivity {
             }
         }
     };
-    private CenteredToolBar toolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,7 +84,7 @@ public class SearchActivity extends AppCompatActivity {
 
     @SuppressWarnings("ConstantConditions")
     private void setupToolbar(String title) {
-        toolbar = findViewById(R.id.toolbar);
+        CenteredToolBar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -114,7 +113,7 @@ public class SearchActivity extends AppCompatActivity {
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map;
         Vector<DisassemblerSymbol> searchResult;
-        if (key == null || key.isEmpty() || key.equals(" ") || key.equals(""))
+        if (key == null || key.isEmpty() || key.equals(" "))
             return list;
         if (usePattern)
             searchResult = Searcher.searchWithPattern(key);
@@ -169,7 +168,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public class ResultAdapter extends BaseAdapter {
-        private LayoutInflater mInflater;
+        private final LayoutInflater mInflater;
 
         private ResultAdapter(Context context) {
             this.mInflater = LayoutInflater.from(context);

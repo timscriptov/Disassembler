@@ -21,6 +21,10 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.developer.filepicker.model.DialogConfigs;
+import com.developer.filepicker.model.DialogProperties;
+import com.developer.filepicker.view.FilePickerDialog;
+import com.google.android.material.snackbar.Snackbar;
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.adapters.ListAdapter;
 import com.mcal.disassembler.data.Database;
@@ -29,23 +33,21 @@ import com.mcal.disassembler.data.RecentsManager;
 import com.mcal.disassembler.interfaces.MainView;
 import com.mcal.disassembler.nativeapi.DisassemblerDumper;
 import com.mcal.disassembler.nativeapi.Dumper;
+import com.mcal.disassembler.util.ScopedStorage;
 import com.mcal.disassembler.view.CenteredToolBar;
 import com.mcal.disassembler.widgets.SnackBar;
-import com.nbsp.materialfilepicker.MaterialFilePicker;
-import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity implements MainView {
-    private static final int FILE_SELECT_CODE = 0;
 
     static {
         System.loadLibrary("disassembler");
     }
 
     ProgressDialog dialog;
-    private CenteredToolBar toolbar;
     private RecyclerView recentOpened;
     private final ArrayList<String> paths = new ArrayList<>();
     private String path;
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @SuppressWarnings("ConstantConditions")
     private void setupToolbar(String title) {
-        toolbar = findViewById(R.id.toolbar);
+        CenteredToolBar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -139,30 +141,29 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     private void showFileChooser() {
-        try {
-            new MaterialFilePicker()
-                    .withActivity(this)
-                    .withRequestCode(FILE_SELECT_CODE)
-                    .withFilter(Pattern.compile(".*\\.so$"))
-                    .withHiddenFiles(true)
-                    .withTitle(getString(R.string.pickSo))
-                    .start();
-        } catch (android.content.ActivityNotFoundException ex) {
-            new SnackBar(this, getString(R.string.noFile)).show();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == FILE_SELECT_CODE) {
-            if (resultCode == RESULT_OK) {
-                String filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
-                RecentsManager.add(filePath);
-                updateRecents();
-                loadSo(filePath);
+        DialogProperties properties = new DialogProperties();
+        properties.selection_mode = DialogConfigs.SINGLE_MODE;
+        properties.selection_type = DialogConfigs.FILE_SELECT;
+        properties.root = new File(ScopedStorage.getRootDirectory().getAbsolutePath());
+        properties.extensions = new String[]{".so", ".SO"};
+        //Instantiate FilePickerDialog with Context and DialogProperties.
+        FilePickerDialog dialog = new FilePickerDialog(this, properties, R.style.AlertDialogTheme);
+        dialog.setTitle(R.string.pickSo);
+        dialog.setPositiveBtnName(getString(R.string.choose_button_label));
+        dialog.setNegativeBtnName(getString(R.string.cancel_button_label));
+        dialog.setDialogSelectionListener(files -> {
+            for (String path : files) {
+                File file = new File(path);
+                if (file.getName().endsWith(".so") || file.getName().endsWith(".SO")) {
+                    RecentsManager.add(file.getAbsolutePath());
+                    updateRecents();
+                    loadSo(file.getAbsolutePath());
+                } else {
+                    new SnackBar(this, getString(R.string.noFile)).show();
+                }
             }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+        });
+        dialog.show();
     }
 
     public void loadSo(final String path) {

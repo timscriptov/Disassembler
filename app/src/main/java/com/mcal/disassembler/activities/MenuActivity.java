@@ -41,7 +41,6 @@ public class MenuActivity extends AppCompatActivity {
     private String path;
     private ProgressDialog mDialog;
     private SnackBar mBar;
-    private CenteredToolBar toolbar;
     private IapConnector iapConnector;
 
     @SuppressLint("HandlerLeak")
@@ -114,7 +113,7 @@ public class MenuActivity extends AppCompatActivity {
 
     @SuppressWarnings("ConstantConditions")
     private void setupToolbar(String title) {
-        toolbar = findViewById(R.id.toolbar);
+        CenteredToolBar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(title);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
