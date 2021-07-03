@@ -10,11 +10,18 @@
         android:id="@+id/toolbar_symbols"
         layout="@layout/toolbar" />
 
+    <View
+        android:id="@+id/view"
+        android:layout_below="@+id/toolbar_symbols"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/pref_shadow_top" />
+
     <ListView
         android:id="@+id/symbols_activity_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar_symbols"
+        android:layout_below="@+id/view"
         android:fastScrollEnabled="true" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

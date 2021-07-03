@@ -10,10 +10,17 @@
         android:id="@+id/toolbar_class"
         layout="@layout/toolbar" />
 
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_below="@+id/toolbar_class"
+        android:background="@drawable/pref_shadow_top" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar_class"
+        android:layout_below="@+id/view"
         android:orientation="vertical">
 
         <ListView

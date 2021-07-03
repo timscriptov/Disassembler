@@ -10,10 +10,17 @@
         android:id="@+id/toolbar_symbol"
         layout="@layout/toolbar" />
 
+    <View
+        android:id="@+id/view"
+        android:layout_below="@+id/toolbar_symbol"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/pref_shadow_top" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar_symbol"
+        android:layout_below="@+id/view"
         android:orientation="vertical">
 
         <LinearLayout

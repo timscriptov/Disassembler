@@ -88,6 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:gravity="top"
+                android:textCursorDrawable="@drawable/cursor"
                 android:hint="@string/update_hint_hex"
                 android:inputType="textMultiLine"
                 android:textSize="12sp"

@@ -5,11 +5,11 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/TextInputLayoutTheme"
         android:id="@+id/tilEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="50dp"
-        android:padding="10dp"
+        android:layout_margin="16dp"
         app:errorEnabled="true"
         app:errorTextAppearance="@style/AppThemeHex.ErrorTextAppearance">
 
@@ -17,10 +17,9 @@
             android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="21dp"
-            android:layout_marginEnd="21dp"
             android:hint="@string/new_value"
             android:inputType="number"
+            android:textCursorDrawable="@drawable/cursor"
             android:maxLength="3"
             android:singleLine="true" />
 
