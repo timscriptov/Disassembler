@@ -3,44 +3,55 @@ package com.mcal.disassembler.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.os.Build;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
+
+import com.mcal.disassembler.util.Utils;
 
 public class FloatingMenu {
-    private static int xPos = 0;
-    private static int yPos = 0;
+    public static int xPos = 0;
+    public static int yPos = 0;
+    private final Context context;
+    private final String path;
+    public boolean isAdded = false;
+    public WindowManager wm;
     public WindowManager.LayoutParams params;
-    private WindowManager wm;
-    private FloatingMenuView floatView;
+    public FloatingMenuView floatView;
 
-    private Context context;
-    private String path;
-
-    FloatingMenu(Context c, String filePath) {
+    public FloatingMenu(Context c, String filePath) {
         context = c;
         path = filePath;
     }
 
     @SuppressLint("ClickableViewAccessibility")
     public void show() {
+        int LAYOUT_FLAG;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            LAYOUT_FLAG = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else {
+            LAYOUT_FLAG = WindowManager.LayoutParams.TYPE_PHONE;
+        }
+
         wm = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         params = new WindowManager.LayoutParams();
 
-
-        params.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+        params.type = LAYOUT_FLAG; // WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
 
         params.format = PixelFormat.RGBA_8888;
 
-
         params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-        params.width = wm.getDefaultDisplay().getWidth() / 2;
         params.height = wm.getDefaultDisplay().getHeight() / 2;
+        params.width = Utils.dp(context, 250);
+
         params.x = xPos;
         params.y = yPos;
 
-        floatView = new FloatingMenuView(context, this, path, params.width);
+        floatView = new FloatingMenuView(context, this, path, params.width, params.height);
         floatView.setClickable(true);
 
         floatView.setOnTouchListener(new OnTouchListener() {
@@ -63,13 +74,14 @@ public class FloatingMenu {
                         wm.updateViewLayout(floatView, params);
                         break;
                 }
-                xPos = params.x;
-                yPos = params.y;
+                FloatingMenu.xPos = params.x;
+                FloatingMenu.yPos = params.y;
                 return false;
             }
         });
 
         wm.addView(floatView, params);
+        isAdded = true;
     }
 
     public void dismiss() {

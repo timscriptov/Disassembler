@@ -7,14 +7,14 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
-
-import androidx.appcompat.widget.AppCompatTextView;
+import android.widget.TextView;
 
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.util.Utils;
 
 public class ButtonFlat extends Button {
-    AppCompatTextView textButton;
+
+    TextView textButton;
 
     public ButtonFlat(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -43,7 +43,7 @@ public class ButtonFlat extends Button {
         }
         if (text == null)
             text = "";
-        textButton = new AppCompatTextView(getContext());
+        textButton = new TextView(getContext());
         textButton.setText(text.toUpperCase());
         textButton.setTextColor(backgroundColor);
         textButton.setTypeface(null, Typeface.BOLD);
@@ -84,6 +84,7 @@ public class ButtonFlat extends Button {
             }
             invalidate();
         }
+
     }
 
     /**
@@ -105,7 +106,7 @@ public class ButtonFlat extends Button {
     }
 
     @Override
-    public AppCompatTextView getTextView() {
+    public TextView getTextView() {
         return textButton;
     }
 
@@ -116,4 +117,5 @@ public class ButtonFlat extends Button {
     public void setText(String text) {
         textButton.setText(text.toUpperCase());
     }
+
 }

@@ -11,8 +11,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-
-import androidx.appcompat.widget.AppCompatTextView;
+import android.widget.TextView;
 
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.util.Utils;
@@ -29,7 +28,7 @@ public abstract class Button extends CustomView {
     OnClickListener onClickListener;
     boolean clickAfterRipple = true;
     int backgroundColor = Color.parseColor("#1E88E5");
-    AppCompatTextView textButton;
+    TextView textButton;
     float x = -1, y = -1;
     float radius = -1;
 
@@ -168,7 +167,6 @@ public abstract class Button extends CustomView {
             rippleColor = makePressColor();
         } catch (Exception ex) {
             // Without bacground
-            ex.printStackTrace();
         }
     }
 
@@ -184,7 +182,7 @@ public abstract class Button extends CustomView {
         textButton.setTextColor(color);
     }
 
-    public AppCompatTextView getTextView() {
+    public TextView getTextView() {
         return textButton;
     }
 

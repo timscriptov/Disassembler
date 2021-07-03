@@ -20,18 +20,6 @@ public class NameDemanglerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.name_demangler_activity);
         setupToolbar(getString(R.string.app_symbols));
-        int width = getWindowManager().getDefaultDisplay().getWidth();
-
-        AppCompatEditText editText1 = findViewById(R.id.namedemangleractivityEditText1);
-        AppCompatEditText editText2 = findViewById(R.id.namedemangleractivityEditText2);
-
-        ViewGroup.LayoutParams params1 = editText1.getLayoutParams();
-        params1.width = width / 2 - 1;
-        editText1.setLayoutParams(params1);
-
-        ViewGroup.LayoutParams params2 = editText2.getLayoutParams();
-        params2.width = width / 2 - 1;
-        editText2.setLayoutParams(params2);
     }
 
     @SuppressWarnings("ConstantConditions")

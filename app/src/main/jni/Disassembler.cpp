@@ -93,30 +93,30 @@ extern "C" {
 	    return env->NewStringUTF(name?name:"");
     }
     JNIEXPORT jstring JNICALL Java_com_mcal_disassembler_nativeapi_DisassemblerDumper_demangle(JNIEnv* env, jclass type, jstring name) {
-	    std::string methodsName=jstringTostring(env,name);
-	
-	    std::string bridgeString;
-	    std::vector<std::string>strings;
-	    std::string result;
+		std::string methodsName=jstringTostring(env,name);
 
-	    for(char letter:methodsName) {
-		    if(letter=='\n'&&letter!=' '&&!bridgeString.empty()) {
-			    strings.push_back(bridgeString);
-			    bridgeString="";
-		    } else bridgeString+=letter;
-	    }
-	    if(!bridgeString.empty())
-		strings.push_back(bridgeString);
-	
-	    for(const std::string &string:strings) {
-		    if(abi::__cxa_demangle(string.c_str(), nullptr, 0, 0)) {
-			    result+=abi::__cxa_demangle(string.c_str(), nullptr, 0, 0);
-			    result+="\n";
-		    } else if(!string.empty()) {
-			    result+=string;
-			    result+="\n";
-		    }
-	    }
-	    return env->NewStringUTF(result.c_str());
+		std::string bridgeString;
+		std::vector<std::string>strings;
+		std::string result;
+
+		for(char letter:methodsName) {
+			if(letter == '\n' && !bridgeString.empty()) {
+				strings.push_back(bridgeString);
+				bridgeString = "";
+			} else bridgeString += letter;
+		}
+		if(!bridgeString.empty())
+			strings.push_back(bridgeString);
+
+		for(const std::string& string:strings) {
+			if(abi::__cxa_demangle(string.c_str(),nullptr,nullptr,nullptr)) {
+				result += abi::__cxa_demangle(string.c_str(),nullptr,nullptr,nullptr);
+				result += "\n";
+			} else if(!string.empty()) {
+				result += string;
+				result += "\n";
+			}
+		}
+		return env->NewStringUTF(result.c_str());
     }
 }

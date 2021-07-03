@@ -30,11 +30,13 @@
     <string name="paste_text_here">Вставьте текст</string>
     <string name="donate">Пожертвовать</string>
     <string name="copyright">© 2019–2021 Тимашков Иван</string>
-    <string name="about_view_github">Github Page</string>
+    <string name="about_view_github">Github страница</string>
     <string name="thanks">Спасибо</string>
     <string name="app_settings">Настройки</string>
     <string name="app_search">Поиск символов</string>
     <string name="app_symbol">Символ</string>
     <string name="app_symbols">Символы</string>
     <string name="app_vtable">VTable</string>
+    <string name="floating_menu">Плавающее меню</string>
+    <string name="result_demangle">Результат</string>
 </resources>

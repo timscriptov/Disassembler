@@ -3,22 +3,24 @@ package com.mcal.disassembler.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.os.Build;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 
 import com.mcal.disassembler.R;
+import com.mcal.disassembler.util.Utils;
 
 public class FloatingButton {
-    private static int xPos = 0;
-    private static int yPos = 0;
+    public static int xPos = 0;
+    public static int yPos = 0;
+    private final Context context;
+    private final String path;
+    public boolean isAdded = false;
+    public WindowManager wm;
     public WindowManager.LayoutParams params;
-    private WindowManager wm;
-    private View floatView;
-
-    private Context context;
-    private String path;
+    public View floatView;
 
     public FloatingButton(Context c, String p) {
         context = c;
@@ -26,10 +28,17 @@ public class FloatingButton {
     }
 
     public void show() {
+        int LAYOUT_FLAG;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            LAYOUT_FLAG = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else {
+            LAYOUT_FLAG = WindowManager.LayoutParams.TYPE_PHONE;
+        }
+
         floatView = new View(context);
         floatView.setClickable(true);
 
-        floatView.setBackgroundResource(R.drawable.ic_box_green);
+        floatView.setBackgroundResource(R.mipmap.ic_launcher_round);
         floatView.setOnClickListener(p1 -> {
             FloatingMenu menu = new FloatingMenu(context, path);
             menu.show();
@@ -38,14 +47,14 @@ public class FloatingButton {
         wm = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         params = new WindowManager.LayoutParams();
 
-        params.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+        params.type = LAYOUT_FLAG; // WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
 
         params.format = PixelFormat.TRANSPARENT;
 
         params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                 | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-        params.width = 50;
-        params.height = 50;
+        params.width = Utils.dp(context, 64);;
+        params.height = Utils.dp(context, 64);;
         params.x = xPos;
         params.y = yPos;
 
@@ -70,13 +79,14 @@ public class FloatingButton {
                         wm.updateViewLayout(floatView, params);
                         break;
                 }
-                xPos = params.x;
-                yPos = params.y;
+                FloatingButton.xPos = params.x;
+                FloatingButton.yPos = params.y;
                 return false;
             }
         });
 
         wm.addView(floatView, params);
+        isAdded = true;
     }
 
     public void dismiss() {

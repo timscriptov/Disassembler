@@ -1,5 +1,6 @@
 package com.mcal.disassembler.util;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.util.TypedValue;
 import android.view.View;
@@ -7,6 +8,10 @@ import android.view.View;
 import org.jetbrains.annotations.NotNull;
 
 public class Utils {
+    public static int dp(Context context, int i) {
+        return (int) TypedValue.applyDimension(1, (float) i, context.getResources().getDisplayMetrics());
+    }
+
     public static int dpToPx(float dp, @NotNull Resources resources) {
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
         return (int) px;

@@ -54,6 +54,57 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:onClick="showFloatingMenu"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@drawable/bg_clickable"
+        android:gravity="left|center"
+        tools:ignore="RtlHardcoded,UseCompoundDrawables,UsingOnClickInXml">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/ic_text_search"
+            tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/floating_menu"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:onClick="toNameDemangler"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="@drawable/bg_clickable"
+        android:gravity="left|center"
+        tools:ignore="RtlHardcoded,UseCompoundDrawables,UsingOnClickInXml">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/objects"
+            android:tint="@color/textColorPrimary"
+            tools:ignore="ContentDescription,RtlHardcoded,RtlSymmetry" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/nameDemangler"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="4dp"

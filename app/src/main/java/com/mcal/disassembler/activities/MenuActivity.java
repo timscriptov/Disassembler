@@ -25,6 +25,7 @@ import com.mcal.disassembler.nativeapi.Dumper;
 import com.mcal.disassembler.util.FileSaver;
 import com.mcal.disassembler.view.CenteredToolBar;
 import com.mcal.disassembler.view.FloatingButton;
+import com.mcal.disassembler.view.FloatingMenu;
 import com.mcal.disassembler.widgets.SnackBar;
 
 import org.jetbrains.annotations.NotNull;

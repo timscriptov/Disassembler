@@ -1,92 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dialog_rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="@drawable/dialog_background"
     android:padding="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
         android:gravity="top"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FF1A73E8"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_alignParentStart="true"
-                android:gravity="center"
-                android:padding="5dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
                 android:text="@string/symbols_menu"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="#FFFFFF"
-                tools:ignore="RelativeOverlap" />
-
-            <com.mcal.disassembler.view.ButtonFlat
-                android:id="@+id/floatingmenuButtonHide"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:layout_alignParentEnd="true"
-                android:background="#FF0000"
-                android:text="x"
-                tools:ignore="HardcodedText" />
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <com.mcal.disassembler.view.ButtonFlat
                 android:id="@+id/floatingmenuButtonClose"
-                android:layout_width="50dp"
+                android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_toStartOf="@id/floatingmenuButtonHide"
-                android:background="#FFFFFF"
-                android:text="_"
-                tools:ignore="HardcodedText" />
+                android:text="_" />
 
-        </RelativeLayout>
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/floatingmenuButtonHide"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/bg_clickable"
+                android:src="@drawable/ic_close"
+                android:tint="#D32F2F" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#000000" />
+        </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center|start"
             android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/floatingmenuEditText"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:hint="@string/paste_text_here"
-                android:inputType="text"
-                android:singleLine="true"
-                tools:ignore="Autofill" />
-
-            <com.mcal.disassembler.view.ButtonFlat
-                android:id="@+id/floatingmenuButtonSearch"
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/floatingmenuButtonPaste"
                 android:layout_width="30dp"
-                android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
-                android:text="S"
-                tools:ignore="HardcodedText" />
+                android:layout_height="30dp"
+                android:background="@drawable/bg_clickable"
+                android:src="@drawable/ic_paste"
+                android:tint="@color/colorAccent" />
 
-            <com.mcal.disassembler.view.ButtonFlat
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/floatingmenuButtonCopy"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/bg_clickable"
+                android:src="@drawable/ic_copy"
+                android:tint="@color/colorAccent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/floatingmenuButtonClear"
                 android:layout_width="30dp"
-                android:layout_height="40dp"
-                android:layout_toLeftOf="@id/floatingmenuButtonSearch"
-                android:text="C"
-                tools:ignore="HardcodedText,RtlHardcoded" />
+                android:layout_height="30dp"
+                android:background="@drawable/bg_clickable"
+                android:src="@drawable/ic_close"
+                android:tint="@color/colorAccent"/>
 
-        </RelativeLayout>
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/floatingmenuButtonSearch"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/bg_clickable"
+                android:src="@drawable/ic_search"
+                android:tint="@color/colorAccent" />
+
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/TextInputLayoutTheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/paste_text_here">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/floatingmenuEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions"
+                android:lines="1"
+                android:singleLine="true"
+                android:textCursorDrawable="@drawable/cursor" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -95,7 +106,7 @@
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/floatingmenuTextView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:textIsSelectable="true" />
 
         </ScrollView>
@@ -103,4 +114,3 @@
     </LinearLayout>
 
 </RelativeLayout>
-
