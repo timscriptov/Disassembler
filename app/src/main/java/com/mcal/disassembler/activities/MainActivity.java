@@ -1,7 +1,6 @@
 package com.mcal.disassembler.activities;
 
 import android.Manifest;
-import android.animation.LayoutTransition;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
@@ -26,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.developer.filepicker.model.DialogConfigs;
 import com.developer.filepicker.model.DialogProperties;
 import com.developer.filepicker.view.FilePickerDialog;
-import com.google.android.material.snackbar.Snackbar;
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.adapters.ListAdapter;
 import com.mcal.disassembler.data.Database;
@@ -35,13 +33,16 @@ import com.mcal.disassembler.data.RecentsManager;
 import com.mcal.disassembler.interfaces.MainView;
 import com.mcal.disassembler.nativeapi.DisassemblerDumper;
 import com.mcal.disassembler.nativeapi.Dumper;
+import com.mcal.disassembler.util.AdsAdmob;
 import com.mcal.disassembler.util.ScopedStorage;
 import com.mcal.disassembler.view.CenteredToolBar;
 import com.mcal.disassembler.widgets.SnackBar;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 
 public class MainActivity extends AppCompatActivity implements MainView {
 
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Settings.ACTION_MANAGE_OVERLAY_PERMISSION}, 1);
             }
         }
+        AdsAdmob.loadInterestialAd(this);
         checkPermission();
         new Database(this);
         welcomeLayout = findViewById(R.id.welcome_layout);
@@ -141,12 +143,18 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     public void chooseSdcard(View view) {
+        AdsAdmob.showInterestialAd(this, null);
         showFileChooser();
     }
 
     public void hexViewer(View view) {
+        AdsAdmob.showInterestialAd(this, runHexViewer());
+    }
+
+    public Function0<Unit> runHexViewer() {
         Intent intent = new Intent(MainActivity.this, fr.ralala.hexviewer.ui.activities.MainActivity.class);
         startActivity(intent);
+        return null;
     }
 
     private void showFileChooser() {

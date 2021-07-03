@@ -67,6 +67,10 @@
 			android:name=".activities.NameDemanglerActivity"
 			android:label="@string/nameDemangler"/>
 
+		<meta-data
+			android:name="com.google.android.gms.ads.APPLICATION_ID"
+			android:value="ca-app-pub-1411495427741055~3231519335" />
+
 		<provider
 			android:name="androidx.core.content.FileProvider"
 			android:authorities="com.mcal.disassembler.fileprovider"
