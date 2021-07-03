@@ -1,4 +1,4 @@
-[![License Info](https://img.shields.io/badge/license-Apache-blue.svg?style=flat-square)](https://github.com/TimScriptov/Disassembler) [![Play Store Info](https://img.shields.io/badge/Play_Store-v2.5-blue.svg?style=flat-square)](https://play.google.com/store/apps/details?id=com.mcal.disassembler)
+[![License Info](https://img.shields.io/badge/license-Apache-blue.svg?style=flat-square)](https://github.com/TimScriptov/Disassembler) [![Play Store Info](https://img.shields.io/badge/Play_Store-v2.7-blue.svg?style=flat-square)](https://play.google.com/store/apps/details?id=com.mcal.disassembler)
 
 ### Disassembler
 An android app which can load .so files to find symbols and vtables.
