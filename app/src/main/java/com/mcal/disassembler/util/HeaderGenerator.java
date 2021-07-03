@@ -105,11 +105,10 @@ public class HeaderGenerator {
             lines.addElement("");
 
             for (String space : namespace) {
-                lines.addElement("namespace " + space);
-                lines.addElement("{");
+                lines.addElement("namespace " + space + " {");
             }
 
-            lines.addElement("class " + className);
+            lines.addElement("class " + className + " {");
             String[] extendedClasses = getExtendedClasses();
             if (extendedClasses != null) {
                 for (String str : extendedClasses) {
@@ -117,14 +116,13 @@ public class HeaderGenerator {
                 }
             }
 
-            lines.addElement("{");
             lines.addElement("public:");
-            lines.addElement("	//Fields");
-            lines.addElement("	char filler_" + className + "[UNKNOW_SIZE];");
+            lines.addElement("    //Fields");
+            lines.addElement("    char filler_" + className + "[UNKNOW_SIZE];");
 
             if (getVtables() != null) {
                 lines.addElement("public:");
-                lines.addElement("	//Virtual Tables");
+                lines.addElement("    //Virtual Tables");
 
                 for (DisassemblerSymbol symbol : getVtables()) {
                     try {
@@ -137,20 +135,20 @@ public class HeaderGenerator {
 
             if (getMethods() != null) {
                 lines.addElement("public:");
-                lines.addElement("	//Methods");
+                lines.addElement("    //Methods");
 
                 for (DisassemblerSymbol symbol : getMethods()) {
                     String mname = getMethodDefinition(symbol);
-                    lines.addElement("	" + mname);
+                    lines.addElement("    " + mname);
                 }
             }
 
             if (getObjects() != null) {
                 lines.addElement("public:");
-                lines.addElement("	//Objects");
+                lines.addElement("    //Objects");
                 for (DisassemblerSymbol symbol : getObjects()) {
                     String mname = getObjectDefinition(symbol);
-                    lines.addElement("	" + mname);
+                    lines.addElement("    " + mname);
                 }
             }
             lines.addElement("};//" + className);
