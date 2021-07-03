@@ -140,6 +140,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
         showFileChooser();
     }
 
+    public void hexViewer(View view) {
+        Intent intent = new Intent(MainActivity.this, fr.ralala.hexviewer.ui.activities.MainActivity.class);
+        startActivity(intent);
+    }
+
     private void showFileChooser() {
         DialogProperties properties = new DialogProperties();
         properties.selection_mode = DialogConfigs.SINGLE_MODE;

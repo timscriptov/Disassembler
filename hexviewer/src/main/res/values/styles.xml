@@ -1,0 +1,53 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="AppThemeHex" parent="@style/Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:windowBackground">@color/colorPrimaryDark</item>
+        <item name="android:windowAnimationStyle">@style/TransitionStyle</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="materialAlertDialogTheme">@style/AlertDialogThemeHex</item>
+        <item name="alertDialogTheme">@style/AlertDialogThemeHex</item>
+    </style>
+
+    <style name="TextInputLayoutTheme" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/colorAccent</item>
+        <item name="hintTextColor">@color/colorAccent</item>
+    </style>
+
+    <style name="AlertDialogThemeHex" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/hex_background</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyleHex</item>
+        <item name="buttonBarNeutralButtonStyle">@style/NeutralButtonStyleHex</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyleHex</item>
+    </style>
+
+    <style name="NegativeButtonStyleHex" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="NeutralButtonStyleHex" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="PositiveButtonStyleHex" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="TransitionStyle">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+    <style name="AppThemeHex.ErrorTextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorResultErrorHex</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="AppThemeHex.WarningTextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorResultWarningHex</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+</resources>

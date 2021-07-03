@@ -39,8 +39,9 @@ android {
 }
 
 dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 	implementation project(':filepicker')
-	implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':hexviewer')
 	implementation 'androidx.cardview:cardview:1.0.0'
 	implementation 'androidx.annotation:annotation:1.2.0'
     implementation 'androidx.preference:preference-ktx:1.1.1'

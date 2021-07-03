@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  tools:context="fr.ralala.hexviewer.ui.activities.MainActivity">
+
+  <item android:id="@+id/action_search"
+    android:icon="@drawable/ic_search"
+    android:title="@string/search_title"
+    app:showAsAction="ifRoom"
+    app:actionViewClass="android.widget.SearchView"/>
+
+  <item android:id="@+id/action_more"
+    android:icon="@drawable/ic_more"
+    android:title="@null"
+    app:showAsAction="always"/>
+</menu>
