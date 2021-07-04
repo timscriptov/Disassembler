@@ -53,8 +53,10 @@ public class FloatingButton {
 
         params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                 | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-        params.width = Utils.dp(context, 64);;
-        params.height = Utils.dp(context, 64);;
+        params.width = Utils.dp(context, 64);
+        ;
+        params.height = Utils.dp(context, 64);
+        ;
         params.x = xPos;
         params.y = yPos;
 

@@ -39,4 +39,5 @@
     <string name="app_vtable">VTable</string>
     <string name="floating_menu">Floating menu</string>
     <string name="result_demangle">Result</string>
+    <string name="paste_symbol">Paste symbol</string>
 </resources>

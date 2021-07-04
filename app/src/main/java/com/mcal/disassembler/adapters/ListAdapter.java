@@ -21,8 +21,8 @@ import java.util.ArrayList;
 
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> implements Filterable {
     private final SearchFilter filter;
-    private ArrayList<String> paths;
     private final MainView mainView;
+    private ArrayList<String> paths;
 
     public ListAdapter(ArrayList<String> paths, MainView mainView) {
         this.paths = paths;

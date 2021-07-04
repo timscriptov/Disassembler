@@ -70,20 +70,6 @@
                 </RelativeLayout>
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@id/mainactivityLinearLayout1"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="90dp"
-                    android:contentDescription="HexViewer"
-                    android:onClick="hexViewer"
-                    android:src="@drawable/ic_hexadecimal"
-                    app:backgroundTint="@color/colorAccent"
-                    app:tint="#FFFFFF"
-                    tools:ignore="HardcodedText,UsingOnClickInXml" />
-
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

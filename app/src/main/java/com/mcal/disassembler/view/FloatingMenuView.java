@@ -35,7 +35,7 @@ public class FloatingMenuView extends RelativeLayout {
 
         int buttonWidth = width / 6;
 
-        ButtonFlat imageButtonClose = (ButtonFlat) view.findViewById(R.id.floatingmenuButtonClose);
+        AppCompatImageButton imageButtonClose = (AppCompatImageButton) view.findViewById(R.id.floatingmenuButtonClose);
         imageButtonClose.setOnClickListener(p1 -> {
             menu.dismiss();
             new FloatingButton(context, path).show();
@@ -47,9 +47,9 @@ public class FloatingMenuView extends RelativeLayout {
         setLayoutParams(imageButtonHide, buttonWidth);
         editText = (EditText) view.findViewById(R.id.floatingmenuEditText);
         editText.postDelayed(() -> {
-            InputMethodManager keyboard = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager keyboard = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
             keyboard.showSoftInput(editText, 0);
-        },50);
+        }, 50);
 
 
         buttonWidth *= 0.75;

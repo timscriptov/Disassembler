@@ -2,13 +2,13 @@ package com.mcal.disassembler.util
 
 import android.app.Activity
 import android.content.Context
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.*
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.mcal.disassembler.data.Constants
 
-object AdsAdmob {
+
+object AdsAdmob : AdListener() {
     private var interstitialAd: InterstitialAd? = null
 
     @JvmStatic
@@ -24,7 +24,7 @@ object AdsAdmob {
 
     @JvmStatic
     fun showInterestialAd(activity: Activity, callback: (() -> Unit)? = null) {
-        if(interstitialAd != null) {
+        if (interstitialAd != null) {
             interstitialAd!!.fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
                     super.onAdDismissedFullScreenContent()
@@ -36,5 +36,15 @@ object AdsAdmob {
         } else {
             callback?.invoke()
         }
+    }
+
+    @JvmStatic
+    fun getBanner(context: Context): AdView {
+        val adView = AdView(context)
+        adView.adSize = AdSize.SMART_BANNER
+        adView.adUnitId = Constants.BANNER_AD
+        adView.adListener = AdsAdmob
+        adView.loadAd(AdRequest.Builder().build())
+        return adView
     }
 }

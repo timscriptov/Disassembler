@@ -3,7 +3,8 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
 	package="com.mcal.disassembler">
-	
+
+	<uses-permission android:name="android.permission.INTERNET"/>
 	<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 	<uses-permission android:name="android.permission.INTERNAL_SYSTEM_WINDOW "/>
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -26,7 +27,7 @@
 		tools:targetApi="q">
 		
         <activity
-			android:name=".activities.MainActivity"
+			android:name=".activities.Main"
 			android:label="@string/app_name">
 			
             <intent-filter>
@@ -38,7 +39,11 @@
             </intent-filter>
 			
         </activity>
-		
+
+		<activity
+			android:name=".activities.MainActivity"
+			android:label="@string/app_name"/>
+
 		<activity
 			android:name=".activities.SymbolsActivity"
 			android:label="@string/symbolsActivity"/>
@@ -50,10 +55,6 @@
 		<activity
 			android:name=".activities.SymbolActivity"
 			android:label="@string/symbolActivity"/>
-		
-		<activity
-			android:name=".activities.MenuActivity"
-			android:label="@string/menuActivity"/>
 		
 		<activity
 			android:name=".activities.SearchActivity"

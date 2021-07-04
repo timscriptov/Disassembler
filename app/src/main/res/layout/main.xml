@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/toolbar" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:background="@drawable/pref_shadow_top" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/demangle"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:onClick="toNameDemangler"
+                    android:text="Demangler"
+                    android:textColor="#FFF"
+                    app:backgroundTint="@color/colorAccent"
+                    app:icon="@drawable/ic_demangler"
+                    app:iconTint="#FFF"
+                    tools:ignore="HardcodedText,UsingOnClickInXml" />
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/hex"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:onClick="hexViewer"
+                    android:text="HexViewer"
+                    android:textColor="#FFF"
+                    app:backgroundTint="@color/colorAccent"
+                    app:icon="@drawable/ic_hexadecimal"
+                    app:iconTint="#FFF"
+                    tools:ignore="HardcodedText,UsingOnClickInXml" />
+
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:id="@+id/symbols"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="symbols"
+                    android:text="Symbols"
+                    android:textColor="#FFF"
+                    app:backgroundTint="@color/colorAccent"
+                    app:icon="@drawable/ic_box_green"
+                    app:iconTint="#FFF"
+                    tools:ignore="ContentDescription,UsingOnClickInXml" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp">
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/github"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:onClick="github"
+                        android:src="@drawable/ic_github"
+                        app:backgroundTint="@color/colorAccent"
+                        app:tint="#FFFFFF"
+                        tools:ignore="ContentDescription,UsingOnClickInXml" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:onClick="telegram"
+                        android:src="@drawable/ic_telegram"
+                        app:backgroundTint="@color/colorAccent"
+                        app:tint="#FFFFFF"
+                        tools:ignore="ContentDescription,UsingOnClickInXml" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/donate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:onClick="donate"
+                        android:src="@drawable/ic_money"
+                        app:backgroundTint="@color/colorAccent"
+                        app:tint="#FFFFFF"
+                        tools:ignore="ContentDescription,UsingOnClickInXml" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ad_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="5dp"
+                tools:ignore="Orientation" />
+
+        </LinearLayout>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</RelativeLayout>

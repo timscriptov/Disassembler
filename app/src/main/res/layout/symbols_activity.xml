@@ -12,9 +12,9 @@
 
     <View
         android:id="@+id/view"
-        android:layout_below="@+id/toolbar_symbols"
         android:layout_width="match_parent"
         android:layout_height="4dp"
+        android:layout_below="@+id/toolbar_symbols"
         android:background="@drawable/pref_shadow_top" />
 
     <ListView
@@ -24,30 +24,34 @@
         android:layout_below="@+id/view"
         android:fastScrollEnabled="true" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="90dp"
-        android:onClick="showMenu"
-        android:src="@drawable/ic_menu"
+        android:onClick="saveSymbols"
+        android:text="Dump"
+        android:textColor="#FFF"
         app:backgroundTint="@color/colorAccent"
-        app:tint="#FFFFFF"
-        tools:ignore="ContentDescription,UsingOnClickInXml" />
+        app:icon="@drawable/ic_save"
+        app:iconTint="#FFF"
+        tools:ignore="UsingOnClickInXml" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:onClick="showSearch"
-        android:src="@drawable/ic_search"
+        android:text="Search"
+        android:textColor="#FFF"
         app:backgroundTint="@color/colorAccent"
-        app:tint="#FFFFFF"
+        app:icon="@drawable/ic_search"
+        app:iconTint="#FFF"
         tools:ignore="ContentDescription,UsingOnClickInXml" />
 
 </RelativeLayout>

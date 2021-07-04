@@ -55,11 +55,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:onClick="showFloatingMenu"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="@drawable/bg_clickable"
         android:gravity="left|center"
+        android:onClick="showFloatingMenu"
         tools:ignore="RtlHardcoded,UseCompoundDrawables,UsingOnClickInXml">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -80,11 +80,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:onClick="toNameDemangler"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="@drawable/bg_clickable"
         android:gravity="left|center"
+        android:onClick="toNameDemangler"
         tools:ignore="RtlHardcoded,UseCompoundDrawables,UsingOnClickInXml">
 
         <androidx.appcompat.widget.AppCompatImageView

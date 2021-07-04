@@ -1,8 +1,13 @@
 package com.mcal.disassembler.activities;
 
+import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +23,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.nativeapi.Dumper;
+import com.mcal.disassembler.util.FileSaver;
 import com.mcal.disassembler.view.CenteredToolBar;
 import com.mcal.disassembler.widgets.SnackBar;
 
@@ -32,6 +38,23 @@ import java.util.Objects;
 public class SymbolsActivity extends AppCompatActivity {
     private List<Map<String, Object>> data;
     private String path;
+    private ProgressDialog mDialog;
+    private SnackBar mBar;
+
+    @SuppressLint("HandlerLeak")
+    private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (mDialog != null)
+                mDialog.dismiss();
+            mDialog = null;
+            if (mBar != null)
+                mBar.show();
+            else
+                new SnackBar(SymbolsActivity.this, SymbolsActivity.this.getString(R.string.done)).show();
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,12 +106,33 @@ public class SymbolsActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void showMenu(View view) {
-        Intent i = new Intent(this, MenuActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("filePath", path);
-        i.putExtras(bundle);
-        startActivity(i);
+    private void _saveSymbols() {
+        String[] strings = new String[Dumper.symbols.size()];
+        for (int i = 0; i < Dumper.symbols.size(); ++i)
+            strings[i] = Dumper.symbols.get(i).getName();
+
+        FileSaver saver = new FileSaver(Environment.getExternalStorageDirectory().toString() + "/Disassembler/symbols/", "Symbols.txt", strings);
+        saver.save();
+
+        String[] strings_ = new String[Dumper.symbols.size()];
+        for (int i = 0; i < Dumper.symbols.size(); ++i)
+            strings_[i] = Dumper.symbols.get(i).getDemangledName();
+        FileSaver saver_ = new FileSaver(Environment.getExternalStorageDirectory().toString() + "/Disassembler/symbols/", "Symbols_demangled.txt", strings_);
+        saver_.save();
+    }
+
+    public void saveSymbols(View view) {
+        mDialog = new ProgressDialog(this);
+        mDialog.setTitle(getString(R.string.saving));
+        mDialog.show();
+        mBar = new SnackBar(this, getString(R.string.done));
+        new Thread() {
+            public void run() {
+                _saveSymbols();
+                Message msg = new Message();
+                mHandler.sendMessage(msg);
+            }
+        }.start();
     }
 
     @Override

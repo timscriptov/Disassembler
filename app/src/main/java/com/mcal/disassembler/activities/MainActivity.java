@@ -1,24 +1,13 @@
 package com.mcal.disassembler.activities;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,7 +17,6 @@ import com.developer.filepicker.view.FilePickerDialog;
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.adapters.ListAdapter;
 import com.mcal.disassembler.data.Database;
-import com.mcal.disassembler.data.Preferences;
 import com.mcal.disassembler.data.RecentsManager;
 import com.mcal.disassembler.interfaces.MainView;
 import com.mcal.disassembler.nativeapi.DisassemblerDumper;
@@ -41,19 +29,10 @@ import com.mcal.disassembler.widgets.SnackBar;
 import java.io.File;
 import java.util.ArrayList;
 
-import kotlin.Unit;
-import kotlin.jvm.functions.Function0;
-
 public class MainActivity extends AppCompatActivity implements MainView {
-
-    static {
-        System.loadLibrary("disassembler");
-    }
-
-    public static int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 5469;
+    private final ArrayList<String> paths = new ArrayList<>();
     ProgressDialog dialog;
     private RecyclerView recentOpened;
-    private final ArrayList<String> paths = new ArrayList<>();
     private String path;
     private LinearLayout welcomeLayout;
 
@@ -62,13 +41,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         setupToolbar(getString(R.string.app_name));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Settings.ACTION_MANAGE_OVERLAY_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Settings.ACTION_MANAGE_OVERLAY_PERMISSION}, 1);
-            }
-        }
         AdsAdmob.loadInterestialAd(this);
-        checkPermission();
         new Database(this);
         welcomeLayout = findViewById(R.id.welcome_layout);
         recentOpened = findViewById(R.id.items);
@@ -81,29 +54,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         }
         recentOpened.setAdapter(new ListAdapter(paths, this));*/
         updateRecents();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @SuppressLint("WrongConstant")
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.night_mode) {
-            if (Preferences.isNightModeEnabled()) {
-                Preferences.setNightModeEnabled(false);
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                getDelegate().applyDayNight();
-            } else {
-                Preferences.setNightModeEnabled(true);
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                getDelegate().applyDayNight();
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -145,16 +95,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
     public void chooseSdcard(View view) {
         AdsAdmob.showInterestialAd(this, null);
         showFileChooser();
-    }
-
-    public void hexViewer(View view) {
-        AdsAdmob.showInterestialAd(this, runHexViewer());
-    }
-
-    public Function0<Unit> runHexViewer() {
-        Intent intent = new Intent(MainActivity.this, fr.ralala.hexviewer.ui.activities.MainActivity.class);
-        startActivity(intent);
-        return null;
     }
 
     private void showFileChooser() {
@@ -214,31 +154,5 @@ public class MainActivity extends AppCompatActivity implements MainView {
         intent.putExtras(bundle);
         startActivity(intent);
         dismissProgressDialog();
-    }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE) {
-            if (!Settings.canDrawOverlays(this)) {
-                checkPermission();
-            }
-        }
-    }
-
-    public void checkPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!Settings.canDrawOverlays(this)) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                        Uri.parse("package:" + getPackageName()));
-                startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE);
-            }
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 }

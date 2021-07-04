@@ -12,9 +12,9 @@
 
     <View
         android:id="@+id/view"
-        android:layout_below="@+id/toolbar_vtable"
         android:layout_width="match_parent"
         android:layout_height="4dp"
+        android:layout_below="@+id/toolbar_vtable"
         android:background="@drawable/pref_shadow_top" />
 
     <ListView

@@ -26,11 +26,13 @@
                 android:text="@string/symbols_menu"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <com.mcal.disassembler.view.ButtonFlat
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/floatingmenuButtonClose"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:text="_" />
+                android:background="@drawable/bg_clickable"
+                android:src="@drawable/ic_window_minimize"
+                android:tint="@color/colorAccent" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/floatingmenuButtonHide"
@@ -70,7 +72,7 @@
                 android:layout_height="30dp"
                 android:background="@drawable/bg_clickable"
                 android:src="@drawable/ic_close"
-                android:tint="@color/colorAccent"/>
+                android:tint="@color/colorAccent" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/floatingmenuButtonSearch"

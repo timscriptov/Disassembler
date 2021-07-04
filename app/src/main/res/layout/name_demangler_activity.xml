@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center|top">
+    android:gravity="center|top"
+    android:orientation="vertical">
 
-    <include
-        layout="@layout/toolbar" />
+    <include layout="@layout/toolbar" />
 
     <View
         android:layout_width="match_parent"
@@ -18,32 +17,51 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/TextInputLayoutTheme"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/paste_text_here">
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingBottom="10dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/namedemangleractivityEditText1"
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/TextInputLayoutTheme"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="textNoSuggestions"
-                android:lines="1"
-                android:singleLine="true"
-                android:textCursorDrawable="@drawable/cursor" />
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1.0"
+                android:hint="@string/paste_symbol">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/namedemangleractivityEditText1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textNoSuggestions"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:textCursorDrawable="@drawable/cursor" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="demangle"
+                android:src="@drawable/ic_run"
+                app:backgroundTint="@color/colorAccent"
+                app:tint="#FFFFFF"
+                tools:ignore="ContentDescription,UsingOnClickInXml" />
+
+        </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/TextInputLayoutTheme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/result_demangle"
-            android:layout_marginTop="10dp">
+            android:hint="@string/result_demangle">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/namedemangleractivityEditText2"
@@ -57,17 +75,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:onClick="demangle"
-        android:src="@drawable/ic_run"
-        app:backgroundTint="@color/colorAccent"
-        app:tint="#FFFFFF"
-        tools:ignore="ContentDescription,UsingOnClickInXml" />
 
 </LinearLayout>
 

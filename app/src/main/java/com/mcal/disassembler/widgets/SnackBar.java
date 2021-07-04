@@ -17,8 +17,8 @@ import android.view.animation.AnimationUtils;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.mcal.disassembler.R;
-import com.mcal.disassembler.view.ButtonFlat;
 
 public class SnackBar extends Dialog {
 
@@ -28,7 +28,7 @@ public class SnackBar extends Dialog {
     View.OnClickListener onClickListener;
     AppCompatActivity activity;
     View view;
-    ButtonFlat button;
+    ExtendedFloatingActionButton button;
     int backgroundSnackBar = Color.parseColor("#333333");
     int backgroundButton = Color.parseColor("#1E88E5");
 
@@ -78,7 +78,7 @@ public class SnackBar extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.gc_materialdesign_snackbar);
+        setContentView(R.layout.material_snackbar);
         setCanceledOnTouchOutside(false);
         ((AppCompatTextView) findViewById(R.id.snackbartext)).setText(text);
         ((AppCompatTextView) findViewById(R.id.snackbartext)).setTextSize(textSize); //set textSize
@@ -87,7 +87,7 @@ public class SnackBar extends Dialog {
             button.setVisibility(View.GONE);
         else if (text != null && onClickListener != null) {
             button.setText(buttonText);
-            button.setBackgroundColor(backgroundButton);
+            //button.setBackgroundColor(backgroundButton);
 
             button.setOnClickListener(v -> {
                 SnackBar.this.onClickListener.onClick(v);
@@ -95,7 +95,7 @@ public class SnackBar extends Dialog {
             });
         }
         view = findViewById(R.id.snackbar);
-        view.setBackgroundColor(backgroundSnackBar);
+        //view.setBackgroundColor(backgroundSnackBar);
     }
 
     @Override
