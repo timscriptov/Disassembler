@@ -56,23 +56,10 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/action_open"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/action"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center_vertical"
-            android:minHeight="?android:attr/listPreferredItemHeightSmall"
-            android:paddingStart="?android:attr/listPreferredItemPaddingStart"
-            android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
-            android:text="@string/action_open_title"
-            android:textAppearance="?android:attr/textAppearanceListItemSmall" />
-
-        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/action_recently_open"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/action_open"
+            android:layout_below="@id/action"
             android:background="?attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:minHeight="?android:attr/listPreferredItemHeightSmall"

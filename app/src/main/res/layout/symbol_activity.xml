@@ -176,34 +176,39 @@
 
     </ScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/symbolactivityButtonFloat"
-        android:layout_width="wrap_content"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="90dp"
-        android:background="#D81B60"
         android:onClick="toVtableActivity"
-        android:src="@drawable/ic_box_blue"
+        android:text="VTable"
+        android:textColor="#FFF"
         android:visibility="gone"
         app:backgroundTint="@color/colorAccent"
+        app:icon="@drawable/ic_box_blue"
+        app:iconTint="#FFF"
         app:tint="#FFFFFF"
         tools:ignore="ContentDescription,UsingOnClickInXml" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/symbolactivityButtonFloatClass"
-        android:layout_width="wrap_content"
+        android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:onClick="toClassActivity"
-        android:src="@drawable/objects"
+        android:text="Classes"
+        android:textColor="#FFF"
         android:visibility="gone"
         app:backgroundTint="@color/colorAccent"
+        app:icon="@drawable/objects"
+        app:iconTint="#FFF"
         app:tint="#FFFFFF"
         tools:ignore="ContentDescription,UsingOnClickInXml" />
 

@@ -31,21 +31,9 @@
 
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/classactivityTextViewButtonFloatVtable"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="90dp"
-        android:layout_marginBottom="120dp"
-        android:background="#CCCCCC"
-        android:text="@string/ownedVtable"
-        android:visibility="gone" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/classactivityButtonFloat"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
@@ -53,21 +41,28 @@
         android:layout_marginBottom="90dp"
         android:onClick="toVtableActivity"
         android:src="@drawable/ic_box_blue"
+        android:text="VTable"
+        android:textColor="#FFF"
         android:visibility="gone"
-        tools:ignore="ContentDescription,UsingOnClickInXml" />
+        app:backgroundTint="@color/colorAccent"
+        app:icon="@drawable/ic_box_green"
+        app:iconTint="#FFF"
+        tools:ignore="UsingOnClickInXml" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:onClick="save"
-        android:src="@drawable/ic_download"
+        android:text="Save"
+        android:textColor="#FFF"
         app:backgroundTint="@color/colorAccent"
-        app:tint="#FFFFFF"
-        tools:ignore="ContentDescription,UsingOnClickInXml" />
+        app:icon="@drawable/ic_download"
+        app:iconTint="#FFF"
+        tools:ignore="UsingOnClickInXml" />
 
 </RelativeLayout>
 

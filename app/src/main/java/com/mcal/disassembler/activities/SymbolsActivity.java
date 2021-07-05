@@ -24,6 +24,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.nativeapi.Dumper;
 import com.mcal.disassembler.util.FileSaver;
+import com.mcal.disassembler.view.FloatingButton;
 import com.mcal.materialdesign.view.CenteredToolBar;
 import com.mcal.materialdesign.widgets.SnackBar;
 
@@ -96,6 +97,10 @@ public class SymbolsActivity extends AppCompatActivity {
             list.add(map);
         }
         return list;
+    }
+
+    public void showFloatingMenu(View view) {
+        new FloatingButton(this, path).show();
     }
 
     public void showSearch(View view) {

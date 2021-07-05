@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar" />
+    <include
+        android:id="@+id/main_toolbar"
+        layout="@layout/toolbar" />
 
     <View
+        android:id="@+id/view"
         android:layout_width="match_parent"
+        android:layout_below="@id/main_toolbar"
         android:layout_height="4dp"
         android:background="@drawable/pref_shadow_top" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/pleaseOpenFile"
+        android:layout_below="@id/view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -22,6 +29,7 @@
         android:visibility="gone" />
 
     <ListView
+        android:layout_below="@id/view"
         android:id="@+id/payloadView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -32,6 +40,7 @@
         android:visibility="gone" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_below="@id/view"
         android:id="@+id/payloadPlainSwipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -48,4 +57,18 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-</LinearLayout>
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:onClick="chooseSdcard"
+        android:text="Open"
+        android:textColor="#FFF"
+        app:backgroundTint="@color/colorAccent"
+        app:icon="@drawable/ic_folder"
+        app:iconTint="#FFF"
+        tools:ignore="UsingOnClickInXml" />
+
+</RelativeLayout>

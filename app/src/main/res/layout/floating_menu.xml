@@ -30,7 +30,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/bg_clickable"
-                android:src="@drawable/ic_window_minimize"
+                android:src="@drawable/ic_minimize"
                 android:tint="@color/colorAccent" />
 
             <androidx.appcompat.widget.AppCompatImageButton
@@ -53,33 +53,37 @@
                 android:id="@+id/floatingmenuButtonPaste"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:alpha="0.38"
                 android:background="@drawable/bg_clickable"
                 android:src="@drawable/ic_paste"
-                android:tint="@color/colorAccent" />
+                android:tint="@color/textColorPrimary" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/floatingmenuButtonCopy"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:alpha="0.38"
                 android:background="@drawable/bg_clickable"
                 android:src="@drawable/ic_copy"
-                android:tint="@color/colorAccent" />
+                android:tint="@color/textColorPrimary" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/floatingmenuButtonClear"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:alpha="0.38"
                 android:background="@drawable/bg_clickable"
                 android:src="@drawable/ic_close"
-                android:tint="@color/colorAccent" />
+                android:tint="@color/textColorPrimary" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/floatingmenuButtonSearch"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:alpha="0.38"
                 android:background="@drawable/bg_clickable"
                 android:src="@drawable/ic_search"
-                android:tint="@color/colorAccent" />
+                android:tint="@color/textColorPrimary" />
 
         </LinearLayout>
 

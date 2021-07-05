@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -131,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         mUnDoRedo = new UnDoRedo(this);
 
-        LinearLayout mainLayout = findViewById(R.id.mainLayout);
+        RelativeLayout mainLayout = findViewById(R.id.mainLayout);
         mPleaseOpenFile = findViewById(R.id.pleaseOpenFile);
         mPayloadHex = findViewById(R.id.payloadView);
 
@@ -176,6 +177,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mLauncherRecentlyOpen = new LauncherRecentlyOpen(this);
 
         handleIntent(getIntent());
+    }
+
+    public void chooseSdcard(View view) {
+        final Runnable r = () -> mLauncherOpen.startActivity();
+        if (mUnDoRedo.isChanged()) {// a save operation is pending?
+            confirmFileChanged(r);
+        } else
+            r.run();
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -423,13 +432,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
      * @param id The view id.
      */
     public void onPopupItemClick(int id) {
-        if (id == R.id.action_open) {
-            final Runnable r = () -> mLauncherOpen.startActivity();
-            if (mUnDoRedo.isChanged()) {// a save operation is pending?
-                confirmFileChanged(r);
-            } else
-                r.run();
-        } else if (id == R.id.action_recently_open) {
+        if (id == R.id.action_recently_open) {
             mLauncherRecentlyOpen.startActivity();
         } else if (id == R.id.action_save) {
             if (FileData.isEmpty(mFileData)) {
@@ -507,7 +510,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     mPopup.dismiss();
                     onPopupItemClick(v.getId());
                 };
-                popupView.findViewById(R.id.action_open).setOnClickListener(click);
                 popupView.findViewById(R.id.action_settings).setOnClickListener(click);
                 mPlainMenuContainer.setOnClickListener(click);
                 mPlainMenuTextView.setOnClickListener(click);

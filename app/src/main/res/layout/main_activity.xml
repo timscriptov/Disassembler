@@ -67,17 +67,19 @@
 
                 </RelativeLayout>
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:layout_width="wrap_content"
+                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:layout_above="@id/mainactivityLinearLayout1"
                     android:layout_alignParentEnd="true"
                     android:layout_margin="16dp"
                     android:onClick="chooseSdcard"
-                    android:src="@drawable/ic_folder"
+                    android:text="Open"
+                    android:textColor="#FFF"
                     app:backgroundTint="@color/colorAccent"
-                    app:tint="#FFFFFF"
-                    tools:ignore="ContentDescription,UsingOnClickInXml" />
+                    app:icon="@drawable/ic_folder"
+                    app:iconTint="#FFF"
+                    tools:ignore="UsingOnClickInXml" />
 
             </RelativeLayout>
 

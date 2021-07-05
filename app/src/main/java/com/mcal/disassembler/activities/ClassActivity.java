@@ -80,7 +80,6 @@ public class ClassActivity extends AppCompatActivity {
         setTitle(name);
 
         if (hasVtable()) {
-            findViewById(R.id.classactivityTextViewButtonFloatVtable).setVisibility(View.VISIBLE);
             findViewById(R.id.classactivityButtonFloat).setVisibility(View.VISIBLE);
         }
     }

@@ -27,10 +27,26 @@
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:layout_width="130dp"
         android:layout_height="wrap_content"
+        android:layout_above="@id/saveSymbols"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="90dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="showFloatingMenu"
+        android:text="Float"
+        android:textColor="#FFF"
+        app:backgroundTint="@color/colorAccent"
+        app:icon="@drawable/ic_menu"
+        app:iconTint="#FFF"
+        tools:ignore="UsingOnClickInXml" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/saveSymbols"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/showSearch"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:onClick="saveSymbols"
         android:text="Dump"
         android:textColor="#FFF"
@@ -40,6 +56,7 @@
         tools:ignore="UsingOnClickInXml" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/showSearch"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

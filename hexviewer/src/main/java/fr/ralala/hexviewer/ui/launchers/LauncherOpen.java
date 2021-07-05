@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -28,10 +29,10 @@ import fr.ralala.hexviewer.utils.FileHelper;
  */
 public class LauncherOpen {
     private final MainActivity mActivity;
-    private final LinearLayout mMainLayout;
+    private final RelativeLayout mMainLayout;
     private ActivityResultLauncher<Intent> activityResultLauncherOpen;
 
-    public LauncherOpen(MainActivity activity, LinearLayout mainLayout) {
+    public LauncherOpen(MainActivity activity, RelativeLayout mainLayout) {
         mActivity = activity;
         mMainLayout = mainLayout;
         register();
