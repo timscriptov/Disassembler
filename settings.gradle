@@ -1,1 +1,1 @@
-include ':app', ':filepicker', ':hexviewer'
+include ':app', ':filepicker', ':hexviewer', ':translator', ':materialdesign'

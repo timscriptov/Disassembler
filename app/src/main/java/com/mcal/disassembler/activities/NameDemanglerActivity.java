@@ -9,7 +9,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.nativeapi.DisassemblerDumper;
-import com.mcal.disassembler.view.CenteredToolBar;
+import com.mcal.materialdesign.view.CenteredToolBar;
 
 import org.jetbrains.annotations.NotNull;
 

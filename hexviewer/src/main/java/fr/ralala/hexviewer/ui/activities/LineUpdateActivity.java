@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.mcal.materialdesign.view.CenteredToolBar;
 
 import java.util.Locale;
 
@@ -26,7 +27,6 @@ import fr.ralala.hexviewer.R;
 import fr.ralala.hexviewer.ui.utils.LineUpdateTextWatcher;
 import fr.ralala.hexviewer.ui.utils.UIHelper;
 import fr.ralala.hexviewer.utils.SysHelper;
-import fr.ralala.hexviewer.view.CenteredToolBar;
 
 /**
  * ******************************************************************************

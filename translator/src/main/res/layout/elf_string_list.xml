@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<include
+		android:id="@+id/elf_toolbar"
+		layout="@layout/toolbar" />
+
+	<View
+		android:id="@+id/view"
+		android:layout_below="@id/elf_toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="4dp"
+		android:background="@drawable/pref_shadow_top" />
+
+	<LinearLayout
+		android:layout_below="@id/view"
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/search_wrapper"
+		android:visibility="gone">
+
+		<com.google.android.material.textfield.TextInputLayout
+			style="@style/TextInputLayoutTheme"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="16dp"
+			android:hint="@string/search">
+
+			<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/search_field"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:textCursorDrawable="@drawable/cursor"
+				android:singleLine="true" />
+
+		</com.google.android.material.textfield.TextInputLayout>
+
+	</LinearLayout>
+
+	<ListView
+		android:id="@+id/list_res_string"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:descendantFocusability="beforeDescendants"
+		android:layout_below="@id/search_wrapper"
+		android:drawSelectorOnTop="false"
+		android:fastScrollEnabled="true"
+		android:singleLine="false"
+		android:paddingLeft="1dp"
+		android:paddingRight="1dp"/>
+
+	<com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+		android:id="@+id/textCategory"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentEnd="true"
+		android:layout_alignParentBottom="true"
+		android:layout_marginEnd="16dp"
+		android:layout_marginBottom="16dp"
+		android:text="Open"
+		android:textColor="#FFF"
+		app:backgroundTint="@color/colorAccent"
+		app:icon="@drawable/ic_folder"
+		app:iconTint="#FFF"
+		tools:ignore="ContentDescription,UsingOnClickInXml" />
+
+</RelativeLayout>
+

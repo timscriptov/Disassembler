@@ -13,7 +13,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.nativeapi.DisassemblerVtable;
 import com.mcal.disassembler.nativeapi.Dumper;
-import com.mcal.disassembler.view.CenteredToolBar;
+import com.mcal.materialdesign.view.CenteredToolBar;
 import com.mcal.disassembler.vtable.Tables;
 import com.mcal.disassembler.vtable.VtableDumper;
 

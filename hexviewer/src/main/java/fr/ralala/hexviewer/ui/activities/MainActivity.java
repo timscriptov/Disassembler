@@ -30,6 +30,8 @@ import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.MenuCompat;
 
+import com.mcal.materialdesign.view.CenteredToolBar;
+
 import java.util.ArrayList;
 
 import fr.ralala.hexviewer.ApplicationCtx;
@@ -50,7 +52,6 @@ import fr.ralala.hexviewer.ui.utils.MultiChoiceCallback;
 import fr.ralala.hexviewer.ui.utils.PayloadPlainSwipe;
 import fr.ralala.hexviewer.ui.utils.UIHelper;
 import fr.ralala.hexviewer.utils.FileHelper;
-import fr.ralala.hexviewer.view.CenteredToolBar;
 
 import static fr.ralala.hexviewer.ui.adapters.SearchableListArrayAdapter.UserConfig;
 
@@ -182,8 +183,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         CenteredToolBar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(title);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     /**
@@ -534,6 +535,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
             mPopup.showAtLocation(findViewById(R.id.action_more), Gravity.TOP | Gravity.END, 12, 120);
             //mPopup.showAsDropDown(findViewById(R.id.action_more));
+        } else if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -613,21 +617,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if (mSearchView != null && !mSearchView.isIconified()) {
             cancelSearch();
         } else {
-            if (mLastBackPressed + BACK_TIME_DELAY > System.currentTimeMillis()) {
-                if (mUnDoRedo.isChanged()) {// a save operation is pending?
-                    confirmFileChanged(() -> {
-                        super.onBackPressed();
-                        finish();
-                    });
-                } else {
+            if (mUnDoRedo.isChanged()) {// a save operation is pending?
+                confirmFileChanged(() -> {
                     super.onBackPressed();
                     finish();
-                }
-                return;
+                });
             } else {
-                UIHelper.toast(this, getString(R.string.on_double_back_exit_text));
+                super.onBackPressed();
+                finish();
             }
-            mLastBackPressed = System.currentTimeMillis();
         }
     }
 

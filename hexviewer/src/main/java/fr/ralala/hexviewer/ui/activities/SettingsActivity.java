@@ -8,10 +8,11 @@ import android.view.MenuItem;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.mcal.materialdesign.view.CenteredToolBar;
+
 import fr.ralala.hexviewer.ApplicationCtx;
 import fr.ralala.hexviewer.R;
 import fr.ralala.hexviewer.ui.fragments.SettingsFragment;
-import fr.ralala.hexviewer.view.CenteredToolBar;
 
 /**
  * ******************************************************************************

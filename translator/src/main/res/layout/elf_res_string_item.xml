@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:orientation="horizontal"
+	android:padding="@dimen/padding_normal"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:gravity="center">
+
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:id="@+id/ln_wrap">
+
+		<androidx.appcompat.widget.AppCompatTextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/number"
+			android:padding="@dimen/padding_normal"
+			android:text="0"
+			android:gravity="center_horizontal"/>
+
+	</LinearLayout>
+
+	<androidx.appcompat.widget.AppCompatTextView
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:gravity="top|end"
+		android:id="@+id/txtOriginal"
+		android:padding="@dimen/padding_normal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="1.0"/>
+
+	<com.google.android.material.textfield.TextInputLayout
+		style="@style/TextInputLayoutTheme"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="10dp"
+		android:layout_weight="1.0"
+		android:hint="Enter text"
+		app:color="@color/textColorPrimary">
+
+		<com.google.android.material.textfield.TextInputEditText
+			android:id="@+id/txtTranslated"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:inputType="textNoSuggestions"
+			android:lines="1"
+			android:singleLine="true"
+			android:textCursorDrawable="@drawable/cursor"/>
+
+	</com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>
+

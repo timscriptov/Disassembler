@@ -25,10 +25,11 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':materialdesign')
     implementation "androidx.appcompat:appcompat:1.3.0"
     implementation 'androidx.preference:preference-ktx:1.1.1'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     implementation "androidx.emoji:emoji:1.1.0"
     implementation 'androidx.emoji:emoji-bundled:1.1.0'
-    implementation "com.google.android.material:material:1.3.0"
+    implementation "com.google.android.material:material:1.4.0"
 }

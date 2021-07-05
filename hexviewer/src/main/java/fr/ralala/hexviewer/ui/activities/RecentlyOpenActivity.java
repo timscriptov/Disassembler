@@ -13,13 +13,14 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mcal.materialdesign.view.CenteredToolBar;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import fr.ralala.hexviewer.ApplicationCtx;
 import fr.ralala.hexviewer.R;
 import fr.ralala.hexviewer.ui.adapters.RecentlyOpenRecyclerAdapter;
-import fr.ralala.hexviewer.view.CenteredToolBar;
 
 import static fr.ralala.hexviewer.ui.adapters.RecentlyOpenRecyclerAdapter.UriData;
 

@@ -25,7 +25,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.nativeapi.DisassemblerSymbol;
 import com.mcal.disassembler.nativeapi.Searcher;
-import com.mcal.disassembler.view.CenteredToolBar;
+import com.mcal.materialdesign.view.CenteredToolBar;
 
 import org.jetbrains.annotations.NotNull;
 

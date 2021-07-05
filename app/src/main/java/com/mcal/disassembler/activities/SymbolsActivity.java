@@ -24,8 +24,8 @@ import androidx.appcompat.widget.AppCompatTextView;
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.nativeapi.Dumper;
 import com.mcal.disassembler.util.FileSaver;
-import com.mcal.disassembler.view.CenteredToolBar;
-import com.mcal.disassembler.widgets.SnackBar;
+import com.mcal.materialdesign.view.CenteredToolBar;
+import com.mcal.materialdesign.widgets.SnackBar;
 
 import org.jetbrains.annotations.NotNull;
 

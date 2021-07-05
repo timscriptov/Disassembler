@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.developer.filepicker.model.DialogConfigs;
 import com.developer.filepicker.model.DialogProperties;
+import com.developer.filepicker.utils.ScopedStorage;
 import com.developer.filepicker.view.FilePickerDialog;
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.adapters.ListAdapter;
@@ -22,9 +24,10 @@ import com.mcal.disassembler.interfaces.MainView;
 import com.mcal.disassembler.nativeapi.DisassemblerDumper;
 import com.mcal.disassembler.nativeapi.Dumper;
 import com.mcal.disassembler.util.AdsAdmob;
-import com.mcal.disassembler.util.ScopedStorage;
-import com.mcal.disassembler.view.CenteredToolBar;
-import com.mcal.disassembler.widgets.SnackBar;
+import com.mcal.materialdesign.view.CenteredToolBar;
+import com.mcal.materialdesign.widgets.SnackBar;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -61,8 +64,17 @@ public class MainActivity extends AppCompatActivity implements MainView {
         CenteredToolBar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(title);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NotNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     void updateRecents() {

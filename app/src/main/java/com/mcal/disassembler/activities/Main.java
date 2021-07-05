@@ -27,7 +27,7 @@ import com.mcal.disassembler.iap.IapConnector;
 import com.mcal.disassembler.iap.PurchaseServiceListener;
 import com.mcal.disassembler.iap.SubscriptionServiceListener;
 import com.mcal.disassembler.util.AdsAdmob;
-import com.mcal.disassembler.view.CenteredToolBar;
+import com.mcal.materialdesign.view.CenteredToolBar;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -153,6 +153,11 @@ public class Main extends AppCompatActivity {
     public void toNameDemangler(View view) {
         AdsAdmob.showInterestialAd(this, null);
         startActivity(new Intent(this, NameDemanglerActivity.class));
+    }
+
+    public void translator(View view) {
+        AdsAdmob.showInterestialAd(this, null);
+        startActivity(new Intent(this, com.mcal.elfeditor.MainActivity.class));
     }
 
     public void symbols(View view) {

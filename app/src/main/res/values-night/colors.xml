@@ -5,7 +5,6 @@
     <color name="colorPrimaryDark">#FF202125</color>
 
     <color name="textColorPrimary">#FFF</color>
-    <color name="textColorSecondary">#FFF</color>
 
     <color name="compatibility_pressed_color">#1aFFFFFF</color>
     <color name="compatibility_focus_color">#48FFFFFF</color>
