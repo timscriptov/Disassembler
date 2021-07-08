@@ -114,7 +114,7 @@ public class LEDataInputStream {
      *
      * @throws IOException
      */
-    public void readFully(byte ba[]) throws IOException {
+    public void readFully(byte[] ba) throws IOException {
         dis.readFully(ba, 0, ba.length);
     }
 
@@ -123,7 +123,7 @@ public class LEDataInputStream {
      *
      * @throws IOException
      */
-    public void readFully(byte ba[], int off, int len) throws IOException {
+    public void readFully(byte[] ba, int off, int len) throws IOException {
         dis.readFully(ba, off, len);
     }
 

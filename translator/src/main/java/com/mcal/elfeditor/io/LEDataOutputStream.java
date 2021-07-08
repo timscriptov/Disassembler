@@ -164,7 +164,7 @@ public class LEDataOutputStream {
     /**
      * 写入一个64位的long型数据
      *
-     * @param i
+     * @param l
      * @throws IOException
      */
     public void writeLong(long l) throws IOException {

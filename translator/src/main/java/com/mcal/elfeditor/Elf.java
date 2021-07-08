@@ -63,7 +63,7 @@ public class Elf implements Closeable {
     public static final String SHN_TEXT = ".text";
     public static final String SHN_DYNAMIC = ".dynamic";
     public static final String SHN_SHSTRTAB = ".shstrtab";
-    final static char ElfMagic[] = {0x7f, 'E', 'L', 'F', '\0'};
+    final static char[] ElfMagic = {0x7f, 'E', 'L', 'F', '\0'};
     final static int EI_CLASS = 4; // File class
     final static int EI_DATA = 5; // Data encoding
     final static int EI_NIDENT = 16;
@@ -109,19 +109,19 @@ public class Elf implements Closeable {
     Elf_Sym[] mHashSymbols;
     byte[] mDynStringTable;
     byte[] mDynHashTable;
-    private LEDataInputStream mReader;
-    private byte[] mStringTable;
-    private byte mRoDataStringTable[];
+    private final LEDataInputStream mReader;
+    private final byte[] mStringTable;
+    private byte[] mRoDataStringTable;
     private int num_buckets;
     // semantics.
     private int num_chains;
     // These could probably be memoized.
-    private int buckets[];
-    private int chains[];
+    private int[] buckets;
+    private int[] chains;
     private boolean error; // 解析时是否有错误
 
     public Elf(ByteArrayInputStream bis) throws IOException, UnknownFormatConversionException {
-        dy_items = new ArrayList<ItemHelper>();
+        dy_items = new ArrayList<>();
         final LEDataInputStream r = mReader = new LEDataInputStream(bis);
         r.readFully(e_ident);
         if (!checkMagic()) {
@@ -311,7 +311,7 @@ public class Elf implements Closeable {
     public static byte[] readFile(File file) throws FileNotFoundException, IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         InputStream is = new FileInputStream(file);
-        byte buffer[] = new byte[2048];
+        byte[] buffer = new byte[2048];
         int count;
         while ((count = is.read(buffer)) != -1) {
             bos.write(buffer, 0, count);
@@ -361,13 +361,15 @@ public class Elf implements Closeable {
      */
     public int find(String str) {
         long hash = ELFHash(str);
-        for (int i = buckets[(int) (hash % num_buckets)]; i != 0; i = chains[i]) {
-            Elf_Sym ds = mDynamicSymbols[i];
-            String string = getDynString(ds.st_name);
-            System.out.println(string);
-            if (string.equals(str)) {
-                //Logger.write("str=" + str + " " + "pos=" + i + "\n");
-                return i;
+        if(num_buckets != 0) {
+            for (int i = buckets[(int) (hash % num_buckets)]; i != 0; i = chains[i]) {
+                Elf_Sym ds = mDynamicSymbols[i];
+                String string = getDynString(ds.st_name);
+                System.out.println(string);
+                if (string.equals(str)) {
+                    //Logger.write("str=" + str + " " + "pos=" + i + "\n");
+                    return i;
+                }
             }
         }
         return -1;
@@ -577,11 +579,11 @@ public class Elf implements Closeable {
     /**
      * 写入符号表hash
      */
-    private final void writeDynHash(List<ItemHelper> items, LEDataOutputStream lmOut) throws IOException {
+    private void writeDynHash(List<ItemHelper> items, LEDataOutputStream lmOut) throws IOException {
         lmOut.writeInt(num_buckets);
         lmOut.writeInt(num_chains);
-        int buckets_t[] = new int[num_buckets];
-        int chains_t[] = new int[num_chains];
+        int[] buckets_t = new int[num_buckets];
+        int[] chains_t = new int[num_chains];
 
         for (ItemHelper item : items) {
             //没有符号索引，说明该字符串不是符号表中的
@@ -611,7 +613,7 @@ public class Elf implements Closeable {
      *
      * @return 写入的实际大小
      ***/
-    private final long writeDynString(List<ItemHelper> items, LEDataOutputStream lmOut) throws IOException {
+    private long writeDynString(List<ItemHelper> items, LEDataOutputStream lmOut) throws IOException {
 
         long offset = 0;
         long len = 0;
@@ -621,7 +623,7 @@ public class Elf implements Closeable {
                 continue;
             // String new_string = item.newVal;
             lmOut.writeByte((byte) '\0');
-            byte data[] = old_string.getBytes();
+            byte[] data = old_string.getBytes();
             offset += data.length; // 切勿调换顺序
 
             if (item.newVal != null) {
@@ -695,7 +697,7 @@ public class Elf implements Closeable {
         int buf_len = 2048;
         long remaining = len;
         mReader.seek(offset1);
-        byte buffer[] = new byte[buf_len];
+        byte[] buffer = new byte[buf_len];
         while (remaining != 0) {
             if (buf_len <= remaining) {
                 mReader.readFully(buffer);
@@ -729,7 +731,7 @@ public class Elf implements Closeable {
         }
     }
 
-    public void writeRodataBytes() throws UnsupportedEncodingException {
+    public void writeRodataBytes() {
         for (ItemHelper item : ro_items) {
             if (item.newVal != null && !item.newVal.equals("")) {
                 byte[] s_data = item.data;
