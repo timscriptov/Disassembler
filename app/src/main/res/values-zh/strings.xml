@@ -7,7 +7,6 @@
     <string name="saving">保存中……</string>
     <string name="pickSo">請選擇.so</string>
     <string name="noFile">没有有效的文件管理器</string>
-    <string name="ownedVtable">所有的虚函表</string>
     <string name="argumentsName">参数表:</string>
     <string name="className">类:</string>
     <string name="typeName">类型:</string>

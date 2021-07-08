@@ -45,7 +45,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.RandomAccessFile;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UnknownFormatConversionException;
@@ -102,6 +101,8 @@ public class Elf implements Closeable {
     final byte[] e_ident = new byte[EI_NIDENT]; // ELF Identification bytes
     private final Ehdr mHeader;
     private final Elf_Shdr[] mSectionHeaders;
+    private final LEDataInputStream mReader;
+    private final byte[] mStringTable;
     public List<ItemHelper> dy_items, ro_items;
     // private List<String> mRoDataStrings;
     Elf_Phdr[] mProgHeaders;
@@ -109,8 +110,6 @@ public class Elf implements Closeable {
     Elf_Sym[] mHashSymbols;
     byte[] mDynStringTable;
     byte[] mDynHashTable;
-    private final LEDataInputStream mReader;
-    private final byte[] mStringTable;
     private byte[] mRoDataStringTable;
     private int num_buckets;
     // semantics.
@@ -361,7 +360,7 @@ public class Elf implements Closeable {
      */
     public int find(String str) {
         long hash = ELFHash(str);
-        if(num_buckets != 0) {
+        if (num_buckets != 0) {
             for (int i = buckets[(int) (hash % num_buckets)]; i != 0; i = chains[i]) {
                 Elf_Sym ds = mDynamicSymbols[i];
                 String string = getDynString(ds.st_name);

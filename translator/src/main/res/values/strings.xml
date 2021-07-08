@@ -5,7 +5,6 @@
     <string name="saving">Saving…</string>
     <string name="pickSo">Please pick .so</string>
     <string name="noFile">No File Manager Found.</string>
-    <!--string name="noSo">No .so Found.</string-->
 
     <string name="ok">OK</string>
     <string name="no">No</string>

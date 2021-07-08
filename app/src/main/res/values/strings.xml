@@ -7,7 +7,6 @@
     <string name="saving">Saving…</string>
     <string name="pickSo">Please pick .so</string>
     <string name="noFile">No File Manager Found.</string>
-    <string name="ownedVtable">Owned Vtable</string>
     <string name="argumentsName">Arguments:</string>
     <string name="className">Class:</string>
     <string name="typeName">Type:</string>

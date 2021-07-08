@@ -7,7 +7,6 @@
     <string name="saving">Сохранение…</string>
     <string name="pickSo">Выберите .so</string>
     <string name="noFile">File Manager не найден.</string>
-    <string name="ownedVtable">Owned Vtable</string>
     <string name="argumentsName">Аргументы:</string>
     <string name="className">Класс:</string>
     <string name="typeName">Тип:</string>
