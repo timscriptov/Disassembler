@@ -1,4 +1,4 @@
-[![License Info](https://img.shields.io/badge/license-Apache-blue.svg?style=flat-square)](https://github.com/TimScriptov/Disassembler) [![Play Store Info](https://img.shields.io/badge/Play_Store-v2.8-blue.svg?style=flat-square)](https://play.google.com/store/apps/details?id=com.mcal.disassembler)
+[![License Info](https://img.shields.io/badge/license-Apache-blue.svg?style=flat-square)](https://github.com/TimScriptov/Disassembler) [![Play Store Info](https://img.shields.io/badge/Play_Store-v3.1-blue.svg?style=flat-square)](https://play.google.com/store/apps/details?id=com.mcal.disassembler)
 
 ### Disassembler
 An android app which can load .so files to find symbols and vtables.
@@ -7,10 +7,12 @@ An android app which can load .so files to find symbols and vtables.
 > [MCPE-Dumper v1.2][3]<br>
 > [ELFIO v3.9][1]<br>
 > [HexViewer v1.14][2]<br>
+> [Elf-Editor v2.0][4]<br>
 >
 [1]: https://github.com/serge1/ELFIO
 [2]: https://github.com/Keidan/HexViewer
 [3]: https://github.com/uebian/MCPE-Dumper
+[4]: https://github.com/ha1vk/Elf-Editor
 
 # License
     Copyright (C) 2019-2021 Иван Тимашков
