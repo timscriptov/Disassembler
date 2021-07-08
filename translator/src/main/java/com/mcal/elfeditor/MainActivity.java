@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.elf_string_list);
-        setupToolbar("Translator");
+        setupToolbar(getString(R.string.app_translate));
         // 初始化列表控件
         stringListView = findViewById(R.id.list_res_string);
         // 初始化显示资源类型的文本框

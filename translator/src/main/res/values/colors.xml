@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorAccent">#FF448aff</color>
-    <color name="colorPrimary">#FFF</color>
-    <color name="colorPrimaryDark">#FFF</color>
 
     <color name="textColorPrimary">#FF000000</color>
-    <color name="textColorSecondary">#FF000000</color>
 
-    <color name="compatibility_pressed_color">#1a000000</color>
-    <color name="compatibility_focus_color">#48000000</color>
 </resources>

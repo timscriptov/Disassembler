@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:onClick="translator"
-                    android:text="Translator"
+                    android:text="@string/app_translate"
                     android:textColor="#FFF"
                     app:backgroundTint="@color/colorAccent"
                     app:icon="@drawable/ic_translate"

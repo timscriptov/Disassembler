@@ -1,19 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="AppTheme" parent="@style/Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="android:windowBackground">@color/colorPrimaryDark</item>
-        <item name="android:windowAnimationStyle">@style/TransitionStyle</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
-        <item name="windowActionModeOverlay">true</item>
-        <item name="materialAlertDialogTheme">@style/AlertDialogTheme</item>
-        <item name="alertDialogTheme">@style/AlertDialogTheme</item>
-        <item name="android:alertDialogTheme">@style/AlertDialogTheme</item>
-    </style>
-
     <style name="TextInputLayoutTheme" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="boxStrokeColor">@color/text_input_layout_stroke_color</item>
         <item name="hintTextColor">@color/colorAccent</item>
@@ -36,11 +23,6 @@
 
     <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/colorAccent</item>
-    </style>
-
-    <style name="TransitionStyle">
-        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
-        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
     </style>
 
     <declare-styleable name="SmartMenu">
