@@ -128,8 +128,10 @@ public class HeaderGenerator {
 
                 for (DisassemblerSymbol symbol : getVtables()) {
                     try {
-                        String mname = getVirtualMethodDefinition(symbol);
-                        lines.addElement("	" + mname + "// " + symbol.getName());
+                        if (symbol != null) {
+                            String mname = getVirtualMethodDefinition(symbol);
+                            lines.addElement("	" + mname + "// " + symbol.getName());
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -141,8 +143,10 @@ public class HeaderGenerator {
                 lines.addElement("    //Methods");
 
                 for (DisassemblerSymbol symbol : getMethods()) {
-                    String mname = getMethodDefinition(symbol);
-                    lines.addElement("    " + mname + "// " + symbol.getName());
+                    if (symbol != null) {
+                        String mname = getMethodDefinition(symbol);
+                        lines.addElement("    " + mname + "// " + symbol.getName());
+                    }
                 }
             }
 
@@ -150,8 +154,10 @@ public class HeaderGenerator {
                 lines.addElement("public:");
                 lines.addElement("    //Objects");
                 for (DisassemblerSymbol symbol : getObjects()) {
-                    String mname = getObjectDefinition(symbol);
-                    lines.addElement("    " + mname + "// " + symbol.getName());
+                    if (symbol != null) {
+                        String mname = getObjectDefinition(symbol);
+                        lines.addElement("    " + mname + "// " + symbol.getName());
+                    }
                 }
             }
             lines.addElement("};//" + className);
@@ -164,8 +170,9 @@ public class HeaderGenerator {
             e.printStackTrace();
         }
         String[] ret = new String[lines.size()];
-        for (int i = 0; i < lines.size(); ++i)
+        for (int i = 0; i < lines.size(); ++i) {
             ret[i] = lines.get(i);
+        }
         return ret;
     }
 
@@ -178,105 +185,138 @@ public class HeaderGenerator {
     @NotNull
     private String getMethodDefinition(@NotNull DisassemblerSymbol symbol) {
         String name = symbol.getDemangledName().substring(disassemblerClass.getName().length() + 2);
-        if (name.startsWith("~" + className))
+        if (name.startsWith("~" + className)) {
             return name + ";";
-        if (name.startsWith(className))
+        }
+        if (name.startsWith(className)) {
             return name + ";";
+        }
         return "void " + name + ";";
     }
 
     @NotNull
     private String getVirtualMethodDefinition(@NotNull DisassemblerSymbol symbol) throws Exception {
         String name_ = symbol.getDemangledName();
-        if (name_.equals("__cxa_pure_virtual"))
+        if (name_.equals("__cxa_pure_virtual")) {
             return "//pure virtual method";
-        if (!name_.startsWith(disassemblerClass.getName()))
+        }
+        if (!name_.startsWith(disassemblerClass.getName())) {
             throw new Exception("No owned vtable");
+        }
         String name = symbol.getDemangledName().substring(disassemblerClass.getName().length() + 2);
-        if (name.startsWith("~" + className))
+        if (name.startsWith("~" + className)) {
             return "virtual " + name + ";";
-        if (name.startsWith(className))
+        }
+        if (name.startsWith(className)) {
             return "virtual " + name + ";";
+        }
         return "virtual void " + name + ";";
     }
 
+    @androidx.annotation.Nullable
     @Nullable
     private DisassemblerSymbol[] getObjects() {
         Vector<DisassemblerSymbol> symbols = new Vector<>();
-        for (DisassemblerSymbol symbol : disassemblerClass.getSymbols())
-            if (isObjectItem(symbol))
+        for (DisassemblerSymbol symbol : disassemblerClass.getSymbols()) {
+            if (isObjectItem(symbol)) {
                 symbols.addElement(symbol);
+            }
+        }
         DisassemblerSymbol[] ret = new DisassemblerSymbol[symbols.size()];
-        for (int i = 0; i < symbols.size(); ++i)
+        for (int i = 0; i < symbols.size(); ++i) {
             ret[i] = symbols.get(i);
-        if (symbols.isEmpty())
+        }
+        if (symbols.isEmpty()) {
             return null;
+        }
         return ret;
     }
 
+    @androidx.annotation.Nullable
     @Nullable
     private DisassemblerSymbol[] getVtables() {
-        if (vtable == null)
+        if (vtable == null) {
             return null;
-        if (vtable.getVtables().isEmpty())
+        }
+        if (vtable.getVtables().isEmpty()) {
             return null;
+        }
         Vector<DisassemblerSymbol> symbols = vtable.getVtables();
-        for (DisassemblerSymbol symbol : symbols)
-            if (hasItemInList(symbols, symbol))
+        for (DisassemblerSymbol symbol : symbols) {
+            if (hasItemInList(symbols, symbol)) {
                 symbols.addElement(symbol);
+            }
+        }
         symbols = moveConOrDesToStart(symbols);
         DisassemblerSymbol[] ret = new DisassemblerSymbol[symbols.size()];
-        for (int i = 0; i < symbols.size(); ++i)
+        for (int i = 0; i < symbols.size(); ++i) {
             ret[i] = symbols.get(i);
+        }
 
         return ret;
     }
 
+    @androidx.annotation.Nullable
     @Nullable
     private DisassemblerSymbol[] getMethods() {
         Vector<DisassemblerSymbol> symbols = new Vector<>();
-        for (DisassemblerSymbol symbol : disassemblerClass.getSymbols())
-            if (isMethodItem(symbol) && !isVtable(symbol) && hasItemInList(symbols, symbol))
+        for (DisassemblerSymbol symbol : disassemblerClass.getSymbols()) {
+            if (isMethodItem(symbol) && !isVtable(symbol) && hasItemInList(symbols, symbol)) {
                 symbols.addElement(symbol);
-        if (symbols.isEmpty())
+            }
+        }
+        if (symbols.isEmpty()) {
             return null;
+        }
         symbols = moveConOrDesToStart(symbols);
         DisassemblerSymbol[] ret = new DisassemblerSymbol[symbols.size()];
-        for (int i = 0; i < symbols.size(); ++i)
+        for (int i = 0; i < symbols.size(); ++i) {
             ret[i] = symbols.get(i);
+        }
         return ret;
     }
 
     private boolean isVtable(DisassemblerSymbol sym) {
-        if (vtable == null)
+        if (vtable == null) {
             return false;
-        for (DisassemblerSymbol symbol : vtable.getVtables())
-            if (symbol.getDemangledName().equals(sym.getDemangledName()))
+        }
+        for (DisassemblerSymbol symbol : vtable.getVtables()) {
+            if (symbol.getDemangledName().equals(sym.getDemangledName())) {
                 return true;
+            }
+        }
         return false;
     }
 
     @NotNull
     private Vector<DisassemblerSymbol> moveConOrDesToStart(@NotNull Vector<DisassemblerSymbol> syms) {
         Vector<DisassemblerSymbol> ret = new Vector<>();
-        for (DisassemblerSymbol sym : syms)
-            if (isCon(sym))
+        for (DisassemblerSymbol sym : syms) {
+            if (isCon(sym)) {
                 ret.addElement(sym);
-        for (DisassemblerSymbol sym : syms)
-            if (isDes(sym))
+            }
+        }
+        for (DisassemblerSymbol sym : syms) {
+            if (isDes(sym)) {
                 ret.addElement(sym);
-        for (DisassemblerSymbol sym : syms)
-            if (!isDes(sym) && !isCon(sym))
+            }
+        }
+        for (DisassemblerSymbol sym : syms) {
+            if (!isDes(sym) && !isCon(sym)) {
                 ret.addElement(sym);
+            }
+        }
         return ret;
     }
 
     private boolean isCon(DisassemblerSymbol symbol) {
         try {
             String name = symbol.getDemangledName().substring(disassemblerClass.getName().length() + 2);
-            if (name.startsWith(className))
+            if (name.startsWith(className)) {
                 return true;
-        } catch (Exception ignored) {
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return false;
     }
@@ -284,9 +324,11 @@ public class HeaderGenerator {
     private boolean isDes(DisassemblerSymbol symbol) {
         try {
             String name = symbol.getDemangledName().substring(disassemblerClass.getName().length() + 2);
-            if (name.startsWith("~" + className))
+            if (name.startsWith("~" + className)) {
                 return true;
-        } catch (Exception ignored) {
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return false;
     }

@@ -32,8 +32,8 @@
                 <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_marginBottom="16dp"
+                    android:gravity="center"
                     android:onClick="toNameDemangler"
                     android:text="Demangler"
                     android:textColor="#FFF"
@@ -45,8 +45,8 @@
                 <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:layout_marginBottom="16dp"
+                    android:gravity="center"
                     android:onClick="symbols"
                     android:text="Symbols"
                     android:textColor="#FFF"
@@ -96,6 +96,12 @@
                         tools:ignore="ContentDescription,UsingOnClickInXml" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="(C) 2019-2022 Иван Тимашков" />
 
             </LinearLayout>
 

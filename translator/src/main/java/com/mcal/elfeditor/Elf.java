@@ -32,8 +32,13 @@ package com.mcal.elfeditor;
 
 import android.annotation.SuppressLint;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.mcal.elfeditor.io.LEDataInputStream;
 import com.mcal.elfeditor.io.LEDataOutputStream;
+
+import org.jetbrains.annotations.Contract;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -307,6 +312,7 @@ public class Elf implements Closeable {
         return n == 0x7F454C46;
     }
 
+    @NonNull
     public static byte[] readFile(File file) throws FileNotFoundException, IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         InputStream is = new FileInputStream(file);
@@ -322,7 +328,8 @@ public class Elf implements Closeable {
     /**
      * 在内存中搜索数据
      **/
-    public static int findBytesPos(byte[] data, byte[] found) {
+    @Contract(pure = true)
+    public static int findBytesPos(@NonNull byte[] data, byte[] found) {
         for (int i = 0; i < data.length; i++) {
             boolean bFound = true;
             for (int j = 0; j < found.length; j++)
@@ -343,6 +350,7 @@ public class Elf implements Closeable {
         mReader.close();
     }
 
+    @NonNull
     private String fillString(String string, int length) {
         StringBuilder sb = new StringBuilder();
         sb.append(string);
@@ -378,6 +386,7 @@ public class Elf implements Closeable {
         return e_ident[EI_DATA];
     }
 
+    @NonNull
     public final String getDynString(int index) {
         if (index == SHN_UNDEF) {
             return "SHN_UNDEF";
@@ -402,6 +411,7 @@ public class Elf implements Closeable {
         return mReader;
     }
 
+    @Nullable
     public final Elf_Shdr getSectionByName(String name) {
         for (Elf_Shdr sec : mSectionHeaders) {
             if (name.equals(getString(sec.sh_name))) {
@@ -415,6 +425,7 @@ public class Elf implements Closeable {
         return mSectionHeaders;
     }
 
+    @NonNull
     public final String getString(int index) {
         if (index == SHN_UNDEF) {
             return "SHN_UNDEF";
@@ -562,7 +573,7 @@ public class Elf implements Closeable {
         return true;
     }
 
-    public long ELFHash(String strUri) {
+    public long ELFHash(@NonNull String strUri) {
         long hash = 0;
         long x = 0;
         for (int i = 0; i < strUri.length(); i++) {
@@ -578,7 +589,7 @@ public class Elf implements Closeable {
     /**
      * 写入符号表hash
      */
-    private void writeDynHash(List<ItemHelper> items, LEDataOutputStream lmOut) throws IOException {
+    private void writeDynHash(@NonNull List<ItemHelper> items, @NonNull LEDataOutputStream lmOut) throws IOException {
         lmOut.writeInt(num_buckets);
         lmOut.writeInt(num_chains);
         int[] buckets_t = new int[num_buckets];
@@ -612,7 +623,7 @@ public class Elf implements Closeable {
      *
      * @return 写入的实际大小
      ***/
-    private long writeDynString(List<ItemHelper> items, LEDataOutputStream lmOut) throws IOException {
+    private long writeDynString(@NonNull List<ItemHelper> items, LEDataOutputStream lmOut) throws IOException {
 
         long offset = 0;
         long len = 0;
@@ -659,7 +670,7 @@ public class Elf implements Closeable {
             writeExtra(0, offset2, lmOut); // 写入前面部分
             writeDynHash(dy_items, lmOut); // 写入符号名hash
 
-            offset2 += num_buckets * 4 + num_chains * 4 + 8;
+            offset2 += num_buckets * 4L + num_chains * 4L + 8;
             writeExtra(offset2, offset, lmOut); // 写入符号名和符号名hash之间的数据
             offset2 = offset;
             writeDynString(dy_items, lmOut); // 写入符号名
@@ -672,7 +683,7 @@ public class Elf implements Closeable {
             writeExtra(offset, offset2, lmOut); // 写入符号名和符号名hash之间的数据
             offset = offset2;
             writeDynHash(dy_items, lmOut); // 写入符号名hash
-            offset += num_buckets * 4 + num_chains * 4 + 8;
+            offset += num_buckets * 4L + num_chains * 4L + 8;
         }
         // 写RoData
         Elf_Shdr roData = getSectionByName(SHN_RODATA);
@@ -714,7 +725,7 @@ public class Elf implements Closeable {
      * 整理数据(字符串)
      **/
     @SuppressLint("DefaultLocale")
-    public void sortStrData(List<String> source, List<String> target, List<ItemHelper> items) {
+    public void sortStrData(List<String> source, @NonNull List<String> target, List<ItemHelper> items) {
         int index = 0;
         for (String string : target) {
             if (!string.equals("")) {

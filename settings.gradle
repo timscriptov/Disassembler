@@ -16,6 +16,5 @@ dependencyResolutionManagement {
 
 include ':app'
 include ':filepicker'
-include ':hexviewer'
 include ':translator'
 include ':materialdesign'
