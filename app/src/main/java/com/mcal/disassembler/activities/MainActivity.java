@@ -23,7 +23,6 @@ import com.mcal.disassembler.data.RecentsManager;
 import com.mcal.disassembler.interfaces.MainView;
 import com.mcal.disassembler.nativeapi.DisassemblerDumper;
 import com.mcal.disassembler.nativeapi.Dumper;
-import com.mcal.disassembler.util.AdsAdmob;
 import com.mcal.materialdesign.view.CenteredToolBar;
 import com.mcal.materialdesign.widgets.SnackBar;
 
@@ -44,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         setupToolbar(getString(R.string.app_name));
-        AdsAdmob.loadInterestialAd(this);
         new Database(this);
         welcomeLayout = findViewById(R.id.welcome_layout);
         recentOpened = findViewById(R.id.items);
@@ -105,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     public void chooseSdcard(View view) {
-        AdsAdmob.showInterestialAd(this, null);
         showFileChooser();
     }
 

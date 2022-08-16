@@ -8,10 +8,9 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import com.mcal.disassembler.data.Database
 import com.mcal.disassembler.data.Preferences
-import fr.ralala.hexviewer.ApplicationCtx
 import org.jetbrains.annotations.Nullable
 
-class App : ApplicationCtx() {
+class App : Application() {
     override fun onCreate() {
         super.onCreate()
         context = this
@@ -49,7 +48,7 @@ class App : ApplicationCtx() {
         @Nullable
         fun getPreferences(): SharedPreferences {
             if (preferences == null) {
-                preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext())
+                preferences = PreferenceManager.getDefaultSharedPreferences(this.getContext()!!)
             }
             return preferences!!
         }

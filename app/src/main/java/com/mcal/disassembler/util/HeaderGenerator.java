@@ -51,6 +51,7 @@ public class HeaderGenerator {
         return dname.contains("(") && dname.contains(")") && name.startsWith("_ZN");
     }
 
+    @androidx.annotation.Nullable
     @Nullable
     private String[] getExtendedClasses() {
         try {
@@ -74,7 +75,8 @@ public class HeaderGenerator {
             for (int i = 0; i < otherZTVs.size(); ++i)
                 ret[i] = otherZTVs.get(i);
             return ret;
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -84,9 +86,9 @@ public class HeaderGenerator {
     }
 
     @NotNull
-    private String getOwnerClass(DisassemblerSymbol sym) throws Exception {
+    private String getOwnerClass(DisassemblerSymbol symbol) throws Exception {
         try {
-            String dname = sym.getDemangledName().substring(0, sym.getDemangledName().indexOf("("));
+            String dname = symbol.getDemangledName().substring(0, symbol.getDemangledName().indexOf("("));
             return dname.substring(0, dname.lastIndexOf("::"));
         } catch (Exception e) {
             throw new Exception("No owner class found.");
@@ -127,8 +129,9 @@ public class HeaderGenerator {
                 for (DisassemblerSymbol symbol : getVtables()) {
                     try {
                         String mname = getVirtualMethodDefinition(symbol);
-                        lines.addElement("	" + mname);
-                    } catch (Exception ignored) {
+                        lines.addElement("	" + mname + "// " + symbol.getName());
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -139,7 +142,7 @@ public class HeaderGenerator {
 
                 for (DisassemblerSymbol symbol : getMethods()) {
                     String mname = getMethodDefinition(symbol);
-                    lines.addElement("    " + mname);
+                    lines.addElement("    " + mname + "// " + symbol.getName());
                 }
             }
 
@@ -148,7 +151,7 @@ public class HeaderGenerator {
                 lines.addElement("    //Objects");
                 for (DisassemblerSymbol symbol : getObjects()) {
                     String mname = getObjectDefinition(symbol);
-                    lines.addElement("    " + mname);
+                    lines.addElement("    " + mname + "// " + symbol.getName());
                 }
             }
             lines.addElement("};//" + className);

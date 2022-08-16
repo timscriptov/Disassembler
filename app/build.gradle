@@ -1,16 +1,18 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion = '30.0.3'
-    ndkVersion '21.0.6113669'
+    compileSdk 32
+    ndkVersion '24.0.8215888'
 
     defaultConfig {
         applicationId "com.mcal.disassembler"
-        minSdkVersion 21
+        minSdk 21
         //noinspection OldTargetApi
-        targetSdkVersion 29
+        targetSdk 29
         versionCode 31
         versionName "3.1"
         ndk {
@@ -41,24 +43,20 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 	implementation project(':filepicker')
-    implementation project(':hexviewer')
+    //implementation project(':hexviewer')
     implementation project(':translator')
     implementation project(':materialdesign')
 	implementation 'androidx.cardview:cardview:1.0.0'
-	implementation 'androidx.annotation:annotation:1.2.0'
-    implementation 'androidx.preference:preference-ktx:1.1.1'
-    implementation "androidx.core:core-ktx:1.6.0"
+	implementation 'androidx.annotation:annotation:1.4.0'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation "androidx.core:core-ktx:1.8.0"
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.20"
-    implementation 'org.jetbrains:annotations:21.0.1'
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
+    implementation 'org.jetbrains:annotations:23.0.0'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"
 
-    implementation "com.android.billingclient:billing-ktx:4.0.0"
 
-	implementation 'com.google.android.material:material:1.4.0'
-    implementation 'com.google.android.gms:play-services-ads:20.2.0'
+	implementation 'com.google.android.material:material:1.6.1'
 
     implementation 'com.jakewharton:butterknife:10.2.3'
     implementation 'com.nineoldandroids:library:2.4.0'

@@ -47,19 +47,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:layout_marginBottom="16dp"
-                    android:onClick="hexViewer"
-                    android:text="HexViewer"
-                    android:textColor="#FFF"
-                    app:backgroundTint="@color/colorAccent"
-                    app:icon="@drawable/ic_hexadecimal"
-                    app:iconTint="#FFF"
-                    tools:ignore="HardcodedText,UsingOnClickInXml" />
-
-                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_marginBottom="16dp"
                     android:onClick="symbols"
                     android:text="Symbols"
                     android:textColor="#FFF"
@@ -104,17 +91,6 @@
                         android:layout_margin="16dp"
                         android:onClick="telegram"
                         android:src="@drawable/ic_telegram"
-                        app:backgroundTint="@color/colorAccent"
-                        app:tint="#FFFFFF"
-                        tools:ignore="ContentDescription,UsingOnClickInXml" />
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:onClick="donate"
-                        android:src="@drawable/ic_money"
                         app:backgroundTint="@color/colorAccent"
                         app:tint="#FFFFFF"
                         tools:ignore="ContentDescription,UsingOnClickInXml" />
