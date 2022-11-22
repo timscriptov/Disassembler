@@ -4,13 +4,11 @@
 An android app which can load .so files to find symbols and vtables.
 
 ### Additional components
-> [MCPE-Dumper v1.2][3]<br>
+> [MCPE-Dumper v1.2][2]<br>
 > [ELFIO v3.9][1]<br>
-> [HexViewer v1.14][2]<br>
->
+
 [1]: https://github.com/serge1/ELFIO
-[2]: https://github.com/Keidan/HexViewer
-[3]: https://github.com/uebian/MCPE-Dumper
+[2]: https://github.com/uebian/MCPE-Dumper
 
 # License
     Copyright (C) 2019-2022 Иван Тимашков
