@@ -38,12 +38,13 @@ public class SymbolActivity extends AppCompatActivity {
         path = getIntent().getExtras().getString("filePath");
 
         AppCompatImageView imageTitile = findViewById(R.id.symbolactivityImageView);
-        if (type == 1)
+        if (type == 1) {
             imageTitile.setImageResource(R.drawable.ic_box_blue);
-        else if (type == 2)
+        } else if (type == 2) {
             imageTitile.setImageResource(R.drawable.ic_box_red);
-        else
+        } else {
             imageTitile.setImageResource(R.drawable.ic_box_green);
+        }
 
         AppCompatTextView textName = findViewById(R.id.symbolactivityTextViewName);
         textName.setText(name);
@@ -52,33 +53,37 @@ public class SymbolActivity extends AppCompatActivity {
         textDemangledName.setText(demangledName);
 
         String arguments;
-        if (Objects.requireNonNull(demangledName).contains("(") && demangledName.lastIndexOf(")") != -1)
+        if (Objects.requireNonNull(demangledName).contains("(") && demangledName.lastIndexOf(")") != -1) {
             arguments = demangledName.substring(demangledName.indexOf("(") + 1, demangledName.lastIndexOf(")"));
-        else
+        } else {
             arguments = "NULL";
+        }
         AppCompatTextView textArguments = findViewById(R.id.symbolactivityTextViewArguments);
         textArguments.setText(arguments);
 
         String symbolMainName;
-        if (demangledName.contains("("))
+        if (demangledName.contains("(")) {
             symbolMainName = demangledName.substring(0, demangledName.indexOf("("));
-        else
+        } else {
             symbolMainName = demangledName;
+        }
         className = "";
-        if (symbolMainName.lastIndexOf("::") != -1)
+        if (symbolMainName.lastIndexOf("::") != -1) {
             className = symbolMainName.substring(0, symbolMainName.lastIndexOf("::"));
-        else if (symbolMainName.startsWith("vtable"))
+        } else if (symbolMainName.startsWith("vtable")) {
             className = symbolMainName.substring(symbolMainName.lastIndexOf(" ") + 1);
-        else
+        } else {
             className = "NULL";
+        }
         AppCompatTextView textClassName = findViewById(R.id.symbolactivityTextClass);
         textClassName.setText(className);
 
         String symbolName;
-        if (symbolMainName.lastIndexOf("::") != -1)
+        if (symbolMainName.lastIndexOf("::") != -1) {
             symbolName = symbolMainName.substring(symbolMainName.lastIndexOf("::") + 2);
-        else
+        } else {
             symbolName = symbolMainName;
+        }
 
         AppCompatTextView textSymbolName = findViewById(R.id.symbolactivityTextViewSymbolMainName);
         textSymbolName.setText(symbolName);

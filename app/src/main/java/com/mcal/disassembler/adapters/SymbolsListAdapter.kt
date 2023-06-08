@@ -17,29 +17,29 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Locale
 
-class AppListAdapter(
+class SymbolsListAdapter(
     private val context: Context,
     private val data: MutableList<Map<String, Any>>,
-    private val listener: AppItemClick,
+    private val listener: SymbolItemClick,
     private val path: String
 ) :
-    RecyclerView.Adapter<AppListAdapter.AppListViewHolder>() {
+    RecyclerView.Adapter<SymbolsListAdapter.SymbolsListViewHolder>() {
     var newValue: String? = null
     var canStartFilterProcess = true
-    private var appFilterList = data
+    private var symbolsFilteredList = data
 
-    interface AppItemClick {
+    interface SymbolItemClick {
         fun onFoundApp(list: MutableList<Map<String, Any>>, mode: Boolean)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppListViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SymbolsListViewHolder {
         val itemView =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_applist, parent, false)
-        return AppListViewHolder(itemView)
+            LayoutInflater.from(parent.context).inflate(R.layout.symbols_list_item, parent, false)
+        return SymbolsListViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: AppListViewHolder, position: Int) {
-        val item = appFilterList[position]
+    override fun onBindViewHolder(holder: SymbolsListViewHolder, position: Int) {
+        val item = symbolsFilteredList[position]
         holder.icon.setBackgroundResource((item["img"] as Int))
         holder.title.text = item["title"] as String
         holder.info.text = item["info"] as String
@@ -57,10 +57,10 @@ class AppListAdapter(
     }
 
     override fun getItemCount(): Int {
-        return appFilterList.size
+        return symbolsFilteredList.size
     }
 
-    class AppListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class SymbolsListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val icon: ImageView = itemView.findViewById(R.id.symbolslistitemimg)
         val title: TextView = itemView.findViewById(R.id.symbolslistitemTextViewtop)
         val info: TextView = itemView.findViewById(R.id.symbolslistitemTextViewbottom)
@@ -84,7 +84,7 @@ class AppListAdapter(
                 }
             }
         }
-        appFilterList.apply {
+        symbolsFilteredList.apply {
             clear()
             addAll(list)
         }
@@ -96,9 +96,9 @@ class AppListAdapter(
     @SuppressLint("NotifyDataSetChanged")
     private fun publishResults(results: MutableList<Map<String, Any>>) {
         val isNotEmpty = results.isNotEmpty()
-        listener.onFoundApp(appFilterList, isNotEmpty)
+        listener.onFoundApp(symbolsFilteredList, isNotEmpty)
         if (isNotEmpty) {
-            appFilterList = results.also {
+            symbolsFilteredList = results.also {
                 it.sortBy { it["title"] as String }
             }
             notifyDataSetChanged()

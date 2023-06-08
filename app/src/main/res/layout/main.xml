@@ -15,7 +15,15 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <include layout="@layout/toolbar" />
+            <com.mcal.disassembler.view.CenteredToolBar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:elevation="4dp"
+                android:minHeight="?attr/actionBarSize"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight"
+                app:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar" />
 
             <View
                 android:layout_width="match_parent"

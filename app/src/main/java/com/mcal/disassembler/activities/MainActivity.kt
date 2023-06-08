@@ -138,14 +138,14 @@ class MainActivity : AppCompatActivity(), MainView {
         }.start()
     }
 
-    fun showProgressDialog() {
+    private fun showProgressDialog() {
         dialog = ProgressDialog(this@MainActivity).also {
             it.setTitle(getString(R.string.loading))
             it.show()
         }
     }
 
-    fun dismissProgressDialog() {
+    private fun dismissProgressDialog() {
         dialog?.dismiss().also {
             dialog = null
         }

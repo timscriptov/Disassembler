@@ -15,14 +15,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mcal.disassembler.R
-import com.mcal.disassembler.adapters.AppListAdapter
+import com.mcal.disassembler.adapters.SymbolsListAdapter
 import com.mcal.disassembler.databinding.SymbolsActivityBinding
 import com.mcal.disassembler.nativeapi.Dumper
 import com.mcal.disassembler.utils.FileSaver
 import com.mcal.disassembler.view.FloatingButton
 import com.mcal.disassembler.view.SnackBar
 
-class SymbolsActivity : AppCompatActivity(), AppListAdapter.AppItemClick {
+class SymbolsActivity : AppCompatActivity(), SymbolsListAdapter.SymbolItemClick {
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         SymbolsActivityBinding.inflate(layoutInflater)
     }
@@ -72,7 +72,7 @@ class SymbolsActivity : AppCompatActivity(), AppListAdapter.AppItemClick {
         setContentView(binding.root)
         setupToolbar(getString(R.string.app_symbols))
         path = intent.extras?.getString("filePath")?.also { filePath ->
-            val adapter = AppListAdapter(this, data, this, filePath)
+            val adapter = SymbolsListAdapter(this, data, this, filePath)
             val recyclerView = binding.symbolsActivityListView
             setVisibility(recyclerView, View.VISIBLE)
             recyclerView.layoutManager = LinearLayoutManager(this)
@@ -133,7 +133,7 @@ class SymbolsActivity : AppCompatActivity(), AppListAdapter.AppItemClick {
     }
 
     private fun setupToolbar(title: String) {
-        val toolbar = binding.toolbarSymbols.toolbar
+        val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
             this.title = title
