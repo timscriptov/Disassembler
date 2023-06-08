@@ -12,16 +12,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mcal.disassembler.R
 import com.mcal.disassembler.activities.SymbolActivity
-import com.mcal.disassembler.activities.SymbolsActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Locale
-import java.util.regex.Matcher
 
 class AppListAdapter(
     private val context: Context,
-    private val data: MutableList<Map<String, Any>>?,
+    private val data: MutableList<Map<String, Any>>,
     private val listener: AppItemClick,
     private val path: String
 ) :
@@ -31,8 +29,7 @@ class AppListAdapter(
     private var appFilterList = data
 
     interface AppItemClick {
-        fun onClick(view: View)
-        fun onFoundApp(mode: Boolean)
+        fun onFoundApp(list: MutableList<Map<String, Any>>, mode: Boolean)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppListViewHolder {
@@ -42,30 +39,25 @@ class AppListAdapter(
     }
 
     override fun onBindViewHolder(holder: AppListViewHolder, position: Int) {
-        data?.get(position)?.let { item ->
-            holder.icon.setBackgroundResource((item["img"] as Int))
-            holder.title.text = item["title"] as String
-            holder.info.text = item["info"] as String
-            holder.type = item["type"] as Int
-            holder.itemView.setOnClickListener {
-                it?.let {it1->
-                    listener.onClick(it1)
-
-                    val bundle = Bundle()
-                    bundle.putString("demangledName", item["title"] as String)
-                    bundle.putString("name", item["info"] as String)
-                    bundle.putInt("type", item["type"] as Int)
-                    bundle.putString("filePath", path)
-                    val intent = Intent(context, SymbolActivity::class.java)
-                    intent.putExtras(bundle)
-                    context.startActivity(intent)
-                }
-            }
+        val item = appFilterList[position]
+        holder.icon.setBackgroundResource((item["img"] as Int))
+        holder.title.text = item["title"] as String
+        holder.info.text = item["info"] as String
+        holder.type = item["type"] as Int
+        holder.itemView.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("demangledName", item["title"] as String)
+            bundle.putString("name", item["info"] as String)
+            bundle.putInt("type", item["type"] as Int)
+            bundle.putString("filePath", path)
+            val intent = Intent(context, SymbolActivity::class.java)
+            intent.putExtras(bundle)
+            context.startActivity(intent)
         }
     }
 
     override fun getItemCount(): Int {
-        return appFilterList?.size ?: 0
+        return appFilterList.size
     }
 
     class AppListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -78,34 +70,38 @@ class AppListAdapter(
     fun filter(constraint: CharSequence?) = CoroutineScope(Dispatchers.IO).launch {
         val list = mutableListOf<Map<String, Any>>()
         val charSearch = constraint.toString().lowercase(Locale.ROOT)
-        appFilterList = if (charSearch.isEmpty()) {
-            data
+        if (charSearch.isEmpty()) {
+            list.addAll(data)
         } else {
-            data?.forEach { row ->
-                val name = row["title"] as String
-                val index = name.indexOf(charSearch)
-                if (index == 0) {
+            data.forEach { row ->
+                val name = (row["title"] as String).lowercase(Locale.ROOT)
+                if (name.startsWith(charSearch)) {
                     list.add(row)
+                    println(name)
                 } else if (name.contains(charSearch)) {
                     list.add(row)
+                    println(name)
                 }
             }
-            list
+        }
+        appFilterList.apply {
+            clear()
+            addAll(list)
         }
         CoroutineScope(Dispatchers.Main).launch {
-            publishResults(appFilterList)
+            publishResults(list)
         }
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun publishResults(results: MutableList<Map<String, Any>>?) {
-        results?.let {
-            val isNotEmpty = results.isNotEmpty()
-            listener.onFoundApp(isNotEmpty)
-            if (isNotEmpty) {
-                appFilterList = results
-                notifyDataSetChanged()
+    private fun publishResults(results: MutableList<Map<String, Any>>) {
+        val isNotEmpty = results.isNotEmpty()
+        listener.onFoundApp(appFilterList, isNotEmpty)
+        if (isNotEmpty) {
+            appFilterList = results.also {
+                it.sortBy { it["title"] as String }
             }
+            notifyDataSetChanged()
         }
         val text = newValue
         if (text.isNullOrEmpty()) {
