@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 
-import com.mcal.disassembler.util.Utils;
+import com.mcal.disassembler.utils.Utils;
 
 public class FloatingMenu {
     public static int xPos = 0;

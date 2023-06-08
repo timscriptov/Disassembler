@@ -1,9 +1,9 @@
 package com.mcal.disassembler.data;
 
+import static com.mcal.disassembler.data.Database.getDatabase;
+
 import android.content.ContentValues;
 import android.database.Cursor;
-
-import static com.mcal.disassembler.data.Database.getDatabase;
 
 public class RecentsManager {
     public static Cursor getRecents() {

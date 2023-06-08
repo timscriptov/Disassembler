@@ -12,18 +12,14 @@ import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import com.mcal.disassembler.BuildConfig;
 import com.mcal.disassembler.R;
-import com.mcal.disassembler.data.Constants;
 import com.mcal.disassembler.data.Preferences;
-import com.mcal.materialdesign.view.CenteredToolBar;
-
+import com.mcal.disassembler.view.CenteredToolBar;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
@@ -31,7 +27,6 @@ import kotlin.jvm.functions.Function0;
 public class Main extends AppCompatActivity {
 
     public static int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 5469;
-    public static LinearLayout adLayout;
 
     static {
         System.loadLibrary("disassembler");
@@ -94,9 +89,9 @@ public class Main extends AppCompatActivity {
         startActivity(new Intent(this, NameDemanglerActivity.class));
     }
 
-    public void translator(View view) {
-        startActivity(new Intent(this, com.mcal.elfeditor.MainActivity.class));
-    }
+//    public void translator(View view) {
+//        startActivity(new Intent(this, com.mcal.elfeditor.MainActivity.class));
+//    }
 
     public void symbols(View view) {
         runSymbols();

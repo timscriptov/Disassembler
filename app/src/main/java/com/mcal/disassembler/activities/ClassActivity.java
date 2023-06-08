@@ -26,12 +26,12 @@ import com.mcal.disassembler.nativeapi.DisassemblerClass;
 import com.mcal.disassembler.nativeapi.DisassemblerSymbol;
 import com.mcal.disassembler.nativeapi.DisassemblerVtable;
 import com.mcal.disassembler.nativeapi.Dumper;
-import com.mcal.disassembler.util.ClassGeter;
-import com.mcal.disassembler.util.FileSaver;
-import com.mcal.disassembler.util.HeaderGenerator;
+import com.mcal.disassembler.utils.ClassGeter;
+import com.mcal.disassembler.utils.FileSaver;
+import com.mcal.disassembler.utils.HeaderGenerator;
+import com.mcal.disassembler.view.CenteredToolBar;
+import com.mcal.disassembler.view.SnackBar;
 import com.mcal.disassembler.vtable.VtableDumper;
-import com.mcal.materialdesign.view.CenteredToolBar;
-import com.mcal.materialdesign.widgets.SnackBar;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -49,13 +49,11 @@ public class ClassActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case 0:
-                    showSavingProgressDialog();
-                    break;
-                case 1:
+                case 0 -> showSavingProgressDialog();
+                case 1 -> {
                     new SnackBar(ClassActivity.this, ClassActivity.this.getString(R.string.done)).show();
                     dismissProgressDialog();
-                    break;
+                }
             }
         }
     };

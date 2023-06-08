@@ -1,4 +1,4 @@
-package com.mcal.disassembler.util;
+package com.mcal.disassembler.utils;
 
 import android.content.Context;
 import android.content.res.Resources;

@@ -15,6 +15,5 @@ dependencyResolutionManagement {
 }
 
 include ':app'
-include ':filepicker'
-include ':translator'
-include ':materialdesign'
+//include ':translator'
+//include ':materialdesign'

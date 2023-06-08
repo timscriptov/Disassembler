@@ -55,17 +55,17 @@
                     app:iconTint="#FFF"
                     tools:ignore="ContentDescription,UsingOnClickInXml" />
 
-                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:onClick="translator"
-                    android:text="@string/app_translate"
-                    android:textColor="#FFF"
-                    app:backgroundTint="@color/colorAccent"
-                    app:icon="@drawable/ic_translate"
-                    app:iconTint="#FFF"
-                    tools:ignore="ContentDescription,UsingOnClickInXml" />
+<!--                <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton-->
+<!--                    android:layout_width="200dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:gravity="center"-->
+<!--                    android:onClick="translator"-->
+<!--                    android:text="@string/app_translate"-->
+<!--                    android:textColor="#FFF"-->
+<!--                    app:backgroundTint="@color/colorAccent"-->
+<!--                    app:icon="@drawable/ic_translate"-->
+<!--                    app:iconTint="#FFF"-->
+<!--                    tools:ignore="ContentDescription,UsingOnClickInXml" />-->
 
                 <LinearLayout
                     android:layout_width="match_parent"

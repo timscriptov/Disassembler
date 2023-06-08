@@ -73,7 +73,7 @@
                     android:layout_above="@id/mainactivityLinearLayout1"
                     android:layout_alignParentEnd="true"
                     android:layout_margin="16dp"
-                    android:onClick="chooseSdcard"
+                    android:id="@+id/open_lib"
                     android:text="Open"
                     android:textColor="#FFF"
                     app:backgroundTint="@color/colorAccent"

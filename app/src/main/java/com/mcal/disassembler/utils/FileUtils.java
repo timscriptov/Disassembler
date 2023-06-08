@@ -1,4 +1,4 @@
-package com.mcal.disassembler.util;
+package com.mcal.disassembler.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

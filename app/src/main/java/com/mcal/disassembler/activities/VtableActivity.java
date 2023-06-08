@@ -22,9 +22,9 @@ import com.mcal.disassembler.R;
 import com.mcal.disassembler.nativeapi.DisassemblerDumper;
 import com.mcal.disassembler.nativeapi.DisassemblerVtable;
 import com.mcal.disassembler.nativeapi.Dumper;
-import com.mcal.disassembler.util.FileSaver;
-import com.mcal.materialdesign.view.CenteredToolBar;
-import com.mcal.materialdesign.widgets.SnackBar;
+import com.mcal.disassembler.utils.FileSaver;
+import com.mcal.disassembler.view.CenteredToolBar;
+import com.mcal.disassembler.view.SnackBar;
 
 import org.jetbrains.annotations.NotNull;
 

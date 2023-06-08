@@ -5,7 +5,7 @@ plugins {
 
 
 android {
-    compileSdk 32
+    compileSdk 33
     ndkVersion '24.0.8215888'
 
     defaultConfig {
@@ -35,24 +35,27 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+        sourceCompatibility = 17
+        targetCompatibility = 17
     }
+    namespace 'com.mcal.disassembler'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-	implementation project(':filepicker')
-    implementation project(':translator')
-    implementation project(':materialdesign')
 	implementation 'androidx.cardview:cardview:1.0.0'
-	implementation 'androidx.annotation:annotation:1.4.0'
+	implementation 'androidx.annotation:annotation:1.6.0'
     implementation 'androidx.preference:preference-ktx:1.2.0'
-    implementation "androidx.core:core-ktx:1.8.0"
+    implementation "androidx.core:core-ktx:1.10.1"
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.1"
 
-    implementation 'org.jetbrains:annotations:23.0.0'
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"
+    implementation "com.mikepenz:fastadapter:5.7.0"
+    implementation "com.mikepenz:fastadapter-extensions-binding:5.7.0"
 
-	implementation 'com.google.android.material:material:1.6.1'
+    implementation 'org.jetbrains:annotations:24.0.1'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.0"
+
+	implementation 'com.google.android.material:material:1.9.0'
 }

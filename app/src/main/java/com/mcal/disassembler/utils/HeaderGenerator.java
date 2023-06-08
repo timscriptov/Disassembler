@@ -1,4 +1,4 @@
-package com.mcal.disassembler.util;
+package com.mcal.disassembler.utils;
 
 import com.mcal.disassembler.nativeapi.DisassemblerClass;
 import com.mcal.disassembler.nativeapi.DisassemblerSymbol;

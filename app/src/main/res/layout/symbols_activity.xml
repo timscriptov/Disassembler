@@ -10,40 +10,33 @@
         android:id="@+id/toolbar_symbols"
         layout="@layout/toolbar" />
 
-    <View
-        android:id="@+id/view"
+    <EditText
+        android:id="@+id/search"
         android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:layout_below="@+id/toolbar_symbols"
-        android:background="@drawable/pref_shadow_top" />
+        android:layout_margin="8dp"
+        android:background="@drawable/dialog_background"
+        android:layout_height="48dp"
+        android:padding="8dp"
+        android:hint="Enter search text..."
+        android:layout_below="@+id/toolbar_symbols" />
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/symbols_activity_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/view"
-        android:fastScrollEnabled="true" />
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/saveSymbols"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:onClick="showFloatingMenu"
-        android:text="Float"
-        android:textColor="#FFF"
-        app:backgroundTint="@color/colorAccent"
-        app:icon="@drawable/ic_menu"
-        app:iconTint="#FFF"
-        tools:ignore="UsingOnClickInXml" />
+        android:layout_below="@+id/search"
+        android:divider="@null"
+        app:fastScrollEnabled="true"
+        app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
+        app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
+        app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
+        app:fastScrollVerticalTrackDrawable="@drawable/line_drawable" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/saveSymbols"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:layout_above="@id/showSearch"
+        android:layout_above="@id/showFloatingMenu"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
@@ -56,18 +49,18 @@
         tools:ignore="UsingOnClickInXml" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/showSearch"
+        android:id="@+id/showFloatingMenu"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:onClick="showSearch"
-        android:text="Search"
+        android:layout_marginBottom="18dp"
+        android:onClick="showFloatingMenu"
+        android:text="Menu"
         android:textColor="#FFF"
         app:backgroundTint="@color/colorAccent"
-        app:icon="@drawable/ic_search"
+        app:icon="@drawable/ic_menu"
         app:iconTint="#FFF"
         tools:ignore="ContentDescription,UsingOnClickInXml" />
 
