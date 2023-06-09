@@ -1,7 +1,6 @@
 package com.mcal.disassembler.activities
 
 import android.annotation.SuppressLint
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -9,15 +8,17 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mcal.disassembler.R
 import com.mcal.disassembler.adapters.ListAdapter
 import com.mcal.disassembler.data.Database
 import com.mcal.disassembler.data.RecentsManager
 import com.mcal.disassembler.data.Storage
 import com.mcal.disassembler.databinding.MainActivityBinding
+import com.mcal.disassembler.databinding.ProgressDialogBinding
 import com.mcal.disassembler.interfaces.MainView
 import com.mcal.disassembler.nativeapi.DisassemblerDumper
 import com.mcal.disassembler.nativeapi.Dumper
@@ -27,17 +28,16 @@ import com.mcal.disassembler.view.CenteredToolBar
 import java.io.File
 import java.io.FileOutputStream
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : AppCompatActivity(), MainView, Dumper.DumperListener {
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         MainActivityBinding.inflate(
             layoutInflater
         )
     }
+    private var dialogBinding: ProgressDialogBinding? = null
     private val paths = ArrayList<String>()
-    var dialog: ProgressDialog? = null
-
+    private var dialog: AlertDialog? = null
     private var path: String? = null
-
     private lateinit var pickLauncher: ActivityResultLauncher<Intent>
 
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,10 +50,11 @@ class MainActivity : AppCompatActivity(), MainView {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
                     result.data?.data?.let { uri ->
-                        val projectsDir = Storage.getHomeDir(this)
-                        val soFile = File(projectsDir, FilePickHelper.getFileName(this, uri))
-
                         contentResolver.openInputStream(uri)?.let { inputStream ->
+                            val soFile = File(
+                                Storage.getHomeDir(this),
+                                FilePickHelper.getFileName(this, uri)
+                            )
                             val filePath = soFile.path
                             FileHelper.copyFile(inputStream, FileOutputStream(soFile))
                             if (filePath.endsWith(".so")) {
@@ -72,8 +73,7 @@ class MainActivity : AppCompatActivity(), MainView {
                 }
             }
 
-
-        findViewById<ExtendedFloatingActionButton>(R.id.open_lib).setOnClickListener {
+        binding.openLib.setOnClickListener {
             pickLauncher.launch(FilePickHelper.pickFile(false))
         }
     }
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity(), MainView {
     private fun setupToolbar(title: String) {
         setSupportActionBar(findViewById<CenteredToolBar>(R.id.toolbar))
         supportActionBar?.apply {
-            this.title = title
+            setTitle(title)
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowHomeEnabled(true)
         }
@@ -96,16 +96,17 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateRecents() {
+    private fun updateRecents() {
         paths.clear()
         val cursor = RecentsManager.getRecents()
         val welcomeLayout = binding.welcomeLayout
         val recentOpened = binding.items
+        val adapter = ListAdapter(paths, this)
         recentOpened.layoutManager = LinearLayoutManager(this@MainActivity)
         if (cursor.count == 0) {
             recentOpened.visibility = View.GONE
             welcomeLayout.visibility = View.VISIBLE
-            recentOpened.adapter = ListAdapter(paths, this)
+            recentOpened.adapter = adapter
         } else {
             welcomeLayout.visibility = View.INVISIBLE
             recentOpened.visibility = View.VISIBLE
@@ -115,14 +116,14 @@ class MainActivity : AppCompatActivity(), MainView {
                     paths.add(cursor.getString(0))
                 }
             }
-            recentOpened.adapter = ListAdapter(paths, this)
+            recentOpened.adapter = adapter
         }
         if (cursor.count > 0) {
             while (cursor.moveToNext()) {
                 paths.add(cursor.getString(0))
             }
         }
-        recentOpened.adapter?.notifyDataSetChanged()
+        adapter.notifyDataSetChanged()
     }
 
     override fun loadSo(path: String) {
@@ -131,31 +132,52 @@ class MainActivity : AppCompatActivity(), MainView {
         object : Thread() {
             override fun run() {
                 DisassemblerDumper.load(path)
-                Dumper.readData()
+                Dumper.readData(this@MainActivity)
                 toClassesActivity()
             }
         }.start()
     }
 
     private fun showProgressDialog() {
-        dialog = ProgressDialog(this@MainActivity).also {
-            it.setTitle(getString(R.string.loading))
+        dialog = MaterialAlertDialogBuilder(this).apply {
+            dialogBinding = ProgressDialogBinding.inflate(layoutInflater).also { binding ->
+                setView(binding.root)
+            }
+            setTitle(R.string.loading)
+        }.create().also {
             it.show()
         }
     }
 
     private fun dismissProgressDialog() {
-        dialog?.dismiss().also {
+        dialog?.let {
+            it.dismiss()
             dialog = null
         }
+        dialogBinding = null
     }
 
-    fun toClassesActivity() {
+    private fun toClassesActivity() {
         startActivity(Intent(this@MainActivity, SymbolsActivity::class.java).apply {
             putExtras(Bundle().apply {
                 putString("filePath", path)
             })
         })
         dismissProgressDialog()
+    }
+
+    override fun updateProgress(last: Int, total: Int) {
+        runOnUiThread {
+            dialogBinding?.let { binding ->
+                val progressView = binding.progress
+                progressView.progress = last
+                progressView.max = total
+                binding.count.text = buildString {
+                    append(last)
+                    append(" / ")
+                    append(total)
+                }
+            }
+        }
     }
 }
