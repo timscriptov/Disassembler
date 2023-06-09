@@ -31,15 +31,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center"
+            android:orientation="horizontal"
             android:paddingBottom="10dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/TextInputLayoutTheme"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
                 android:layout_weight="1.0"
                 android:hint="@string/paste_symbol">
 
@@ -54,16 +53,16 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="demangle"
-                android:src="@drawable/ic_run"
-                app:backgroundTint="@color/colorAccent"
-                app:tint="#FFFFFF"
-                tools:ignore="ContentDescription,UsingOnClickInXml" />
-
         </LinearLayout>
+
+        <Button
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="demangle"
+            android:src="@drawable/ic_run"
+            android:text="Convert"
+            tools:ignore="ContentDescription,UsingOnClickInXml" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/TextInputLayoutTheme"

@@ -271,7 +271,7 @@ public class ClassActivity extends AppCompatActivity {
 
             if (convertView == null) {
                 holder = new ViewHolder();
-                convertView = mInflater.inflate(R.layout.symbol_list_item, null);
+                convertView = mInflater.inflate(R.layout.symbols_list_item, null);
                 holder.img = convertView.findViewById(R.id.symbolslistitemimg);
                 holder.title = convertView.findViewById(R.id.symbolslistitemTextViewtop);
                 holder.info = convertView.findViewById(R.id.symbolslistitemTextViewbottom);

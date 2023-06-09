@@ -27,4 +27,5 @@
     <string name="app_vtable">VTable</string>
     <string name="result_demangle">Result</string>
     <string name="paste_symbol">Paste symbol</string>
+    <string name="symbols_count">"Symbols count: "</string>
 </resources>

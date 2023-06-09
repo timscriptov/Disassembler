@@ -7,6 +7,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -79,6 +80,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
         private final ArrayList<String> items_backup = paths;
         private final ArrayList<String> filteredItems = new ArrayList<>();
 
+        @Nullable
         @Override
         protected Filter.FilterResults performFiltering(CharSequence p1) {
             filteredItems.clear();

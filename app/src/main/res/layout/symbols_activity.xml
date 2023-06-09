@@ -32,31 +32,45 @@
             android:layout_height="48dp"
             android:layout_weight="1"
             android:background="@null"
-            android:hint="Enter search text..."
+            android:hint="Enter search symbol..."
             android:padding="8dp" />
 
         <ImageButton
             android:id="@+id/clear_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null"
+            android:background="?android:attr/selectableItemBackground"
             android:padding="8dp"
             android:src="@drawable/ic_close" />
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/symbols_size"
-        android:layout_width="match_parent"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/symbols_size_card"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/search_container"
-        android:text="Symbols size:" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        tools:ignore="UselessParent">
+
+        <TextView
+            android:id="@+id/symbols_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Symbols count: " />
+
+    </com.google.android.material.card.MaterialCardView>
 
     <LinearLayout
         android:id="@+id/result_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/symbols_size"
+        android:layout_below="@+id/symbols_size_card"
+        android:gravity="center"
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -72,7 +86,7 @@
 
         <TextView
             android:id="@+id/symbols_not_found"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Symbols not found"
             android:visibility="gone" />

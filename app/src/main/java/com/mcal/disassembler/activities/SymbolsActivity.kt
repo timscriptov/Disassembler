@@ -11,7 +11,6 @@ import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mcal.disassembler.R
@@ -41,11 +40,13 @@ class SymbolsActivity : AppCompatActivity(), SymbolsListAdapter.SymbolItemClick 
             map["type"] = Dumper.symbols[i].type
             list.add(map)
         }
-        list.also {
-            it.sortBy { it["title"] as String }
-            updateSymbolsSize(it)
+        list.sortBy {
+            it["title"] as String
         }
+        updateSymbolsSize(list)
+        list
     }
+
     private var path: String? = null
     private var mDialog: ProgressDialog? = null
     private var mBar: SnackBar? = null
@@ -128,7 +129,7 @@ class SymbolsActivity : AppCompatActivity(), SymbolsListAdapter.SymbolItemClick 
         val oldText = symbolsSizeView.text.toString()
         val dataSize = list.size.toString()
         if (oldText != dataSize) {
-            symbolsSizeView.text = "Symbols size: $dataSize"
+            symbolsSizeView.text = getString(R.string.symbols_count) + dataSize
         }
     }
 
@@ -146,33 +147,33 @@ class SymbolsActivity : AppCompatActivity(), SymbolsListAdapter.SymbolItemClick 
         FloatingButton(this, path).show()
     }
 
-    private fun _saveSymbols() {
-        val strings = arrayOfNulls<String>(Dumper.symbols.size)
-        for (i in Dumper.symbols.indices) strings[i] = Dumper.symbols[i].name
-        val saver = FileSaver(
-            Environment.getExternalStorageDirectory().toString() + "/Disassembler/symbols/",
-            "Symbols.txt",
-            strings
-        )
-        saver.save()
-        val strings_ = arrayOfNulls<String>(Dumper.symbols.size)
-        for (i in Dumper.symbols.indices) strings_[i] = Dumper.symbols[i].demangledName
-        val saver_ = FileSaver(
-            Environment.getExternalStorageDirectory().toString() + "/Disassembler/symbols/",
-            "Symbols_demangled.txt",
-            strings_
-        )
-        saver_.save()
-    }
-
     fun saveSymbols(view: View?) {
-        mDialog = ProgressDialog(this)
-        mDialog!!.setTitle(getString(R.string.saving))
-        mDialog!!.show()
+        mDialog = ProgressDialog(this).apply {
+            setTitle(getString(R.string.saving))
+        }.also {
+            it.show()
+        }
         mBar = SnackBar(this, getString(R.string.done))
         object : Thread() {
             override fun run() {
-                _saveSymbols()
+                val symbols = arrayOfNulls<String>(Dumper.symbols.size)
+                for (i in Dumper.symbols.indices) {
+                    symbols[i] = Dumper.symbols[i].name
+                }
+                FileSaver(
+                    Environment.getExternalStorageDirectory().toString() + "/Disassembler/symbols/",
+                    "Symbols.txt",
+                    symbols
+                ).save()
+                val demangledSymbols = arrayOfNulls<String>(Dumper.symbols.size)
+                for (i in Dumper.symbols.indices) {
+                    demangledSymbols[i] = Dumper.symbols[i].demangledName
+                }
+                FileSaver(
+                    Environment.getExternalStorageDirectory().toString() + "/Disassembler/symbols/",
+                    "Symbols_demangled.txt",
+                    demangledSymbols
+                ).save()
                 val msg = Message()
                 mHandler.sendMessage(msg)
             }
@@ -181,10 +182,11 @@ class SymbolsActivity : AppCompatActivity(), SymbolsListAdapter.SymbolItemClick 
 
     @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        val bar = SnackBar(this, getString(R.string.againToExit))
-        bar.show()
-        bar.dismissTimer = 2500
-        bar.setOnBackPressedListener { finish() }
+        SnackBar(this, getString(R.string.againToExit)).apply {
+            show()
+            dismissTimer = 2500
+            setOnBackPressedListener { finish() }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -199,8 +201,11 @@ class SymbolsActivity : AppCompatActivity(), SymbolsListAdapter.SymbolItemClick 
 
     override fun onFoundApp(list: MutableList<Map<String, Any>>, mode: Boolean) {
         setVisibility(
-            findViewById<TextView>(R.id.symbols_not_found),
-            if (mode) View.GONE else View.VISIBLE
+            binding.symbolsNotFound, if (mode) {
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
         )
         updateSymbolsSize(list)
     }

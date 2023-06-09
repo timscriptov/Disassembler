@@ -19,6 +19,7 @@ import com.mcal.disassembler.adapters.ListAdapter
 import com.mcal.disassembler.data.Database
 import com.mcal.disassembler.data.RecentsManager
 import com.mcal.disassembler.data.Storage
+import com.mcal.disassembler.databinding.MainActivityBinding
 import com.mcal.disassembler.interfaces.MainView
 import com.mcal.disassembler.nativeapi.DisassemblerDumper
 import com.mcal.disassembler.nativeapi.Dumper
@@ -29,10 +30,13 @@ import java.io.File
 import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity(), MainView {
+    private val binding by lazy(LazyThreadSafetyMode.NONE) {
+        MainActivityBinding.inflate(
+            layoutInflater
+        )
+    }
     private val paths = ArrayList<String>()
     var dialog: ProgressDialog? = null
-    private lateinit var recentOpened: RecyclerView
-    private lateinit var welcomeLayout: LinearLayout
 
     private var path: String? = null
 
@@ -40,16 +44,10 @@ class MainActivity : AppCompatActivity(), MainView {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
+        setContentView(binding.root)
         setupToolbar(getString(R.string.app_name))
         Database(this)
-        welcomeLayout = findViewById(R.id.welcome_layout)
-        recentOpened = findViewById<RecyclerView?>(R.id.items).apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-        }
         updateRecents()
-
-
         pickLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
@@ -103,6 +101,9 @@ class MainActivity : AppCompatActivity(), MainView {
     fun updateRecents() {
         paths.clear()
         val cursor = RecentsManager.getRecents()
+        val welcomeLayout = binding.welcomeLayout
+        val recentOpened = binding.items
+        recentOpened.layoutManager = LinearLayoutManager(this@MainActivity)
         if (cursor.count == 0) {
             recentOpened.visibility = View.GONE
             welcomeLayout.visibility = View.VISIBLE

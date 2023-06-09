@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageButton;
 
 import com.mcal.disassembler.R;
@@ -35,17 +36,17 @@ public class FloatingMenuView extends RelativeLayout {
 
         int buttonWidth = width / 6;
 
-        AppCompatImageButton imageButtonClose = (AppCompatImageButton) view.findViewById(R.id.floatingmenuButtonClose);
+        AppCompatImageButton imageButtonClose = view.findViewById(R.id.floatingmenuButtonClose);
         imageButtonClose.setOnClickListener(p1 -> {
             menu.dismiss();
             new FloatingButton(context, path).show();
         });
         setLayoutParams(imageButtonClose, buttonWidth);
 
-        AppCompatImageButton imageButtonHide = (AppCompatImageButton) view.findViewById(R.id.floatingmenuButtonHide);
+        AppCompatImageButton imageButtonHide = view.findViewById(R.id.floatingmenuButtonHide);
         imageButtonHide.setOnClickListener(p1 -> menu.dismiss());
         setLayoutParams(imageButtonHide, buttonWidth);
-        editText = (EditText) view.findViewById(R.id.floatingmenuEditText);
+        editText = view.findViewById(R.id.floatingmenuEditText);
         editText.postDelayed(() -> {
             InputMethodManager keyboard = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
             keyboard.showSoftInput(editText, 0);
@@ -53,22 +54,22 @@ public class FloatingMenuView extends RelativeLayout {
 
 
         buttonWidth *= 0.75;
-        AppCompatImageButton imageButtonClear = (AppCompatImageButton) view.findViewById(R.id.floatingmenuButtonClear);
+        AppCompatImageButton imageButtonClear = view.findViewById(R.id.floatingmenuButtonClear);
         imageButtonClear.setOnClickListener(p1 -> editText.getText().clear());
         setLayoutParams(imageButtonClear, buttonWidth);
 
-        AppCompatImageButton imageButtonPaste = (AppCompatImageButton) view.findViewById(R.id.floatingmenuButtonPaste);
+        AppCompatImageButton imageButtonPaste = view.findViewById(R.id.floatingmenuButtonPaste);
         imageButtonPaste.setOnClickListener(p1 -> {
             editText.setText(readFromClipboard());
         });
         setLayoutParams(imageButtonPaste, buttonWidth);
 
-        AppCompatImageButton imageButtonSearch = (AppCompatImageButton) view.findViewById(R.id.floatingmenuButtonSearch);
+        AppCompatImageButton imageButtonSearch = view.findViewById(R.id.floatingmenuButtonSearch);
         imageButtonSearch.setOnClickListener(p1 -> search(editText.getText().toString()));
-        text = (TextView) view.findViewById(R.id.floatingmenuTextView);
+        text = view.findViewById(R.id.floatingmenuTextView);
         setLayoutParams(imageButtonSearch, buttonWidth);
 
-        AppCompatImageButton imageButtonCopy = (AppCompatImageButton) view.findViewById(R.id.floatingmenuButtonCopy);
+        AppCompatImageButton imageButtonCopy = view.findViewById(R.id.floatingmenuButtonCopy);
         imageButtonCopy.setOnClickListener(p1 -> {
             String stringYouExtracted = text.getText().toString();
             int startIndex = text.getSelectionStart();
@@ -97,18 +98,18 @@ public class FloatingMenuView extends RelativeLayout {
 
     private void search(String name) {
         try {
-            String localText = new String();
-            Vector<DisassemblerSymbol> symbols = new Vector<DisassemblerSymbol>();
+            StringBuilder localText = new StringBuilder();
+            Vector<DisassemblerSymbol> symbols;
             symbols = Searcher.search(name);
             for (DisassemblerSymbol symbol : symbols)
-                localText = localText + symbol.getDemangledName() + "\n";
-            text.setText(localText);
+                localText.append(symbol.getDemangledName()).append("\n");
+            text.setText(localText.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void setLayoutParams(View view, int w) {
+    private void setLayoutParams(@NonNull View view, int w) {
         ViewGroup.LayoutParams params = view.getLayoutParams();
         params.width = w;
         view.setLayoutParams(params);
