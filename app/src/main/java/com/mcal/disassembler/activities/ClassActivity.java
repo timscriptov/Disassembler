@@ -22,6 +22,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.mcal.disassembler.R;
+import com.mcal.disassembler.data.Storage;
 import com.mcal.disassembler.nativeapi.DisassemblerClass;
 import com.mcal.disassembler.nativeapi.DisassemblerSymbol;
 import com.mcal.disassembler.nativeapi.DisassemblerVtable;
@@ -118,7 +119,7 @@ public class ClassActivity extends AppCompatActivity {
             public void run() {
                 mHandler.sendEmptyMessage(0);
                 HeaderGenerator generator = new HeaderGenerator(findClass(), findVtable(), path);
-                FileSaver saver = new FileSaver(Environment.getExternalStorageDirectory().toString() + "/Disassembler/headers/", getSaveName(name), generator.generate());
+                FileSaver saver = new FileSaver(Storage.getHomeDir(ClassActivity.this).getPath() + "/Disassembler/headers/", getSaveName(name), generator.generate());
                 saver.save();
                 mHandler.sendEmptyMessage(1);
             }

@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mcal.disassembler.R
 import com.mcal.disassembler.adapters.SymbolsListAdapter
+import com.mcal.disassembler.data.Storage.getHomeDir
 import com.mcal.disassembler.databinding.SymbolsActivityBinding
 import com.mcal.disassembler.nativeapi.Dumper
 import com.mcal.disassembler.utils.FileSaver
@@ -161,7 +162,7 @@ class SymbolsActivity : AppCompatActivity(), SymbolsListAdapter.SymbolItemClick 
                     symbols[i] = Dumper.symbols[i].name
                 }
                 FileSaver(
-                    Environment.getExternalStorageDirectory().toString() + "/Disassembler/symbols/",
+                    getHomeDir(this@SymbolsActivity).path + "/Disassembler/symbols/",
                     "Symbols.txt",
                     symbols
                 ).save()
@@ -170,7 +171,7 @@ class SymbolsActivity : AppCompatActivity(), SymbolsListAdapter.SymbolItemClick 
                     demangledSymbols[i] = Dumper.symbols[i].demangledName
                 }
                 FileSaver(
-                    Environment.getExternalStorageDirectory().toString() + "/Disassembler/symbols/",
+                    getHomeDir(this@SymbolsActivity).path + "/Disassembler/symbols/",
                     "Symbols_demangled.txt",
                     demangledSymbols
                 ).save()

@@ -19,6 +19,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import com.mcal.disassembler.R;
+import com.mcal.disassembler.data.Storage;
 import com.mcal.disassembler.nativeapi.DisassemblerDumper;
 import com.mcal.disassembler.nativeapi.DisassemblerVtable;
 import com.mcal.disassembler.nativeapi.Dumper;
@@ -74,7 +75,7 @@ public class VtableActivity extends AppCompatActivity {
         for (int i = 0; i < vtable.getVtables().size(); ++i)
             strings[i] = vtable.getVtables().get(i).getName();
 
-        FileSaver saver = new FileSaver(Environment.getExternalStorageDirectory().toString() + "/Disassembler/vtables/", name + ".txt", strings);
+        FileSaver saver = new FileSaver(Storage.getHomeDir(this).getPath() + "/Disassembler/vtables/", name + ".txt", strings);
         saver.save();
 
 
@@ -83,7 +84,7 @@ public class VtableActivity extends AppCompatActivity {
             strings_[i] = vtable.getVtables().get(i).getDemangledName();
         String demangledName = DisassemblerDumper.demangleOnly(name);
         String fileName = demangledName.substring(demangledName.lastIndexOf(" ") + 1);
-        FileSaver saver_ = new FileSaver(Environment.getExternalStorageDirectory().toString() + "/Disassembler/vtables/", fileName + ".txt", strings_);
+        FileSaver saver_ = new FileSaver(Storage.getHomeDir(this).getPath() + "/Disassembler/vtables/", fileName + ".txt", strings_);
         saver_.save();
 
         new SnackBar(this, getString(R.string.done)).show();

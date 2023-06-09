@@ -12,7 +12,7 @@ android {
         applicationId "com.mcal.disassembler"
         minSdk 21
         //noinspection OldTargetApi
-        targetSdk 29
+        targetSdk 33
         versionCode 33
         versionName "3.3"
         ndk {
@@ -40,6 +40,9 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+    lint {
+        baseline = file("lint-baseline.xml")
     }
     namespace 'com.mcal.disassembler'
 }
