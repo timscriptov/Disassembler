@@ -5,9 +5,11 @@
 
 	<uses-permission android:name="android.permission.INTERNET"/>
 	<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-	<uses-permission android:name="android.permission.INTERNAL_SYSTEM_WINDOW "/>
-	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+		android:maxSdkVersion="32" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+		android:maxSdkVersion="32"
+		tools:ignore="ScopedStorage" />
 	<uses-permission android:name="com.android.vending.BILLING" />
 	
     <application
@@ -57,20 +59,12 @@
 			android:label="@string/symbolActivity"/>
 		
 		<activity
-			android:name=".activities.SearchActivity"
-			android:label="@string/searchActivity"/>
-		
-		<activity
 			android:name=".activities.VtableActivity"
 			android:label="@string/vtableActivity"/>
 		
 		<activity
 			android:name=".activities.NameDemanglerActivity"
 			android:label="@string/nameDemangler"/>
-
-		<meta-data
-			android:name="com.google.android.gms.ads.APPLICATION_ID"
-			android:value="ca-app-pub-1411495427741055~3231519335" />
 
 		<provider
 			android:name="androidx.core.content.FileProvider"
