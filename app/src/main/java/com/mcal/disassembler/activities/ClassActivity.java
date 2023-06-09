@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -15,11 +14,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.AppCompatTextView;
 
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.data.Storage;
@@ -97,15 +96,18 @@ public class ClassActivity extends AppCompatActivity {
         List<Map<String, Object>> list = new ArrayList<>();
         Map<String, Object> map;
         DisassemblerClass classThis = findClass();
-        if (classThis == null)
+        if (classThis == null) {
             return list;
+        }
         for (int i = 0; i < classThis.getSymbols().size(); ++i) {
             map = new HashMap<>();
-            if (classThis.getSymbols().get(i).getType() == 1)
+            if (classThis.getSymbols().get(i).getType() == 1) {
                 map.put("img", R.drawable.ic_box_blue);
-            else if (classThis.getSymbols().get(i).getType() == 2)
+            } else if (classThis.getSymbols().get(i).getType() == 2) {
                 map.put("img", R.drawable.ic_box_red);
-            else map.put("img", R.drawable.ic_box_green);
+            } else {
+                map.put("img", R.drawable.ic_box_green);
+            }
             map.put("title", classThis.getSymbols().get(i).getDemangledName());
             map.put("info", classThis.getSymbols().get(i).getName());
             map.put("type", classThis.getSymbols().get(i).getType());
@@ -127,16 +129,20 @@ public class ClassActivity extends AppCompatActivity {
     }
 
     private DisassemblerClass findClass() {
-        for (DisassemblerClass clasz : Dumper.classes)
-            if (clasz.getName().equals(name))
+        for (DisassemblerClass clasz : Dumper.classes) {
+            if (clasz.getName().equals(name)) {
                 return clasz;
+            }
+        }
         return ClassGeter.getClass(name);
     }
 
     private DisassemblerVtable findVtable() {
-        for (DisassemblerVtable clasz : Dumper.exploed)
-            if (clasz.getName().equals(getZTVName(name)))
+        for (DisassemblerVtable clasz : Dumper.exploed) {
+            if (clasz.getName().equals(getZTVName(name))) {
                 return clasz;
+            }
+        }
         return VtableDumper.dump(path, getZTVName(name));
     }
 
@@ -144,8 +150,9 @@ public class ClassActivity extends AppCompatActivity {
     private String getZTVName(@NotNull String mangledName) {
         StringBuilder ret = new StringBuilder("_ZTV");
         String[] names = mangledName.split("::");
-        for (String str : names)
+        for (String str : names) {
             ret.append(str.length()).append(str);
+        }
         return ret.toString();
     }
 
@@ -158,8 +165,9 @@ public class ClassActivity extends AppCompatActivity {
             if (isFirstName) {
                 ret.append(str);
                 isFirstName = false;
-            } else
+            } else {
                 ret.append("$").append(str);
+            }
         }
         return ret + ".h";
     }
@@ -169,8 +177,9 @@ public class ClassActivity extends AppCompatActivity {
         new Thread() {
             public void run() {
                 DisassemblerVtable vtable = VtableDumper.dump(path, getZTVName(name));
-                if (vtable != null)
+                if (vtable != null) {
                     ClassActivity.this.toVtableActivity_(vtable);
+                }
                 dismissProgressDialog();
             }
         }.start();
@@ -178,9 +187,11 @@ public class ClassActivity extends AppCompatActivity {
 
     private boolean hasVtable() {
         String vtableThis = getZTVName(name);
-        for (DisassemblerSymbol symbol : Dumper.symbols)
-            if (symbol.getName().equals(vtableThis))
+        for (DisassemblerSymbol symbol : Dumper.symbols) {
+            if (symbol.getName().equals(vtableThis)) {
                 return true;
+            }
+        }
         return false;
     }
 
@@ -207,26 +218,26 @@ public class ClassActivity extends AppCompatActivity {
     }
 
     public void dismissProgressDialog() {
-        if (dialog != null)
+        if (dialog != null) {
             dialog.dismiss();
+        }
         dialog = null;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NotNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     static class ViewHolder {
-        public AppCompatTextView info;
+        public TextView info;
         public int type;
-        AppCompatImageView img;
-        AppCompatTextView title;
+        ImageView img;
+        TextView title;
     }
 
     private final class ItemClickListener implements OnItemClickListener {
@@ -244,7 +255,7 @@ public class ClassActivity extends AppCompatActivity {
     }
 
     public class SymbolsAdapter extends BaseAdapter {
-        private LayoutInflater mInflater;
+        private final LayoutInflater mInflater;
 
         private SymbolsAdapter(Context context) {
             this.mInflater = LayoutInflater.from(context);
@@ -268,7 +279,7 @@ public class ClassActivity extends AppCompatActivity {
         @SuppressLint("InflateParams")
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder = null;
+            ViewHolder holder;
 
             if (convertView == null) {
                 holder = new ViewHolder();

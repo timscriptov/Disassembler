@@ -33,7 +33,7 @@
                 app:icon="@null"
                 tools:ignore="HardcodedText" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:id="@+id/snackbartext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

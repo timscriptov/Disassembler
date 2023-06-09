@@ -3,10 +3,11 @@ package com.mcal.disassembler.activities;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatEditText;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.nativeapi.DisassemblerDumper;
 import com.mcal.disassembler.view.CenteredToolBar;
@@ -31,8 +32,8 @@ public class NameDemanglerActivity extends AppCompatActivity {
     }
 
     public void demangle(View view) {
-        AppCompatEditText editText1 = findViewById(R.id.namedemangleractivityEditText1);
-        AppCompatEditText editText2 = findViewById(R.id.namedemangleractivityEditText2);
+        TextInputEditText editText1 = findViewById(R.id.namedemangleractivityEditText1);
+        TextInputEditText editText2 = findViewById(R.id.namedemangleractivityEditText2);
         if (editText1.getText() == null) {
             return;
         } else {
@@ -45,10 +46,9 @@ public class NameDemanglerActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NotNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

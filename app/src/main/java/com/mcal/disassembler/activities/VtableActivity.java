@@ -12,11 +12,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.AppCompatTextView;
 
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.data.Storage;
@@ -119,10 +119,10 @@ public class VtableActivity extends AppCompatActivity {
     }
 
     static class ViewHolder {
-        public AppCompatTextView info;
+        public TextView info;
         public int type;
-        AppCompatImageView img;
-        AppCompatTextView title;
+        ImageView img;
+        TextView title;
     }
 
     private final class ItemClickListener implements OnItemClickListener {

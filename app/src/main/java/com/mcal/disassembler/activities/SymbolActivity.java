@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.AppCompatTextView;
 
 import com.mcal.disassembler.R;
 import com.mcal.disassembler.nativeapi.DisassemblerVtable;
@@ -37,7 +37,7 @@ public class SymbolActivity extends AppCompatActivity {
         String demangledName = getIntent().getExtras().getString("demangledName");
         path = getIntent().getExtras().getString("filePath");
 
-        AppCompatImageView imageTitile = findViewById(R.id.symbolactivityImageView);
+        ImageView imageTitile = findViewById(R.id.symbolactivityImageView);
         if (type == 1) {
             imageTitile.setImageResource(R.drawable.ic_box_blue);
         } else if (type == 2) {
@@ -46,10 +46,10 @@ public class SymbolActivity extends AppCompatActivity {
             imageTitile.setImageResource(R.drawable.ic_box_green);
         }
 
-        AppCompatTextView textName = findViewById(R.id.symbolactivityTextViewName);
+        TextView textName = findViewById(R.id.symbolactivityTextViewName);
         textName.setText(name);
 
-        AppCompatTextView textDemangledName = findViewById(R.id.symbolactivityTextViewDemangledName);
+        TextView textDemangledName = findViewById(R.id.symbolactivityTextViewDemangledName);
         textDemangledName.setText(demangledName);
 
         String arguments;
@@ -58,7 +58,7 @@ public class SymbolActivity extends AppCompatActivity {
         } else {
             arguments = "NULL";
         }
-        AppCompatTextView textArguments = findViewById(R.id.symbolactivityTextViewArguments);
+        TextView textArguments = findViewById(R.id.symbolactivityTextViewArguments);
         textArguments.setText(arguments);
 
         String symbolMainName;
@@ -75,7 +75,7 @@ public class SymbolActivity extends AppCompatActivity {
         } else {
             className = "NULL";
         }
-        AppCompatTextView textClassName = findViewById(R.id.symbolactivityTextClass);
+        TextView textClassName = findViewById(R.id.symbolactivityTextClass);
         textClassName.setText(className);
 
         String symbolName;
@@ -85,12 +85,12 @@ public class SymbolActivity extends AppCompatActivity {
             symbolName = symbolMainName;
         }
 
-        AppCompatTextView textSymbolName = findViewById(R.id.symbolactivityTextViewSymbolMainName);
+        TextView textSymbolName = findViewById(R.id.symbolactivityTextViewSymbolMainName);
         textSymbolName.setText(symbolName);
 
         String typeName = Tables.symbol_type.get(type);
 
-        AppCompatTextView textTypeName = findViewById(R.id.symbolactivityTextViewType);
+        TextView textTypeName = findViewById(R.id.symbolactivityTextViewType);
         textTypeName.setText(typeName);
 
         if (name.startsWith("_ZTV")) {

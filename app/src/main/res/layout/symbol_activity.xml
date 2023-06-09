@@ -47,7 +47,7 @@
                     android:orientation="horizontal"
                     android:padding="8dp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
+                    <ImageView
                         android:id="@+id/symbolactivityImageView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -55,30 +55,30 @@
                         tools:ignore="ContentDescription"
                         tools:src="@drawable/ic_box_blue" />
 
-                        <LinearLayout
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/symbolactivityTextViewDemangledName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:singleLine="true"
+                            android:textIsSelectable="true"
+                            android:textStyle="bold"
+                            tools:text="Xal::Platform::AccountMigratorCommon::NotifySuccessfulSignin(Xal::RunContext&amp;&amp;)" />
 
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/symbolactivityTextViewDemangledName"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:singleLine="true"
-                                android:textIsSelectable="true"
-                                android:textStyle="bold"
-                                tools:text="Xal::Platform::AccountMigratorCommon::NotifySuccessfulSignin(Xal::RunContext&amp;&amp;)" />
+                        <TextView
+                            android:id="@+id/symbolactivityTextViewName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:singleLine="true"
+                            android:textIsSelectable="true"
+                            tools:text="Xal::Platform::AccountMigratorCommon::NotifySuccessfulSignin(Xal::RunContext&amp;&amp;)" />
 
-                            <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/symbolactivityTextViewName"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="2dp"
-                                android:singleLine="true"
-                                android:textIsSelectable="true"
-                                tools:text="Xal::Platform::AccountMigratorCommon::NotifySuccessfulSignin(Xal::RunContext&amp;&amp;)" />
-
-                        </LinearLayout>
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -102,14 +102,14 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <androidx.appcompat.widget.AppCompatTextView
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/typeName"
                             android:textColor="#448aff"
                             android:textStyle="bold" />
 
-                        <androidx.appcompat.widget.AppCompatTextView
+                        <TextView
                             android:id="@+id/symbolactivityTextViewType"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -122,14 +122,14 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <androidx.appcompat.widget.AppCompatTextView
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/className"
                             android:textColor="#448aff"
                             android:textStyle="bold" />
 
-                        <androidx.appcompat.widget.AppCompatTextView
+                        <TextView
                             android:id="@+id/symbolactivityTextClass"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -142,14 +142,14 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <androidx.appcompat.widget.AppCompatTextView
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/mainName"
                             android:textColor="#448aff"
                             android:textStyle="bold" />
 
-                        <androidx.appcompat.widget.AppCompatTextView
+                        <TextView
                             android:id="@+id/symbolactivityTextViewSymbolMainName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -162,14 +162,14 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <androidx.appcompat.widget.AppCompatTextView
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/argumentsName"
                             android:textColor="#448aff"
                             android:textStyle="bold" />
 
-                        <androidx.appcompat.widget.AppCompatTextView
+                        <TextView
                             android:id="@+id/symbolactivityTextViewArguments"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -222,4 +222,3 @@
         tools:ignore="ContentDescription,UsingOnClickInXml" />
 
 </RelativeLayout>
-

@@ -3,7 +3,6 @@ package com.mcal.disassembler.activities
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.os.Bundle
-import android.os.Environment
 import android.os.Handler
 import android.os.Message
 import android.text.Editable

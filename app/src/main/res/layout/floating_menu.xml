@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/dialog_background"
@@ -18,28 +19,28 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:text="@string/symbols_menu"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <ImageButton
                 android:id="@+id/floatingmenuButtonClose"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/bg_clickable"
                 android:src="@drawable/ic_minimize"
-                android:tint="@color/colorAccent" />
+                app:tint="@color/colorAccent" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <ImageButton
                 android:id="@+id/floatingmenuButtonHide"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/bg_clickable"
                 android:src="@drawable/ic_close"
-                android:tint="#D32F2F" />
+                app:tint="#D32F2F" />
 
         </LinearLayout>
 
@@ -49,41 +50,41 @@
             android:gravity="center|start"
             android:orientation="horizontal">
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <ImageButton
                 android:id="@+id/floatingmenuButtonPaste"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:alpha="0.38"
                 android:background="@drawable/bg_clickable"
                 android:src="@drawable/ic_paste"
-                android:tint="@color/textColorPrimary" />
+                app:tint="@color/textColorPrimary" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <ImageButton
                 android:id="@+id/floatingmenuButtonCopy"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:alpha="0.38"
                 android:background="@drawable/bg_clickable"
                 android:src="@drawable/ic_copy"
-                android:tint="@color/textColorPrimary" />
+                app:tint="@color/textColorPrimary" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <ImageButton
                 android:id="@+id/floatingmenuButtonClear"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:alpha="0.38"
                 android:background="@drawable/bg_clickable"
                 android:src="@drawable/ic_close"
-                android:tint="@color/textColorPrimary" />
+                app:tint="@color/textColorPrimary" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
+            <ImageButton
                 android:id="@+id/floatingmenuButtonSearch"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:alpha="0.38"
                 android:background="@drawable/bg_clickable"
                 android:src="@drawable/ic_search"
-                android:tint="@color/textColorPrimary" />
+                app:tint="@color/textColorPrimary" />
 
         </LinearLayout>
 
@@ -108,7 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:id="@+id/floatingmenuTextView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -5,11 +5,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mcal.disassembler.R;
@@ -64,8 +64,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> im
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         LinearLayout item;
-        AppCompatTextView itemText, itemName;
-        AppCompatImageView remove;
+        TextView itemText, itemName;
+        ImageView remove;
 
         ViewHolder(View view) {
             super(view);

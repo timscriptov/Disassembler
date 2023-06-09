@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -8,8 +8,9 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        app:cardCornerRadius="5dp">
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp">
 
         <LinearLayout
             android:id="@+id/list_item"
@@ -27,25 +28,22 @@
                 android:layout_weight="1.0"
                 android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
                     android:id="@+id/item_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Medium Text"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="?attr/actionMenuTextColor" />
+                    android:textStyle="bold"
+                    tools:text="libminecraftpe.so" />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <TextView
                     android:id="@+id/item_path"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Medium Text"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="?attr/actionMenuTextColor" />
+                    tools:text="/storage/emulated/0/Android/data/com.mcal.disassembler/files/libminecraftpe.so" />
 
             </LinearLayout>
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <ImageView
                 android:id="@+id/item_remove"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

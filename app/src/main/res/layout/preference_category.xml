@@ -14,7 +14,7 @@
         android:layout_height="4dp"
         android:background="@drawable/pref_shadow_bottom" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <TextView
         android:id="@android:id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
