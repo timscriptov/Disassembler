@@ -25,6 +25,9 @@ import com.mcal.disassembler.nativeapi.Dumper
 import com.mcal.disassembler.utils.FileHelper
 import com.mcal.disassembler.utils.FilePickHelper
 import com.mcal.disassembler.view.CenteredToolBar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 
@@ -129,13 +132,11 @@ class MainActivity : AppCompatActivity(), MainView, Dumper.DumperListener {
     override fun loadSo(path: String) {
         showProgressDialog()
         this.path = path
-        object : Thread() {
-            override fun run() {
-                DisassemblerDumper.load(path)
-                Dumper.readData(this@MainActivity)
-                toClassesActivity()
-            }
-        }.start()
+        CoroutineScope(Dispatchers.IO).launch {
+            DisassemblerDumper.load(path)
+            Dumper.readData(this@MainActivity)
+            toClassesActivity()
+        }
     }
 
     private fun showProgressDialog() {
@@ -143,6 +144,7 @@ class MainActivity : AppCompatActivity(), MainView, Dumper.DumperListener {
             dialogBinding = ProgressDialogBinding.inflate(layoutInflater).also { binding ->
                 setView(binding.root)
             }
+            setCancelable(false)
             setTitle(R.string.loading)
         }.create().also {
             it.show()
@@ -150,8 +152,7 @@ class MainActivity : AppCompatActivity(), MainView, Dumper.DumperListener {
     }
 
     private fun dismissProgressDialog() {
-        dialog?.let {
-            it.dismiss()
+        dialog?.dismiss().also {
             dialog = null
         }
         dialogBinding = null
@@ -166,7 +167,7 @@ class MainActivity : AppCompatActivity(), MainView, Dumper.DumperListener {
         dismissProgressDialog()
     }
 
-    override fun updateProgress(last: Int, total: Int) {
+    override fun updateDialogProgress(last: Int, total: Int) {
         runOnUiThread {
             dialogBinding?.let { binding ->
                 val progressView = binding.progress

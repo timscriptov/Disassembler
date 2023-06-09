@@ -1,30 +1,34 @@
 package com.mcal.disassembler.activities
 
-import android.annotation.SuppressLint
-import android.app.ProgressDialog
 import android.os.Bundle
-import android.os.Handler
-import android.os.Message
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mcal.disassembler.R
 import com.mcal.disassembler.adapters.SymbolsListAdapter
 import com.mcal.disassembler.data.Storage.getHomeDir
+import com.mcal.disassembler.databinding.ProgressDialogBinding
 import com.mcal.disassembler.databinding.SymbolsActivityBinding
 import com.mcal.disassembler.nativeapi.Dumper
 import com.mcal.disassembler.utils.FileSaver
 import com.mcal.disassembler.view.FloatingButton
 import com.mcal.disassembler.view.SnackBar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SymbolsActivity : AppCompatActivity(), SymbolsListAdapter.SymbolItemClick {
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         SymbolsActivityBinding.inflate(layoutInflater)
     }
+    private var dialogBinding: ProgressDialogBinding? = null
     private val data by lazy(LazyThreadSafetyMode.NONE) {
         val list = mutableListOf<Map<String, Any>>()
         var map: MutableMap<String, Any>
@@ -48,25 +52,9 @@ class SymbolsActivity : AppCompatActivity(), SymbolsListAdapter.SymbolItemClick 
     }
 
     private var path: String? = null
-    private var mDialog: ProgressDialog? = null
+    private var dialog: AlertDialog? = null
     private var mBar: SnackBar? = null
     private var lastValue: String? = null
-
-    @SuppressLint("HandlerLeak")
-    private val mHandler: Handler = object : Handler() {
-        override fun handleMessage(msg: Message) {
-            super.handleMessage(msg)
-            mDialog?.dismiss().also {
-                mDialog = null
-            }
-            mBar?.show() ?: {
-                SnackBar(
-                    this@SymbolsActivity,
-                    this@SymbolsActivity.getString(R.string.done)
-                ).show()
-            }
-        }
-    }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -147,37 +135,68 @@ class SymbolsActivity : AppCompatActivity(), SymbolsListAdapter.SymbolItemClick 
         FloatingButton(this, path).show()
     }
 
-    fun saveSymbols(view: View?) {
-        mDialog = ProgressDialog(this).apply {
-            setTitle(getString(R.string.saving))
-        }.also {
+    private fun showProgressDialog() {
+        dialog = MaterialAlertDialogBuilder(this).apply {
+            dialogBinding = ProgressDialogBinding.inflate(layoutInflater).also { binding ->
+                setView(binding.root)
+            }
+            setCancelable(false)
+            setTitle(R.string.saving)
+        }.create().also {
             it.show()
         }
+    }
+
+    fun saveSymbols(view: View?) {
+        showProgressDialog()
         mBar = SnackBar(this, getString(R.string.done))
-        object : Thread() {
-            override fun run() {
-                val symbols = arrayOfNulls<String>(Dumper.symbols.size)
-                for (i in Dumper.symbols.indices) {
-                    symbols[i] = Dumper.symbols[i].name
+        CoroutineScope(Dispatchers.IO).launch {
+            val size = Dumper.symbols.size
+            val symbols = arrayOfNulls<String>(size)
+            val demangledSymbols = arrayOfNulls<String>(size)
+            for (i in Dumper.symbols.indices) {
+                withContext(Dispatchers.Main) {
+                    updateDialogProgress(i, size)
                 }
-                FileSaver(
-                    getHomeDir(this@SymbolsActivity).path + "/Disassembler/symbols/",
-                    "Symbols.txt",
-                    symbols
-                ).save()
-                val demangledSymbols = arrayOfNulls<String>(Dumper.symbols.size)
-                for (i in Dumper.symbols.indices) {
-                    demangledSymbols[i] = Dumper.symbols[i].demangledName
-                }
-                FileSaver(
-                    getHomeDir(this@SymbolsActivity).path + "/Disassembler/symbols/",
-                    "Symbols_demangled.txt",
-                    demangledSymbols
-                ).save()
-                val msg = Message()
-                mHandler.sendMessage(msg)
+                symbols[i] = Dumper.symbols[i].name
+                demangledSymbols[i] = Dumper.symbols[i].demangledName
             }
-        }.start()
+            FileSaver(
+                getHomeDir(this@SymbolsActivity).path + "/Disassembler/symbols/",
+                "Symbols.txt",
+                symbols
+            ).save()
+            FileSaver(
+                getHomeDir(this@SymbolsActivity).path + "/Disassembler/symbols/",
+                "Symbols_demangled.txt",
+                demangledSymbols
+            ).save()
+            withContext(Dispatchers.Main) {
+                dialog?.dismiss().also {
+                    dialog = null
+                    dialogBinding = null
+                }
+                mBar?.show() ?: run {
+                    SnackBar(
+                        this@SymbolsActivity,
+                        this@SymbolsActivity.getString(R.string.done)
+                    ).show()
+                }
+            }
+        }
+    }
+
+    private fun updateDialogProgress(last: Int, total: Int) {
+        dialogBinding?.let { binding ->
+            val progressView = binding.progress
+            progressView.progress = last
+            progressView.max = total
+            binding.count.text = buildString {
+                append(last)
+                append(" / ")
+                append(total)
+            }
+        }
     }
 
     @Deprecated("Deprecated in Java")
