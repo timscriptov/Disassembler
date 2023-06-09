@@ -24,7 +24,6 @@ import com.mcal.disassembler.nativeapi.DisassemblerDumper
 import com.mcal.disassembler.nativeapi.Dumper
 import com.mcal.disassembler.utils.FileHelper
 import com.mcal.disassembler.utils.FilePickHelper
-import com.mcal.disassembler.view.CenteredToolBar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -82,7 +81,7 @@ class MainActivity : AppCompatActivity(), MainView, Dumper.DumperListener {
     }
 
     private fun setupToolbar(title: String) {
-        setSupportActionBar(findViewById<CenteredToolBar>(R.id.toolbar))
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.apply {
             setTitle(title)
             setDisplayHomeAsUpEnabled(true)
