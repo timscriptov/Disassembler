@@ -1,17 +1,17 @@
 package com.mcal.disassembler.adapters
 
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
-import android.content.Intent
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.mcal.disassembler.R
-import com.mcal.disassembler.activities.SymbolActivity
 import com.mcal.disassembler.data.Preferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,43 +20,50 @@ import java.util.Locale
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-class VTableListAdapter(
+class FloatingListAdapter(
     private val context: Context,
+    private val listener: FloatingListItemClick,
     private val data: MutableList<Map<String, Any>>,
-    private val listener: SymbolItemClick,
-    private val path: String
-) : RecyclerView.Adapter<VTableListAdapter.VTableListViewHolder>() {
+) :
+    RecyclerView.Adapter<FloatingListAdapter.SymbolsListViewHolder>() {
     var newValue: String? = null
     var canStartFilterProcess = true
     private var symbolsFilteredList = data
 
-    override fun getItemCount(): Int {
-        return data.size
+    interface FloatingListItemClick {
+        fun onFoundApp(list: MutableList<Map<String, Any>>, mode: Boolean)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VTableListViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SymbolsListViewHolder {
         val itemView =
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_symbols, parent, false)
-        return VTableListViewHolder(itemView)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_symbols, parent, false)
+        return SymbolsListViewHolder(itemView)
     }
 
-    override fun onBindViewHolder(holder: VTableListViewHolder, position: Int) {
-        val item = data[position]
+    override fun onBindViewHolder(holder: SymbolsListViewHolder, position: Int) {
+        val item = symbolsFilteredList[position]
         holder.icon.setBackgroundResource((item["img"] as Int))
-        holder.title.text = item["title"] as String
+        val title = item["title"] as String
+        holder.title.text = title
         holder.info.text = item["info"] as String
         holder.type = item["type"] as Int
         holder.itemView.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("demangledName", holder.title.text as String)
-            bundle.putString("name", holder.info.text as String)
-            bundle.putInt("type", holder.type)
-            bundle.putString("filePath", path)
-            val intent = Intent(context, SymbolActivity::class.java)
-            intent.putExtras(bundle)
-            context.startActivity(intent)
+            (context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(
+                ClipData.newPlainText("text", title)
+            )
+            Toast.makeText(context, title, Toast.LENGTH_LONG).show()
         }
+    }
+
+    override fun getItemCount(): Int {
+        return symbolsFilteredList.size
+    }
+
+    class SymbolsListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val icon: ImageView = itemView.findViewById(R.id.symbolslistitemimg)
+        val title: TextView = itemView.findViewById(R.id.symbolslistitemTextViewtop)
+        val info: TextView = itemView.findViewById(R.id.symbolslistitemTextViewbottom)
+        var type = 0
     }
 
     fun filter(constraint: CharSequence?) = CoroutineScope(Dispatchers.IO).launch {
@@ -111,16 +118,5 @@ class VTableListAdapter(
         }
         newValue = null
         filter(text)
-    }
-
-    class VTableListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val icon: ImageView = itemView.findViewById(R.id.symbolslistitemimg)
-        val title: TextView = itemView.findViewById(R.id.symbolslistitemTextViewtop)
-        val info: TextView = itemView.findViewById(R.id.symbolslistitemTextViewbottom)
-        var type = 0
-    }
-
-    interface SymbolItemClick {
-        fun onFoundApp(list: MutableList<Map<String, Any>>, mode: Boolean)
     }
 }

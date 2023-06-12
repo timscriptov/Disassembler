@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/dialog_background"
@@ -45,77 +46,79 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/search_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center|start"
+            android:layout_below="@+id/toolbar"
+            android:layout_margin="8dp"
+            android:background="@drawable/dialog_background"
+            android:gravity="center"
             android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="Enter search symbol..."
+                android:padding="8dp"
+                android:singleLine="true" />
 
             <ImageButton
                 android:id="@+id/floatingmenuButtonPaste"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:alpha="0.38"
-                android:background="@drawable/bg_clickable"
-                android:src="@drawable/ic_paste"
-                app:tint="@color/textColorPrimary" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="8dp"
+                android:src="@drawable/ic_paste" />
 
             <ImageButton
-                android:id="@+id/floatingmenuButtonCopy"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:alpha="0.38"
-                android:background="@drawable/bg_clickable"
-                android:src="@drawable/ic_copy"
-                app:tint="@color/textColorPrimary" />
+                android:id="@+id/regex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="8dp"
+                android:src="@drawable/ic_regular_expression" />
 
             <ImageButton
-                android:id="@+id/floatingmenuButtonClear"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:alpha="0.38"
-                android:background="@drawable/bg_clickable"
-                android:src="@drawable/ic_close"
-                app:tint="@color/textColorPrimary" />
-
-            <ImageButton
-                android:id="@+id/floatingmenuButtonSearch"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:alpha="0.38"
-                android:background="@drawable/bg_clickable"
-                android:src="@drawable/ic_search"
-                app:tint="@color/textColorPrimary" />
+                android:id="@+id/clear_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="8dp"
+                android:src="@drawable/ic_close" />
 
         </LinearLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/TextInputLayoutTheme"
+        <LinearLayout
+            android:id="@+id/result_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/paste_text_here">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/symbols_size_card"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/floatingmenuEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textNoSuggestions"
-                android:lines="1"
-                android:singleLine="true"
-                android:textCursorDrawable="@drawable/cursor" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/floatingmenuTextView"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textIsSelectable="true" />
+                android:divider="@null"
+                app:fastScrollEnabled="true"
+                app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
+                app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
+                app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
+                app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"
+                tools:listitem="@layout/item_symbols" />
 
-        </ScrollView>
+            <TextView
+                android:id="@+id/symbols_not_found"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Symbols not found"
+                android:visibility="gone" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

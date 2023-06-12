@@ -1,6 +1,7 @@
 package com.mcal.disassembler.view;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.os.Build;
@@ -15,15 +16,15 @@ import com.mcal.disassembler.utils.Utils;
 public class FloatingButton {
     public static int xPos = 0;
     public static int yPos = 0;
-    private final Context context;
+    private final Activity activity;
     private final String path;
     public boolean isAdded = false;
     public WindowManager wm;
     public WindowManager.LayoutParams params;
     public View floatView;
 
-    public FloatingButton(Context c, String p) {
-        context = c;
+    public FloatingButton(Activity activity, String p) {
+        this.activity = activity;
         path = p;
     }
 
@@ -35,16 +36,16 @@ public class FloatingButton {
             LAYOUT_FLAG = WindowManager.LayoutParams.TYPE_PHONE;
         }
 
-        floatView = new View(context);
+        floatView = new View(activity);
         floatView.setClickable(true);
 
         floatView.setBackgroundResource(R.mipmap.ic_launcher_round);
         floatView.setOnClickListener(p1 -> {
-            FloatingMenu menu = new FloatingMenu(context, path);
+            FloatingMenu menu = new FloatingMenu(activity, path);
             menu.show();
             FloatingButton.this.dismiss();
         });
-        wm = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+        wm = (WindowManager) activity.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         params = new WindowManager.LayoutParams();
 
         params.type = LAYOUT_FLAG; // WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
@@ -53,9 +54,9 @@ public class FloatingButton {
 
         params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
                 | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-        params.width = Utils.dp(context, 64);
+        params.width = Utils.dp(activity, 64);
         ;
-        params.height = Utils.dp(context, 64);
+        params.height = Utils.dp(activity, 64);
         ;
         params.x = xPos;
         params.y = yPos;

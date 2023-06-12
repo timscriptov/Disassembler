@@ -34,7 +34,8 @@
             android:layout_weight="1"
             android:background="@null"
             android:hint="Enter search symbol..."
-            android:padding="8dp" />
+            android:padding="8dp"
+            android:singleLine="true" />
 
         <ImageButton
             android:id="@+id/regex"
