@@ -12,7 +12,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="?android:attr/selectableItemBackground"
-        android:orientation="horizontal"
         tools:ignore="UselessParent">
 
         <LinearLayout
@@ -25,7 +24,6 @@
                 android:id="@+id/symbolslistitemimg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 tools:ignore="ContentDescription"
                 tools:src="@drawable/ic_box_blue" />
 
