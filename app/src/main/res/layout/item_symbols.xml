@@ -39,14 +39,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:textStyle="bold"
-                    tools:text="Xal::Platform::AccountMigratorCommon::NotifySuccessfulSignin(Xal::RunContext&amp;&amp;)" />
+                    tools:text="AppPlatform::_clipboardCopyHandler(ApplicationSignal::ClipboardCopy const&amp;)" />
 
                 <TextView
                     android:id="@+id/symbolslistitemTextViewbottom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    tools:text="Xal::Platform::AccountMigratorCommon::NotifySuccessfulSignin(Xal::RunContext&amp;&amp;)" />
+                    tools:text="_ZN11AppPlatform21_clipboardCopyHandlerERKN17ApplicationSignal13ClipboardCopyE" />
 
             </LinearLayout>
 

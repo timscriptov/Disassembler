@@ -45,7 +45,8 @@
                     android:inputType="textNoSuggestions"
                     android:lines="1"
                     android:singleLine="true"
-                    android:textCursorDrawable="@drawable/cursor" />
+                    android:textCursorDrawable="@drawable/cursor"
+                    tools:text="_ZN11AppPlatform21_clipboardCopyHandlerERKN17ApplicationSignal13ClipboardCopyE" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,11 +74,11 @@
                 android:inputType="textNoSuggestions"
                 android:lines="1"
                 android:singleLine="true"
-                android:textCursorDrawable="@drawable/cursor" />
+                android:textCursorDrawable="@drawable/cursor"
+                tools:text="AppPlatform::_clipboardCopyHandler(ApplicationSignal::ClipboardCopy const&amp;)" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 
 </LinearLayout>
-

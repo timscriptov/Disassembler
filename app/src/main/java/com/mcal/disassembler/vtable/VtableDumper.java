@@ -15,9 +15,11 @@ import java.util.Vector;
 public class VtableDumper {
     @Nullable
     public static DisassemblerVtable dump(String path, String classn) {
-        for (DisassemblerVtable ztv : Dumper.exploed)
-            if (ztv.getName().contains(classn))
+        for (DisassemblerVtable ztv : Dumper.exploed) {
+            if (ztv.getName().contains(classn)) {
                 return ztv;
+            }
+        }
 
         Dump d = new Dump(path);
 
@@ -79,9 +81,11 @@ public class VtableDumper {
 
     @Nullable
     private static DisassemblerSymbol getSymbol(String name) {
-        for (DisassemblerSymbol symbol : Dumper.symbols)
-            if (symbol.getName().equals(name))
+        for (DisassemblerSymbol symbol : Dumper.symbols) {
+            if (symbol.getName().equals(name)) {
                 return symbol;
+            }
+        }
         return null;
     }
 }
