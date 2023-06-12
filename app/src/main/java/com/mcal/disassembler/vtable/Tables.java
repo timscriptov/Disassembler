@@ -6,21 +6,21 @@ import java.util.HashMap;
 
 public class Tables {
     @SuppressLint("UseSparseArrays")
+    private static final HashMap<Integer, String> section_type = new HashMap<>();
+    @SuppressLint("UseSparseArrays")
+    private static final HashMap<Integer, String> segment_type = new HashMap<>();
+    @SuppressLint("UseSparseArrays")
+    private static final HashMap<Integer, String> segment_flag = new HashMap<>();
+    @SuppressLint("UseSparseArrays")
+    private static final HashMap<Integer, String> symbol_bind = new HashMap<>();
+    @SuppressLint("UseSparseArrays")
+    private static final HashMap<Integer, String> dynamic_tag = new HashMap<>();
+    @SuppressLint("UseSparseArrays")
     public static HashMap<Integer, String> version = new HashMap<>();
     @SuppressLint("UseSparseArrays")
     public static HashMap<Integer, String> type = new HashMap<>();
     @SuppressLint("UseSparseArrays")
     public static HashMap<Integer, String> symbol_type = new HashMap<>();
-    @SuppressLint("UseSparseArrays")
-    private static HashMap<Integer, String> section_type = new HashMap<>();
-    @SuppressLint("UseSparseArrays")
-    private static HashMap<Integer, String> segment_type = new HashMap<>();
-    @SuppressLint("UseSparseArrays")
-    private static HashMap<Integer, String> segment_flag = new HashMap<>();
-    @SuppressLint("UseSparseArrays")
-    private static HashMap<Integer, String> symbol_bind = new HashMap<>();
-    @SuppressLint("UseSparseArrays")
-    private static HashMap<Integer, String> dynamic_tag = new HashMap<>();
 
     static {
         version.put(0, "None");

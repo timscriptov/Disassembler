@@ -2,18 +2,18 @@ package com.mcal.disassembler.vtable;
 
 import android.annotation.SuppressLint;
 
+import androidx.annotation.Nullable;
+
 import com.mcal.disassembler.nativeapi.DisassemblerSymbol;
 import com.mcal.disassembler.nativeapi.DisassemblerVtable;
 import com.mcal.disassembler.nativeapi.Dumper;
-
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Vector;
 
 public class VtableDumper {
-    @org.jetbrains.annotations.Nullable
+    @Nullable
     public static DisassemblerVtable dump(String path, String classn) {
         for (DisassemblerVtable ztv : Dumper.exploed)
             if (ztv.getName().contains(classn))
@@ -37,8 +37,9 @@ public class VtableDumper {
             }
         }
 
-        if (sym == null)
+        if (sym == null) {
             return null;
+        }
 
         @SuppressLint("UseSparseArrays") HashMap<Integer, symbol> map = new HashMap<>();//为了排序
         int c = 0;
@@ -62,12 +63,14 @@ public class VtableDumper {
             }
         }
 
-        Vector<DisassemblerSymbol> virtual_table_symbols = new Vector<DisassemblerSymbol>();
+        Vector<DisassemblerSymbol> virtual_table_symbols = new Vector<>();
 
         for (int j = 0; j < sym.size / 4 - 2; ++j) {
-            if (map.get(sym.value + 8 + j * 4) != null)
-                if (getSymbol(Objects.requireNonNull(map.get(sym.value + 8 + j * 4)).name) != null)
+            if (map.get(sym.value + 8 + j * 4) != null) {
+                if (getSymbol(Objects.requireNonNull(map.get(sym.value + 8 + j * 4)).name) != null) {
                     virtual_table_symbols.addElement(getSymbol(Objects.requireNonNull(map.get(sym.value + 8 + j * 4)).name));
+                }
+            }
         }
         DisassemblerVtable vtable__ = new DisassemblerVtable(classn, virtual_table_symbols);
         Dumper.exploed.addElement(vtable__);
