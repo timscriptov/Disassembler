@@ -28,4 +28,18 @@
     <string name="result_demangle">Result</string>
     <string name="paste_symbol">Paste symbol</string>
     <string name="symbols_count">"Symbols count: "</string>
+    <string name="enter_search_symbol">Enter search symbol…</string>
+    <string name="symbols_not_found">Symbols not found</string>
+    <string name="save">Save</string>
+    <string name="vtable">VTable</string>
+    <string name="convert">Convert</string>
+    <string name="please_open_file">Please open file</string>
+    <string name="open">Open</string>
+    <string name="classes">Classes</string>
+    <string name="dump">Dump</string>
+    <string name="menu">Menu</string>
+    <string name="symbols">Symbols</string>
+    <string name="github">GitHub</string>
+    <string name="telegram">Telegram</string>
+    <string name="night_mode">Night mode</string>
 </resources>

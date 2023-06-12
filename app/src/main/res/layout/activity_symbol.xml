@@ -14,7 +14,8 @@
         android:elevation="4dp"
         android:minHeight="?attr/actionBarSize"
         app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight"
-        app:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar" />
+        app:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
+        tools:title="@string/app_name" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -187,7 +188,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="90dp"
         android:onClick="toVtableActivity"
-        android:text="VTable"
+        android:text="@string/vtable"
         android:textColor="#FFF"
         android:visibility="gone"
         app:backgroundTint="@color/colorAccent"
@@ -205,7 +206,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:onClick="toClassActivity"
-        android:text="Classes"
+        android:text="@string/classes"
         android:textColor="#FFF"
         android:visibility="gone"
         app:backgroundTint="@color/colorAccent"

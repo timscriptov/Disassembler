@@ -14,7 +14,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mcal.disassembler.R
 import com.mcal.disassembler.adapters.VTableListAdapter
 import com.mcal.disassembler.data.Preferences
-import com.mcal.disassembler.data.Storage.getHomeDir
+import com.mcal.disassembler.data.Storage
 import com.mcal.disassembler.databinding.ActivityVTableBinding
 import com.mcal.disassembler.databinding.ProgressDialogBinding
 import com.mcal.disassembler.nativeapi.DisassemblerDumper
@@ -159,12 +159,8 @@ class VtableActivity : BaseActivity(), VTableListAdapter.SymbolItemClick {
                     }
                     listNames[i] = vtable.vtables[i].name
                 }
-                val homeDir = getHomeDir(this@VtableActivity).path
-                FileSaver(
-                    "$homeDir/Disassembler/vtables/",
-                    "$mName.txt",
-                    listNames
-                ).save()
+                val homeDir = Storage.getVTablesDir(this@VtableActivity).path
+                FileSaver(homeDir, "$mName.txt", listNames).save()
 
                 val listDemangledNames = arrayOfNulls<String>(size)
                 for (i in vtable.vtables.indices) {
@@ -175,11 +171,7 @@ class VtableActivity : BaseActivity(), VTableListAdapter.SymbolItemClick {
                 }
                 val demangledName = DisassemblerDumper.demangleOnly(mName)
                 val fileName = demangledName.substring(demangledName.lastIndexOf(" ") + 1)
-                FileSaver(
-                    "$homeDir/Disassembler/vtables/",
-                    "$fileName.txt",
-                    listDemangledNames
-                ).save()
+                FileSaver(homeDir, "$fileName.txt", listDemangledNames).save()
                 withContext(Dispatchers.Main) {
                     SnackBar(this@VtableActivity, getString(R.string.done)).show()
                     dismissProgressDialog()

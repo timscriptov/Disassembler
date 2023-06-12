@@ -1,15 +1,16 @@
 package com.mcal.disassembler.vtable;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 public final class Utils {
-    @NotNull
-    private static String b2hex(@NotNull byte[] bytes) {
+    @NonNull
+    private static String b2hex(@NonNull byte[] bytes) {
         StringBuilder result = new StringBuilder();
         for (byte b : bytes) {
             String h;

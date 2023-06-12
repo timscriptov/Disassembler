@@ -46,7 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Please open file"
+                    android:text="@string/please_open_file"
                     android:textAlignment="center" />
 
             </LinearLayout>
@@ -69,7 +69,7 @@
             android:layout_above="@id/mainactivityLinearLayout1"
             android:layout_alignParentEnd="true"
             android:layout_margin="16dp"
-            android:text="Open"
+            android:text="@string/open"
             android:textColor="#FFF"
             app:backgroundTint="@color/colorAccent"
             app:icon="@drawable/ic_folder"

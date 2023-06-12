@@ -27,5 +27,19 @@
     <string name="app_vtable">VTable</string>
     <string name="result_demangle">Результат</string>
     <string name="paste_symbol">Введите символ</string>
-    <string name="symbols_count">"Symbols count: "</string>
+    <string name="symbols_count">"Кол. символов: "</string>
+    <string name="enter_search_symbol">Введите поисковый запрос…</string>
+    <string name="symbols_not_found">Ничего не найдено</string>
+    <string name="save">Сохранить</string>
+    <string name="vtable">VTable</string>
+    <string name="convert">Конвертировать</string>
+    <string name="please_open_file">Пожалуйста выберите файл</string>
+    <string name="open">Открыть</string>
+    <string name="classes">Классы</string>
+    <string name="dump">Дамп</string>
+    <string name="menu">Меню</string>
+    <string name="symbols">Символы</string>
+    <string name="github">GitHub</string>
+    <string name="telegram">Telegram</string>
+    <string name="night_mode">Тёмная тема</string>
 </resources>

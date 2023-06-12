@@ -1,125 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/dialog_background"
-    android:padding="1dp">
+    android:gravity="top"
+    android:orientation="vertical"
+    android:padding="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="top"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_weight="1.0"
+            android:singleLine="true"
+            android:text="@string/symbols_menu"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.0"
-                android:text="@string/symbols_menu"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+        <ImageButton
+            android:id="@+id/floatingmenuButtonClose"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/bg_clickable"
+            android:src="@drawable/ic_minimize"
+            app:tint="@color/colorAccent" />
 
-            <ImageButton
-                android:id="@+id/floatingmenuButtonClose"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/bg_clickable"
-                android:src="@drawable/ic_minimize"
-                app:tint="@color/colorAccent" />
-
-            <ImageButton
-                android:id="@+id/floatingmenuButtonHide"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/bg_clickable"
-                android:src="@drawable/ic_close"
-                app:tint="#D32F2F" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/search_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/toolbar"
-            android:layout_margin="8dp"
-            android:background="@drawable/dialog_background"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/search"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:hint="Enter search symbol..."
-                android:padding="8dp"
-                android:singleLine="true" />
-
-            <ImageButton
-                android:id="@+id/floatingmenuButtonPaste"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:padding="8dp"
-                android:src="@drawable/ic_paste" />
-
-            <ImageButton
-                android:id="@+id/regex"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:padding="8dp"
-                android:src="@drawable/ic_regular_expression" />
-
-            <ImageButton
-                android:id="@+id/clear_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
-                android:padding="8dp"
-                android:src="@drawable/ic_close" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/result_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/symbols_size_card"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@null"
-                app:fastScrollEnabled="true"
-                app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
-                app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
-                app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
-                app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"
-                tools:listitem="@layout/item_symbols" />
-
-            <TextView
-                android:id="@+id/symbols_not_found"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Symbols not found"
-                android:visibility="gone" />
-
-        </LinearLayout>
+        <ImageButton
+            android:id="@+id/floatingmenuButtonHide"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/bg_clickable"
+            android:src="@drawable/ic_close"
+            app:tint="#D32F2F" />
 
     </LinearLayout>
 
-</RelativeLayout>
+    <LinearLayout
+        android:id="@+id/search_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_background"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="@string/enter_search_symbol"
+            android:padding="8dp"
+            android:singleLine="true" />
+
+        <ImageButton
+            android:id="@+id/floatingmenuButtonPaste"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp"
+            android:src="@drawable/ic_paste" />
+
+        <ImageButton
+            android:id="@+id/regex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp"
+            android:src="@drawable/ic_regular_expression" />
+
+        <ImageButton
+            android:id="@+id/clear_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp"
+            android:src="@drawable/ic_close" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/result_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            app:fastScrollEnabled="true"
+            app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
+            app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
+            app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
+            app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"
+            tools:listitem="@layout/item_symbols" />
+
+        <TextView
+            android:id="@+id/symbols_not_found"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/symbols_not_found"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</LinearLayout>

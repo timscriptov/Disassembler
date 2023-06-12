@@ -14,7 +14,8 @@
         android:elevation="4dp"
         android:minHeight="?attr/actionBarSize"
         app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight"
-        app:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar" />
+        app:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
+        tools:title="@string/app_name" />
 
     <LinearLayout
         android:id="@+id/search_container"
@@ -28,11 +29,11 @@
 
         <EditText
             android:id="@+id/search"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             android:background="@null"
-            android:hint="Enter search symbol..."
+            android:hint="@string/enter_search_symbol"
             android:padding="8dp"
             android:singleLine="true" />
 
@@ -70,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="Symbols count: " />
+            android:text="@string/symbols_count" />
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -98,7 +99,7 @@
             android:id="@+id/symbols_not_found"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Symbols not found"
+            android:text="@string/symbols_not_found"
             android:visibility="gone" />
 
     </LinearLayout>
@@ -113,7 +114,7 @@
         android:layout_marginBottom="90dp"
         android:onClick="toVtableActivity"
         android:src="@drawable/ic_box_blue"
-        android:text="VTable"
+        android:text="@string/vtable"
         android:textColor="#FFF"
         android:visibility="gone"
         app:backgroundTint="@color/colorAccent"
@@ -129,7 +130,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:onClick="save"
-        android:text="Save"
+        android:text="@string/save"
         android:textColor="#FFF"
         app:backgroundTint="@color/colorAccent"
         app:icon="@drawable/ic_download"

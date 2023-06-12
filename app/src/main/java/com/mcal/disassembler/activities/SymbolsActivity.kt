@@ -14,7 +14,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mcal.disassembler.R
 import com.mcal.disassembler.adapters.SymbolsListAdapter
 import com.mcal.disassembler.data.Preferences
-import com.mcal.disassembler.data.Storage.getHomeDir
+import com.mcal.disassembler.data.Storage
 import com.mcal.disassembler.databinding.ActivitySymbolsBinding
 import com.mcal.disassembler.databinding.ProgressDialogBinding
 import com.mcal.disassembler.nativeapi.Dumper
@@ -163,12 +163,12 @@ class SymbolsActivity : BaseActivity(), SymbolsListAdapter.SymbolItemClick {
                 demangledSymbols[i] = Dumper.symbols[i].demangledName
             }
             FileSaver(
-                getHomeDir(this@SymbolsActivity).path + "/Disassembler/symbols/",
+                Storage.getSymbolsDir(this@SymbolsActivity).path,
                 "Symbols.txt",
                 symbols
             ).save()
             FileSaver(
-                getHomeDir(this@SymbolsActivity).path + "/Disassembler/symbols/",
+                Storage.getSymbolsDir(this@SymbolsActivity).path,
                 "Symbols_demangled.txt",
                 demangledSymbols
             ).save()

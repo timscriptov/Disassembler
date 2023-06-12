@@ -19,6 +19,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        tools:text="145/16000" />
+        tools:text="145 / 16000" />
 
 </LinearLayout>

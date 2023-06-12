@@ -113,8 +113,8 @@ class ClassSymbolsListAdapter(
         val isNotEmpty = results.isNotEmpty()
         listener.onFoundApp(symbolsFilteredList, isNotEmpty)
         if (isNotEmpty) {
-            symbolsFilteredList = results.also {
-                it.sortBy { it["title"] as String }
+            symbolsFilteredList = results.also { list ->
+                list.sortBy { it["title"] as String }
             }
             notifyDataSetChanged()
         }

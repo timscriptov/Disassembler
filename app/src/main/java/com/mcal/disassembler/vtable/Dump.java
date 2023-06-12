@@ -6,8 +6,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Vector;
 
 class Dump {
+    private final byte[] bs;
     Elf elf;
-    private byte[] bs;
 
     Dump(String path) {
         bs = Utils.readFile(path);
@@ -45,7 +45,7 @@ class Dump {
             elf.sections.add(shdr);
         }
         for (section sh : elf.sections) {
-            sh.name = getString(elf.sections.get(h.shstrndx), Integer.valueOf(sh.name));
+            sh.name = getString(elf.sections.get(h.shstrndx), Integer.parseInt(sh.name));
         }
 
 

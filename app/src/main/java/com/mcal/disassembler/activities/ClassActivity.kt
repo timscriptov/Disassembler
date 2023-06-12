@@ -15,7 +15,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mcal.disassembler.R
 import com.mcal.disassembler.adapters.ClassSymbolsListAdapter
 import com.mcal.disassembler.data.Preferences
-import com.mcal.disassembler.data.Storage.getHomeDir
+import com.mcal.disassembler.data.Storage
 import com.mcal.disassembler.databinding.ActivityClassBinding
 import com.mcal.disassembler.databinding.ProgressDialogBinding
 import com.mcal.disassembler.nativeapi.DisassemblerClass
@@ -176,9 +176,9 @@ class ClassActivity : BaseActivity(), ClassSymbolsListAdapter.SymbolItemClick {
                 }
                 findClass()?.let { clazz ->
                     FileSaver(
-                        getHomeDir(this@ClassActivity).path + "/Disassembler/headers/",
+                        Storage.getHeadersDir(this@ClassActivity).path,
                         getSaveName(name),
-                        HeaderGenerator(clazz, findVtable(), mPath).generate()
+                        HeaderGenerator(clazz, findVtable()).generate()
                     ).save()
                 }
                 withContext(Dispatchers.Main) {
