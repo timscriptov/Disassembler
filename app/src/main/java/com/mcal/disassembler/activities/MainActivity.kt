@@ -17,7 +17,7 @@ import com.mcal.disassembler.adapters.ListAdapter
 import com.mcal.disassembler.data.Database
 import com.mcal.disassembler.data.RecentsManager
 import com.mcal.disassembler.data.Storage
-import com.mcal.disassembler.databinding.MainActivityBinding
+import com.mcal.disassembler.databinding.ActivityMainBinding
 import com.mcal.disassembler.databinding.ProgressDialogBinding
 import com.mcal.disassembler.interfaces.MainView
 import com.mcal.disassembler.nativeapi.DisassemblerDumper
@@ -32,7 +32,7 @@ import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity(), MainView, Dumper.DumperListener {
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
-        MainActivityBinding.inflate(
+        ActivityMainBinding.inflate(
             layoutInflater
         )
     }

@@ -20,13 +20,12 @@ import java.util.Locale
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-class SymbolsListAdapter(
+class ClassSymbolsListAdapter(
     private val context: Context,
     private val data: MutableList<Map<String, Any>>,
     private val listener: SymbolItemClick,
     private val path: String
-) :
-    RecyclerView.Adapter<SymbolsListAdapter.SymbolsListViewHolder>() {
+) : RecyclerView.Adapter<ClassSymbolsListAdapter.SymbolsListViewHolder>() {
     var newValue: String? = null
     var canStartFilterProcess = true
     private var symbolsFilteredList = data
@@ -35,9 +34,17 @@ class SymbolsListAdapter(
         fun onFoundApp(list: MutableList<Map<String, Any>>, mode: Boolean)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SymbolsListViewHolder {
+    override fun getItemCount(): Int {
+        return symbolsFilteredList.size
+    }
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): SymbolsListViewHolder {
         val itemView =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_symbols, parent, false)
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_symbols, parent, false)
         return SymbolsListViewHolder(itemView)
     }
 
@@ -49,18 +56,14 @@ class SymbolsListAdapter(
         holder.type = item["type"] as Int
         holder.itemView.setOnClickListener {
             val bundle = Bundle()
-            bundle.putString("demangledName", item["title"] as String)
-            bundle.putString("name", item["info"] as String)
-            bundle.putInt("type", item["type"] as Int)
+            bundle.putString("demangledName", holder.title.text as String)
+            bundle.putString("name", holder.info.text as String)
+            bundle.putInt("type", holder.type)
             bundle.putString("filePath", path)
             val intent = Intent(context, SymbolActivity::class.java)
             intent.putExtras(bundle)
             context.startActivity(intent)
         }
-    }
-
-    override fun getItemCount(): Int {
-        return symbolsFilteredList.size
     }
 
     class SymbolsListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

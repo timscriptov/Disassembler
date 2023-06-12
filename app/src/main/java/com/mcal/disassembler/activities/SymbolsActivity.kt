@@ -1,5 +1,6 @@
 package com.mcal.disassembler.activities
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
@@ -7,14 +8,15 @@ import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mcal.disassembler.R
 import com.mcal.disassembler.adapters.SymbolsListAdapter
+import com.mcal.disassembler.data.Preferences
 import com.mcal.disassembler.data.Storage.getHomeDir
+import com.mcal.disassembler.databinding.ActivitySymbolsBinding
 import com.mcal.disassembler.databinding.ProgressDialogBinding
-import com.mcal.disassembler.databinding.SymbolsActivityBinding
 import com.mcal.disassembler.nativeapi.Dumper
 import com.mcal.disassembler.utils.FileSaver
 import com.mcal.disassembler.view.FloatingButton
@@ -24,9 +26,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SymbolsActivity : AppCompatActivity(), SymbolsListAdapter.SymbolItemClick {
+class SymbolsActivity : BaseActivity(), SymbolsListAdapter.SymbolItemClick {
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
-        SymbolsActivityBinding.inflate(layoutInflater)
+        ActivitySymbolsBinding.inflate(layoutInflater)
     }
     private var dialogBinding: ProgressDialogBinding? = null
     private val data by lazy(LazyThreadSafetyMode.NONE) {
@@ -59,7 +61,7 @@ class SymbolsActivity : AppCompatActivity(), SymbolsListAdapter.SymbolItemClick 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        setupToolbar(getString(R.string.app_symbols))
+        setupToolbar(binding.toolbar, getString(R.string.app_symbols))
         path = intent.extras?.getString("filePath")?.also { filePath ->
             val adapter = SymbolsListAdapter(this, data, this, filePath)
             val recyclerView = binding.symbolsActivityListView
@@ -104,11 +106,20 @@ class SymbolsActivity : AppCompatActivity(), SymbolsListAdapter.SymbolItemClick 
                 }
             })
         }
-    }
-
-    private fun setVisibility(view: View, mode: Int) {
-        if (view.visibility != mode) {
-            view.visibility = mode
+        binding.regex.setBackgroundColor(
+            if (Preferences.isRegexEnabled()) ActivityCompat.getColor(
+                this,
+                R.color.colorAccent
+            ) else Color.TRANSPARENT
+        )
+        binding.regex.setOnClickListener {
+            if (Preferences.isRegexEnabled()) {
+                Preferences.setRegexEnabled(false)
+                binding.regex.setBackgroundColor(Color.TRANSPARENT)
+            } else {
+                Preferences.setRegexEnabled(true)
+                binding.regex.setBackgroundColor(ActivityCompat.getColor(this, R.color.colorAccent))
+            }
         }
     }
 
@@ -118,16 +129,6 @@ class SymbolsActivity : AppCompatActivity(), SymbolsListAdapter.SymbolItemClick 
         val dataSize = list.size.toString()
         if (oldText != dataSize) {
             symbolsSizeView.text = getString(R.string.symbols_count) + dataSize
-        }
-    }
-
-    private fun setupToolbar(title: String) {
-        val toolbar = binding.toolbar
-        setSupportActionBar(toolbar)
-        supportActionBar?.apply {
-            this.title = title
-            this.setDisplayHomeAsUpEnabled(true)
-            this.setDisplayShowHomeEnabled(true)
         }
     }
 

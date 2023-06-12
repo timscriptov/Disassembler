@@ -16,17 +16,10 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight"
         app:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar" />
 
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:layout_below="@+id/toolbar"
-        android:background="@drawable/pref_shadow_top" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/view"
+        android:layout_below="@+id/toolbar"
         android:orientation="vertical">
 
         <LinearLayout

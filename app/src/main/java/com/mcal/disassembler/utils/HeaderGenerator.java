@@ -33,9 +33,11 @@ public class HeaderGenerator {
     }
 
     private static boolean hasItemInList(@NotNull Vector<DisassemblerSymbol> syms, DisassemblerSymbol sym) {
-        for (DisassemblerSymbol iSym : syms)
-            if (sym.getDemangledName().equals(iSym.getDemangledName()))
+        for (DisassemblerSymbol iSym : syms) {
+            if (sym.getDemangledName().equals(iSym.getDemangledName())) {
                 return false;
+            }
+        }
         return true;
     }
 

@@ -5,11 +5,13 @@ import android.content.res.Resources;
 import android.util.TypedValue;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import org.jetbrains.annotations.NotNull;
 
 public class Utils {
-    public static int dp(Context context, int i) {
-        return (int) TypedValue.applyDimension(1, (float) i, context.getResources().getDisplayMetrics());
+    public static int dp(@NonNull Context context, int i) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) i, context.getResources().getDisplayMetrics());
     }
 
     public static int dpToPx(float dp, @NotNull Resources resources) {

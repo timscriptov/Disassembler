@@ -14,12 +14,8 @@
         android:elevation="4dp"
         android:minHeight="?attr/actionBarSize"
         app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight"
-        app:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:background="@drawable/pref_shadow_top" />
+        app:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar"
+        tools:title="@string/app_name" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -61,7 +57,8 @@
                 android:layout_height="match_parent"
                 android:divider="@null"
                 android:listSelector="@android:color/transparent"
-                android:scrollbarStyle="outsideOverlay" />
+                android:scrollbarStyle="outsideOverlay"
+                tools:listitem="@layout/item_files" />
 
         </RelativeLayout>
 

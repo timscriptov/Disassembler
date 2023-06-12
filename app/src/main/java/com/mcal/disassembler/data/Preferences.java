@@ -20,4 +20,12 @@ public class Preferences {
     public static void setNightModeEnabled(boolean flag) {
         preferences.edit().putBoolean("night_mode", flag).apply();
     }
+
+    public static boolean isRegexEnabled() {
+        return preferences.getBoolean("use_regex", false);
+    }
+
+    public static void setRegexEnabled(boolean flag) {
+        preferences.edit().putBoolean("use_regex", flag).apply();
+    }
 }

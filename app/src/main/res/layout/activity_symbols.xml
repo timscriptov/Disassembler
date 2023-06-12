@@ -36,6 +36,14 @@
             android:padding="8dp" />
 
         <ImageButton
+            android:id="@+id/regex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="8dp"
+            android:src="@drawable/ic_regular_expression" />
+
+        <ImageButton
             android:id="@+id/clear_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,7 +90,8 @@
             app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
             app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
             app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
-            app:fastScrollVerticalTrackDrawable="@drawable/line_drawable" />
+            app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"
+            tools:listitem="@layout/item_symbols" />
 
         <TextView
             android:id="@+id/symbols_not_found"
