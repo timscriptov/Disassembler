@@ -2,7 +2,6 @@ package com.mcal.disassembler.view
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.Color
@@ -18,7 +17,6 @@ import com.mcal.disassembler.adapters.FloatingListAdapter
 import com.mcal.disassembler.data.Preferences
 import com.mcal.disassembler.databinding.FloatingMenuBinding
 import com.mcal.disassembler.nativeapi.Dumper
-import com.mcal.disassembler.nativeapi.Searcher
 
 @SuppressLint("ViewConstructor")
 class FloatingMenuView internal constructor(
@@ -53,9 +51,10 @@ class FloatingMenuView internal constructor(
 
     init {
         val adapter = FloatingListAdapter(context, this, data)
-        val recyclerView = binding.recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = adapter
+        val recyclerView = binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            setAdapter(adapter)
+        }
 
         val searchText = binding.search
         val clearBtn = binding.clearText
@@ -120,7 +119,12 @@ class FloatingMenuView internal constructor(
                 binding.regex.setBackgroundColor(Color.TRANSPARENT)
             } else {
                 Preferences.setRegexEnabled(true)
-                binding.regex.setBackgroundColor(ActivityCompat.getColor(context, R.color.colorAccent))
+                binding.regex.setBackgroundColor(
+                    ActivityCompat.getColor(
+                        context,
+                        R.color.colorAccent
+                    )
+                )
             }
         }
         addView(binding.root)

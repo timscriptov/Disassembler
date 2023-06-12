@@ -44,14 +44,16 @@ class FloatingListAdapter(
         val item = symbolsFilteredList[position]
         holder.icon.setBackgroundResource((item["img"] as Int))
         val title = item["title"] as String
+        val info = item["info"] as String
         holder.title.text = title
-        holder.info.text = item["info"] as String
+        holder.info.text = info
         holder.type = item["type"] as Int
         holder.itemView.setOnClickListener {
+            val copiedText = "$title // $info"
             (context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(
-                ClipData.newPlainText("text", title)
+                ClipData.newPlainText("text", copiedText)
             )
-            Toast.makeText(context, title, Toast.LENGTH_LONG).show()
+            Toast.makeText(context, copiedText, Toast.LENGTH_LONG).show()
         }
     }
 
