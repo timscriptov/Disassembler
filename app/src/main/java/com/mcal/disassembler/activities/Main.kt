@@ -49,12 +49,13 @@ class Main : BaseActivity() {
     @SuppressLint("WrongConstant")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.night_mode) {
-            if (Preferences.isNightModeEnabled()) {
-                Preferences.setNightModeEnabled(false)
+            val preferences = Preferences(this)
+            if (preferences.nightMode) {
+                preferences.nightMode = false
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 delegate.applyDayNight()
             } else {
-                Preferences.setNightModeEnabled(true)
+                preferences.nightMode = true
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 delegate.applyDayNight()
             }

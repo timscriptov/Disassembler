@@ -107,18 +107,19 @@ class SymbolsActivity : BaseActivity(), SearchResultListener {
                 }
             })
         }
+        val preferences = Preferences(this)
         binding.regex.setBackgroundColor(
-            if (Preferences.isRegexEnabled()) ActivityCompat.getColor(
+            if (preferences.regex) ActivityCompat.getColor(
                 this,
                 R.color.colorAccent
             ) else Color.TRANSPARENT
         )
         binding.regex.setOnClickListener {
-            if (Preferences.isRegexEnabled()) {
-                Preferences.setRegexEnabled(false)
+            if (preferences.regex) {
+                preferences.regex = false
                 binding.regex.setBackgroundColor(Color.TRANSPARENT)
             } else {
-                Preferences.setRegexEnabled(true)
+                preferences.regex = true
                 binding.regex.setBackgroundColor(ActivityCompat.getColor(this, R.color.colorAccent))
             }
         }
@@ -129,7 +130,10 @@ class SymbolsActivity : BaseActivity(), SearchResultListener {
         val oldText = symbolsSizeView.text.toString()
         val dataSize = list.size.toString()
         if (oldText != dataSize) {
-            symbolsSizeView.text = getString(R.string.symbols_count) + dataSize
+            symbolsSizeView.text = buildString {
+                append(getString(R.string.symbols_count))
+                append(dataSize)
+            }
         }
     }
 

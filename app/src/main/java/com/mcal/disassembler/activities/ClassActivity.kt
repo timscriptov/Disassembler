@@ -130,19 +130,19 @@ class ClassActivity : BaseActivity(), SearchResultListener {
                         adapter.newValue = s.toString()
                     }
                 })
-
+                val preferences = Preferences(this)
                 binding.regex.setBackgroundColor(
-                    if (Preferences.isRegexEnabled()) ActivityCompat.getColor(
+                    if (preferences.regex) ActivityCompat.getColor(
                         this,
                         R.color.colorAccent
                     ) else Color.TRANSPARENT
                 )
                 binding.regex.setOnClickListener {
-                    if (Preferences.isRegexEnabled()) {
-                        Preferences.setRegexEnabled(false)
+                    if (preferences.regex) {
+                        preferences.regex = false
                         binding.regex.setBackgroundColor(Color.TRANSPARENT)
                     } else {
-                        Preferences.setRegexEnabled(true)
+                        preferences.regex = true
                         binding.regex.setBackgroundColor(
                             ActivityCompat.getColor(
                                 this,

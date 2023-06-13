@@ -109,18 +109,19 @@ class FloatingMenuView internal constructor(
         binding.floatingmenuButtonPaste.setOnClickListener {
             binding.search.setText(readFromClipboard())
         }
+        val preferences = Preferences(context)
         binding.regex.setBackgroundColor(
-            if (Preferences.isRegexEnabled()) ActivityCompat.getColor(
+            if (preferences.regex) ActivityCompat.getColor(
                 context,
                 R.color.colorAccent
             ) else Color.TRANSPARENT
         )
         binding.regex.setOnClickListener {
-            if (Preferences.isRegexEnabled()) {
-                Preferences.setRegexEnabled(false)
+            if (preferences.regex) {
+                preferences.regex = false
                 binding.regex.setBackgroundColor(Color.TRANSPARENT)
             } else {
-                Preferences.setRegexEnabled(true)
+                preferences.regex = true
                 binding.regex.setBackgroundColor(
                     ActivityCompat.getColor(
                         context,

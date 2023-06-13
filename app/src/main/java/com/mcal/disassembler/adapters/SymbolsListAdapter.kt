@@ -73,7 +73,7 @@ class SymbolsListAdapter(
         if (charSearch.isEmpty()) {
             list.addAll(data)
         } else {
-            val isRegex = Preferences.isRegexEnabled()
+            val isRegex = Preferences(context).regex
             var name: String?
             val pattern = Pattern.compile(charSearch)
             var matcher: Matcher
