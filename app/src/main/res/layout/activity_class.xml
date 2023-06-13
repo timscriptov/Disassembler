@@ -95,6 +95,7 @@
             app:fastScrollPopupBgColor="@color/colorAccent"
             app:fastScrollPopupTextColor="@android:color/primary_text_dark"
             app:fastScrollThumbColor="@color/colorAccent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_symbols" />
 
         <TextView
@@ -114,7 +115,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="90dp"
-        android:onClick="toVtableActivity"
         android:src="@drawable/ic_box_blue"
         android:text="@string/vtable"
         android:textColor="#FFF"
@@ -128,10 +128,10 @@
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:id="@+id/save"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:onClick="save"
         android:text="@string/save"
         android:textColor="#FFF"
         app:backgroundTint="@color/colorAccent"

@@ -44,7 +44,7 @@ class FloatingMenu(
                             val dy = event.rawY.toInt() - lastY
                             param.x = paramX + dx
                             param.y = paramY + dy
-                            this@apply.updateViewLayout(this@apply, param)
+                            wm.updateViewLayout(this@apply, param)
                         }
                     }
                     xPos = param.x

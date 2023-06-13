@@ -10,15 +10,13 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mcal.disassembler.R
-import com.mcal.disassembler.adapters.ClassSymbolsListAdapter
+import com.mcal.disassembler.adapters.SymbolsItem
 import com.mcal.disassembler.data.Preferences
 import com.mcal.disassembler.data.Storage
 import com.mcal.disassembler.databinding.ActivityClassBinding
 import com.mcal.disassembler.databinding.ProgressDialogBinding
-import com.mcal.disassembler.interfaces.SearchResultListener
 import com.mcal.disassembler.nativeapi.DisassemblerClass
 import com.mcal.disassembler.nativeapi.DisassemblerVtable
 import com.mcal.disassembler.nativeapi.Dumper
@@ -27,12 +25,14 @@ import com.mcal.disassembler.utils.FileHelper
 import com.mcal.disassembler.utils.HeaderGenerator
 import com.mcal.disassembler.view.SnackBar
 import com.mcal.disassembler.vtable.VtableDumper
+import com.mikepenz.fastadapter.FastAdapter
+import com.mikepenz.fastadapter.adapters.ItemAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ClassActivity : BaseActivity(), SearchResultListener {
+class ClassActivity : SymbolsSearchActivity() {
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         ActivityClassBinding.inflate(
             layoutInflater
@@ -42,44 +42,14 @@ class ClassActivity : BaseActivity(), SearchResultListener {
     private var dialogBinding: ProgressDialogBinding? = null
     private var mPath: String? = null
     private var mName: String? = null
-    private var lastValue: String? = null
 
-    private val data by lazy(LazyThreadSafetyMode.NONE) {
-        val list: MutableList<Map<String, Any>> = ArrayList()
-        var map: MutableMap<String, Any>
-        findClass()?.let { classThis ->
-            for (i in classThis.symbols.indices) {
-                map = HashMap()
-                when (classThis.symbols[i].type) {
-                    1 -> {
-                        map["img"] = R.drawable.ic_box_blue
-                    }
-
-                    2 -> {
-                        map["img"] = R.drawable.ic_box_red
-                    }
-
-                    else -> {
-                        map["img"] = R.drawable.ic_box_green
-                    }
-                }
-                map["title"] = classThis.symbols[i].demangledName
-                map["info"] = classThis.symbols[i].name
-                map["type"] = classThis.symbols[i].type
-                list.add(map)
-            }
-        }
-        list.sortBy {
-            it["title"] as String
-        }
-        updateSymbolsSize(list)
-        list
-    }
+    private val itemAdapter = ItemAdapter<SymbolsItem>()
+    private val adapter = FastAdapter.with(itemAdapter)
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        setupToolbar(getString(R.string.app_name))
+        setupToolbar(binding.toolbar, getString(R.string.app_name))
         intent.extras?.let {
             val path = it.getString("path").also { path ->
                 mPath = path
@@ -87,12 +57,17 @@ class ClassActivity : BaseActivity(), SearchResultListener {
             val name = it.getString("name").also { name ->
                 mName = name
             }
-
             if (path != null && name != null) {
-                val adapter = ClassSymbolsListAdapter(this, data, this, path)
+                title = name
+
                 val recyclerView = binding.classActivityListView
-                recyclerView.layoutManager = LinearLayoutManager(this)
                 recyclerView.adapter = adapter
+
+                if (data.isEmpty()) {
+                    initData()
+                }
+
+                updateAdapter(symbolsFilteredList)
 
                 val searchText = binding.search
                 val clearBtn = binding.clearText
@@ -116,20 +91,51 @@ class ClassActivity : BaseActivity(), SearchResultListener {
 
                     override fun afterTextChanged(s: Editable) {
                         setVisibility(clearBtn, if (s.isEmpty()) View.GONE else View.VISIBLE)
-                        if (adapter.canStartFilterProcess) {
+                        if (canStartFilterProcess) {
                             if (!TextUtils.equals(s, lastValue)) {
                                 val constraint = s.toString()
                                 lastValue = constraint
                                 recyclerView.smoothScrollToPosition(0)
-                                adapter.canStartFilterProcess = false
-                                adapter.filter(constraint)
+                                canStartFilterProcess = false
+                                filter(constraint)
                                 return
                             }
                             return
                         }
-                        adapter.newValue = s.toString()
+                        newValue = s.toString()
                     }
                 })
+                binding.save.setOnClickListener {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        withContext(Dispatchers.Main) {
+                            showSavingProgressDialog()
+                        }
+                        findClass()?.let { clazz ->
+                            FileHelper.writeSymbolsToFile(
+                                Storage.getHeadersDir(this@ClassActivity).path,
+                                getSaveName(name),
+                                HeaderGenerator(clazz, findVtable()).generate()
+                            )
+                        }
+                        withContext(Dispatchers.Main) {
+                            SnackBar(
+                                this@ClassActivity,
+                                this@ClassActivity.getString(R.string.done)
+                            ).show()
+                            dismissProgressDialog()
+                        }
+                    }
+                }
+                binding.classactivityButtonFloat.setOnClickListener {
+                    showLoadingProgressDialog()
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val vtable = VtableDumper.dump(mPath, getZTVName(name))
+                        if (vtable != null) {
+                            toVtableActivity(vtable)
+                        }
+                        dismissProgressDialog()
+                    }
+                }
                 val preferences = Preferences(this)
                 binding.regex.setBackgroundColor(
                     if (preferences.regex) ActivityCompat.getColor(
@@ -151,8 +157,6 @@ class ClassActivity : BaseActivity(), SearchResultListener {
                         )
                     }
                 }
-
-                title = name
                 if (hasVtable()) {
                     binding.classactivityButtonFloat.visibility = View.VISIBLE
                 }
@@ -160,34 +164,35 @@ class ClassActivity : BaseActivity(), SearchResultListener {
         }
     }
 
-    private fun setupToolbar(title: String) {
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.apply {
-            setTitle(title)
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowHomeEnabled(true)
+    private fun initData() {
+        val list = symbolsFilteredList
+        if (list.isNotEmpty()) {
+            list.clear()
         }
-    }
-
-    fun save(view: View?) {
-        mName?.let { name ->
-            CoroutineScope(Dispatchers.IO).launch {
-                withContext(Dispatchers.Main) {
-                    showSavingProgressDialog()
+        var map: MutableMap<String, Any>
+        findClass()?.let { classThis ->
+            for (i in classThis.symbols.indices) {
+                map = HashMap()
+                when (classThis.symbols[i].type) {
+                    1 -> map["img"] = R.drawable.ic_box_blue
+                    2 -> map["img"] = R.drawable.ic_box_red
+                    else -> map["img"] = R.drawable.ic_box_green
                 }
-                findClass()?.let { clazz ->
-                    FileHelper.writeSymbolsToFile(
-                        Storage.getHeadersDir(this@ClassActivity).path,
-                        getSaveName(name),
-                        HeaderGenerator(clazz, findVtable()).generate()
-                    )
-                }
-                withContext(Dispatchers.Main) {
-                    SnackBar(this@ClassActivity, this@ClassActivity.getString(R.string.done)).show()
-                    dismissProgressDialog()
-                }
+                map["title"] = classThis.symbols[i].demangledName
+                map["info"] = classThis.symbols[i].name
+                map["type"] = classThis.symbols[i].type
+                list.add(map)
             }
         }
+        list.sortBy {
+            it["title"] as String
+        }
+        updateSymbolsSize(list)
+        val dataList = data
+        if (dataList.isNotEmpty()) {
+            dataList.clear()
+        }
+        dataList.addAll(list)
     }
 
     private fun findClass(): DisassemblerClass? {
@@ -232,19 +237,6 @@ class ClassActivity : BaseActivity(), SearchResultListener {
             }
         }
         return "$ret.h"
-    }
-
-    fun toVtableActivity(view: View?) {
-        showLoadingProgressDialog()
-        mName?.let { name ->
-            CoroutineScope(Dispatchers.IO).launch {
-                val vtable = VtableDumper.dump(mPath, getZTVName(name))
-                if (vtable != null) {
-                    toVtableActivity(vtable)
-                }
-                dismissProgressDialog()
-            }
-        }
     }
 
     private fun hasVtable(): Boolean {
@@ -334,6 +326,31 @@ class ClassActivity : BaseActivity(), SearchResultListener {
             }
         )
         updateSymbolsSize(list)
+        updateAdapter(symbolsFilteredList)
+    }
+
+    private fun updateAdapter(list: MutableList<Map<String, Any>>) {
+        val path = mPath
+        if (path != null) {
+            val adapter = itemAdapter
+            if (adapter.adapterItemCount >= 0) {
+                adapter.clear()
+            }
+            var item: Map<String, Any>
+            for (i in list.indices) {
+                item = list[i]
+                adapter.add(
+                    SymbolsItem()
+                        .withContext(this)
+                        .withId(i.toLong())
+                        .withIcon(item["img"] as Int)
+                        .withTitle(item["title"] as String)
+                        .withSubTitle(item["info"] as String)
+                        .withSymbolType(item["type"] as Int)
+                        .withPath(path)
+                )
+            }
+        }
     }
 
     private fun updateSymbolsSize(list: MutableList<Map<String, Any>>) {

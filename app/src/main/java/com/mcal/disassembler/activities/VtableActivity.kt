@@ -9,82 +9,73 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mcal.disassembler.R
-import com.mcal.disassembler.adapters.VTableListAdapter
+import com.mcal.disassembler.adapters.SymbolsItem
 import com.mcal.disassembler.data.Preferences
 import com.mcal.disassembler.data.Storage
 import com.mcal.disassembler.databinding.ActivityVTableBinding
 import com.mcal.disassembler.databinding.ProgressDialogBinding
-import com.mcal.disassembler.interfaces.SearchResultListener
 import com.mcal.disassembler.nativeapi.DisassemblerDumper
 import com.mcal.disassembler.nativeapi.DisassemblerVtable
 import com.mcal.disassembler.nativeapi.Dumper
 import com.mcal.disassembler.utils.FileHelper
 import com.mcal.disassembler.view.SnackBar
+import com.mikepenz.fastadapter.FastAdapter
+import com.mikepenz.fastadapter.adapters.ItemAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class VtableActivity : BaseActivity(), SearchResultListener {
+class VtableActivity : SymbolsSearchActivity() {
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         ActivityVTableBinding.inflate(
             layoutInflater
         )
     }
 
-    private val data by lazy(LazyThreadSafetyMode.NONE) {
-        val list: MutableList<Map<String, Any>> = ArrayList()
-        var map: MutableMap<String, Any>
-        mVTable?.let { vtable ->
-            for (i in vtable.vtables.indices) {
-                map = HashMap()
-                map["img"] = R.drawable.ic_box_blue
-                map["title"] = vtable.vtables[i].demangledName
-                map["info"] = vtable.vtables[i].name
-                map["type"] = vtable.vtables[i].type
-                list.add(map)
-            }
-        }
-        list.sortBy {
-            it["title"] as String
-        }
-        updateSymbolsSize(list)
-        list
-    }
-
     private var mPath: String? = null
     private var mName: String? = null
     private var mVTable: DisassemblerVtable? = null
-    private var lastValue: String? = null
 
     private var dialog: AlertDialog? = null
     private var dialogBinding: ProgressDialogBinding? = null
+
+    private val itemAdapter = ItemAdapter<SymbolsItem>()
+    private val fastAdapter = FastAdapter.with(itemAdapter)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupToolbar(binding.toolbar, getString(R.string.app_vtable))
-        intent?.extras?.let {
-            val path = it.getString("path").also { path ->
+        intent?.extras?.let { bundle ->
+            val path = bundle.getString("path").also { path ->
                 mPath = path
             }
-            val name = it.getString("name").also { name ->
+            val name = bundle.getString("name").also { name ->
                 mName = name
             }
-            if (path != null && name != null) {
-                for (mvtable in Dumper.exploed) {
-                    if (mvtable.name == mName) {
-                        mVTable = mvtable
+            var vTable: DisassemblerVtable? = null
+            for (item in Dumper.exploed) {
+                if (item.name == mName) {
+                    vTable = item.also {
+                        mVTable = it
                     }
                 }
+            }
+            if (path != null && name != null && vTable != null) {
+
                 title = DisassemblerDumper.demangle(name)
-                val adapter = VTableListAdapter(this, data, this, path)
+
                 val recyclerView = binding.vtableActivityListView
-                recyclerView.layoutManager = LinearLayoutManager(this)
-                recyclerView.adapter = adapter
+                recyclerView.adapter = fastAdapter
+
+                if (data.isEmpty()) {
+                    initData()
+                }
+
+                updateAdapter(symbolsFilteredList)
 
                 val searchText = binding.search
                 val clearBtn = binding.clearText
@@ -108,26 +99,67 @@ class VtableActivity : BaseActivity(), SearchResultListener {
 
                     override fun afterTextChanged(s: Editable) {
                         setVisibility(clearBtn, if (s.isEmpty()) View.GONE else View.VISIBLE)
-                        if (adapter.canStartFilterProcess) {
+                        if (canStartFilterProcess) {
                             if (!TextUtils.equals(s, lastValue)) {
                                 val constraint = s.toString()
                                 lastValue = constraint
                                 recyclerView.smoothScrollToPosition(0)
-                                adapter.canStartFilterProcess = false
-                                adapter.filter(constraint)
+                                canStartFilterProcess = false
+                                filter(constraint)
                                 return
                             }
                             return
                         }
-                        adapter.newValue = s.toString()
+                        newValue = s.toString()
                     }
                 })
+                binding.save.setOnClickListener {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        withContext(Dispatchers.Main) {
+                            showSavingProgressDialog()
+                        }
+                        val size = vTable.vtables.size
+                        val listNames = arrayOfNulls<String>(size)
+                        for (i in vTable.vtables.indices) {
+                            withContext(Dispatchers.Main) {
+                                updateDialogProgress(i, size)
+                            }
+                            listNames[i] = vTable.vtables[i].name
+                        }
+                        mName?.let { name ->
+                            val homeDir = Storage.getVTablesDir(this@VtableActivity).path
+                            FileHelper.writeSymbolsToFile(homeDir, "$name.txt", listNames)
+
+                            val listDemangledNames = arrayOfNulls<String>(size)
+                            for (i in vTable.vtables.indices) {
+                                withContext(Dispatchers.Main) {
+                                    updateDialogProgress(i, size)
+                                }
+                                listDemangledNames[i] = vTable.vtables[i].demangledName
+                            }
+                            val demangledName = DisassemblerDumper.demangleOnly(name)
+                            val fileName =
+                                demangledName.substring(demangledName.lastIndexOf(" ") + 1)
+                            FileHelper.writeSymbolsToFile(
+                                homeDir,
+                                "$fileName.txt",
+                                listDemangledNames
+                            )
+                            withContext(Dispatchers.Main) {
+                                SnackBar(this@VtableActivity, getString(R.string.done)).show()
+                                dismissProgressDialog()
+                            }
+                        }
+                    }
+                }
                 val preferences = Preferences(this)
                 binding.regex.setBackgroundColor(
                     if (preferences.regex) ActivityCompat.getColor(
                         this,
                         R.color.colorAccent
-                    ) else Color.TRANSPARENT
+                    ) else {
+                        Color.TRANSPARENT
+                    }
                 )
                 binding.regex.setOnClickListener {
                     if (preferences.regex) {
@@ -147,41 +179,31 @@ class VtableActivity : BaseActivity(), SearchResultListener {
         }
     }
 
-    fun save(view: View?) {
+    private fun initData() {
+        val list = symbolsFilteredList
+        if (list.isNotEmpty()) {
+            list.clear()
+        }
+        var map: MutableMap<String, Any>
         mVTable?.let { vtable ->
-            CoroutineScope(Dispatchers.IO).launch {
-                withContext(Dispatchers.Main) {
-                    showSavingProgressDialog()
-                }
-                val size = vtable.vtables.size
-                val listNames = arrayOfNulls<String>(size)
-                for (i in vtable.vtables.indices) {
-                    withContext(Dispatchers.Main) {
-                        updateDialogProgress(i, size)
-                    }
-                    listNames[i] = vtable.vtables[i].name
-                }
-                mName?.let { name ->
-                    val homeDir = Storage.getVTablesDir(this@VtableActivity).path
-                    FileHelper.writeSymbolsToFile(homeDir, "$name.txt", listNames)
-
-                    val listDemangledNames = arrayOfNulls<String>(size)
-                    for (i in vtable.vtables.indices) {
-                        withContext(Dispatchers.Main) {
-                            updateDialogProgress(i, size)
-                        }
-                        listDemangledNames[i] = vtable.vtables[i].demangledName
-                    }
-                    val demangledName = DisassemblerDumper.demangleOnly(name)
-                    val fileName = demangledName.substring(demangledName.lastIndexOf(" ") + 1)
-                    FileHelper.writeSymbolsToFile(homeDir, "$fileName.txt", listDemangledNames)
-                    withContext(Dispatchers.Main) {
-                        SnackBar(this@VtableActivity, getString(R.string.done)).show()
-                        dismissProgressDialog()
-                    }
-                }
+            for (i in vtable.vtables.indices) {
+                map = HashMap()
+                map["img"] = R.drawable.ic_box_blue
+                map["title"] = vtable.vtables[i].demangledName
+                map["info"] = vtable.vtables[i].name
+                map["type"] = vtable.vtables[i].type
+                list.add(map)
             }
         }
+        list.sortBy {
+            it["title"] as String
+        }
+        updateSymbolsSize(list)
+        val dataList = data
+        if (dataList.isNotEmpty()) {
+            dataList.clear()
+        }
+        dataList.addAll(list)
     }
 
     private fun showSavingProgressDialog() {
@@ -246,6 +268,37 @@ class VtableActivity : BaseActivity(), SearchResultListener {
             }
         )
         updateSymbolsSize(list)
+        val path = mPath
+        if (path != null) {
+            if (itemAdapter.adapterItemCount >= 0) {
+                itemAdapter.clear()
+            }
+            updateAdapter(list)
+        }
+    }
+
+    private fun updateAdapter(list: MutableList<Map<String, Any>>) {
+        val path = mPath
+        if (path != null) {
+            val adapter = itemAdapter
+            if (adapter.adapterItemCount >= 0) {
+                adapter.clear()
+            }
+            var item: Map<String, Any>
+            for (i in list.indices) {
+                item = list[i]
+                adapter.add(
+                    SymbolsItem()
+                        .withContext(this)
+                        .withId(i.toLong())
+                        .withIcon(item["img"] as Int)
+                        .withTitle(item["title"] as String)
+                        .withSubTitle(item["info"] as String)
+                        .withSymbolType(item["type"] as Int)
+                        .withPath(path)
+                )
+            }
+        }
     }
 
     private fun updateSymbolsSize(list: MutableList<Map<String, Any>>) {

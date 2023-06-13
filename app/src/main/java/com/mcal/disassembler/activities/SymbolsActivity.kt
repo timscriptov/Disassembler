@@ -9,31 +9,155 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.mcal.disassembler.R
-import com.mcal.disassembler.adapters.SymbolsListAdapter
+import com.mcal.disassembler.adapters.SymbolsItem
 import com.mcal.disassembler.data.Preferences
 import com.mcal.disassembler.data.Storage
 import com.mcal.disassembler.databinding.ActivitySymbolsBinding
 import com.mcal.disassembler.databinding.ProgressDialogBinding
-import com.mcal.disassembler.interfaces.SearchResultListener
 import com.mcal.disassembler.nativeapi.Dumper
 import com.mcal.disassembler.utils.FileHelper
 import com.mcal.disassembler.view.FloatingButton
 import com.mcal.disassembler.view.SnackBar
+import com.mikepenz.fastadapter.FastAdapter
+import com.mikepenz.fastadapter.adapters.ItemAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SymbolsActivity : BaseActivity(), SearchResultListener {
+class SymbolsActivity : SymbolsSearchActivity() {
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         ActivitySymbolsBinding.inflate(layoutInflater)
     }
     private var dialogBinding: ProgressDialogBinding? = null
-    private val data by lazy(LazyThreadSafetyMode.NONE) {
-        val list = mutableListOf<Map<String, Any>>()
+
+    private var mPath: String? = null
+    private var dialog: AlertDialog? = null
+    private var mBar: SnackBar? = null
+
+    private val itemAdapter = ItemAdapter<SymbolsItem>()
+    private val fastAdapter = FastAdapter.with(itemAdapter)
+
+    public override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+        setupToolbar(binding.toolbar, getString(R.string.app_symbols))
+        intent.extras?.let { bundle ->
+            val path = bundle.getString("path").also { path ->
+                mPath = path
+            }
+            if (path != null) {
+                val recyclerView = binding.symbolsActivityListView
+                recyclerView.adapter = fastAdapter
+
+                if (data.isEmpty()) {
+                    initData()
+                }
+
+                updateAdapter(symbolsFilteredList)
+
+                val searchText = binding.search
+                val clearBtn = binding.clearText
+                clearBtn.setOnClickListener {
+                    searchText.setText("")
+                }
+                searchText.addTextChangedListener(object : TextWatcher {
+                    override fun onTextChanged(
+                        s: CharSequence,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) = Unit
+
+                    override fun beforeTextChanged(
+                        s: CharSequence,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) = Unit
+
+                    override fun afterTextChanged(s: Editable) {
+                        setVisibility(clearBtn, if (s.isEmpty()) View.GONE else View.VISIBLE)
+                        if (canStartFilterProcess) {
+                            if (!TextUtils.equals(s, lastValue)) {
+                                val constraint = s.toString()
+                                lastValue = constraint
+                                recyclerView.smoothScrollToPosition(0)
+                                canStartFilterProcess = false
+                                filter(constraint)
+                                return
+                            }
+                            return
+                        }
+                        newValue = s.toString()
+                    }
+                })
+                binding.saveSymbols.setOnClickListener {
+                    showProgressDialog()
+                    mBar = SnackBar(this, getString(R.string.done)).also { snackBar ->
+                        CoroutineScope(Dispatchers.IO).launch {
+                            val size = Dumper.symbols.size
+                            val symbols = arrayOfNulls<String>(size)
+                            val demangledSymbols = arrayOfNulls<String>(size)
+                            for (i in Dumper.symbols.indices) {
+                                withContext(Dispatchers.Main) {
+                                    updateDialogProgress(i, size)
+                                }
+                                symbols[i] = Dumper.symbols[i].name
+                                demangledSymbols[i] = Dumper.symbols[i].demangledName
+                            }
+                            FileHelper.writeSymbolsToFile(
+                                Storage.getSymbolsDir(this@SymbolsActivity).path,
+                                "Symbols.txt",
+                                symbols
+                            )
+                            FileHelper.writeSymbolsToFile(
+                                Storage.getSymbolsDir(this@SymbolsActivity).path,
+                                "Symbols_demangled.txt",
+                                demangledSymbols
+                            )
+                            withContext(Dispatchers.Main) {
+                                dismissProgressDialog()
+                                snackBar.show()
+                            }
+                        }
+                    }
+                }
+                binding.showFloatingMenu.setOnClickListener {
+                    FloatingButton(this, path).show()
+                }
+                val preferences = Preferences(this)
+                binding.regex.setBackgroundColor(
+                    if (preferences.regex) ActivityCompat.getColor(
+                        this,
+                        R.color.colorAccent
+                    ) else Color.TRANSPARENT
+                )
+                binding.regex.setOnClickListener {
+                    if (preferences.regex) {
+                        preferences.regex = false
+                        binding.regex.setBackgroundColor(Color.TRANSPARENT)
+                    } else {
+                        preferences.regex = true
+                        binding.regex.setBackgroundColor(
+                            ActivityCompat.getColor(
+                                this,
+                                R.color.colorAccent
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private fun initData() {
+        val list = symbolsFilteredList
+        if (list.isNotEmpty()) {
+            list.clear()
+        }
         var map: MutableMap<String, Any>
         for (i in Dumper.symbols.indices) {
             map = HashMap()
@@ -51,78 +175,11 @@ class SymbolsActivity : BaseActivity(), SearchResultListener {
             it["title"] as String
         }
         updateSymbolsSize(list)
-        list
-    }
-
-    private var path: String? = null
-    private var dialog: AlertDialog? = null
-    private var mBar: SnackBar? = null
-    private var lastValue: String? = null
-
-    public override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        setupToolbar(binding.toolbar, getString(R.string.app_symbols))
-        path = intent.extras?.getString("filePath")?.also { filePath ->
-            val adapter = SymbolsListAdapter(this, data, this, filePath)
-            val recyclerView = binding.symbolsActivityListView
-            setVisibility(recyclerView, View.VISIBLE)
-            recyclerView.layoutManager = LinearLayoutManager(this)
-            recyclerView.adapter = adapter
-
-            val searchText = binding.search
-            val clearBtn = binding.clearText
-            clearBtn.setOnClickListener {
-                searchText.setText("")
-            }
-            searchText.addTextChangedListener(object : TextWatcher {
-                override fun onTextChanged(
-                    s: CharSequence,
-                    start: Int,
-                    before: Int,
-                    count: Int
-                ) = Unit
-
-                override fun beforeTextChanged(
-                    s: CharSequence,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) = Unit
-
-                override fun afterTextChanged(s: Editable) {
-                    setVisibility(clearBtn, if (s.isEmpty()) View.GONE else View.VISIBLE)
-                    if (adapter.canStartFilterProcess) {
-                        if (!TextUtils.equals(s, lastValue)) {
-                            val constraint = s.toString()
-                            lastValue = constraint
-                            recyclerView.smoothScrollToPosition(0)
-                            adapter.canStartFilterProcess = false
-                            adapter.filter(constraint)
-                            return
-                        }
-                        return
-                    }
-                    adapter.newValue = s.toString()
-                }
-            })
+        val dataList = data
+        if (dataList.isNotEmpty()) {
+            dataList.clear()
         }
-        val preferences = Preferences(this)
-        binding.regex.setBackgroundColor(
-            if (preferences.regex) ActivityCompat.getColor(
-                this,
-                R.color.colorAccent
-            ) else Color.TRANSPARENT
-        )
-        binding.regex.setOnClickListener {
-            if (preferences.regex) {
-                preferences.regex = false
-                binding.regex.setBackgroundColor(Color.TRANSPARENT)
-            } else {
-                preferences.regex = true
-                binding.regex.setBackgroundColor(ActivityCompat.getColor(this, R.color.colorAccent))
-            }
-        }
+        dataList.addAll(list)
     }
 
     private fun updateSymbolsSize(list: MutableList<Map<String, Any>>) {
@@ -137,10 +194,6 @@ class SymbolsActivity : BaseActivity(), SearchResultListener {
         }
     }
 
-    fun showFloatingMenu(view: View?) {
-        path?.let { FloatingButton(this, it).show() }
-    }
-
     private fun showProgressDialog() {
         dialog = MaterialAlertDialogBuilder(this).apply {
             dialogBinding = ProgressDialogBinding.inflate(layoutInflater).also { binding ->
@@ -150,42 +203,6 @@ class SymbolsActivity : BaseActivity(), SearchResultListener {
             setTitle(R.string.saving)
         }.create().also {
             it.show()
-        }
-    }
-
-    fun saveSymbols(view: View?) {
-        showProgressDialog()
-        mBar = SnackBar(this, getString(R.string.done))
-        CoroutineScope(Dispatchers.IO).launch {
-            val size = Dumper.symbols.size
-            val symbols = arrayOfNulls<String>(size)
-            val demangledSymbols = arrayOfNulls<String>(size)
-            for (i in Dumper.symbols.indices) {
-                withContext(Dispatchers.Main) {
-                    updateDialogProgress(i, size)
-                }
-                symbols[i] = Dumper.symbols[i].name
-                demangledSymbols[i] = Dumper.symbols[i].demangledName
-            }
-            FileHelper.writeSymbolsToFile(
-                Storage.getSymbolsDir(this@SymbolsActivity).path,
-                "Symbols.txt",
-                symbols
-            )
-            FileHelper.writeSymbolsToFile(
-                Storage.getSymbolsDir(this@SymbolsActivity).path,
-                "Symbols_demangled.txt",
-                demangledSymbols
-            )
-            withContext(Dispatchers.Main) {
-                dismissProgressDialog()
-                mBar?.show() ?: run {
-                    SnackBar(
-                        this@SymbolsActivity,
-                        this@SymbolsActivity.getString(R.string.done)
-                    ).show()
-                }
-            }
         }
     }
 
@@ -234,6 +251,30 @@ class SymbolsActivity : BaseActivity(), SearchResultListener {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun updateAdapter(list: MutableList<Map<String, Any>>) {
+        val path = mPath
+        if (path != null) {
+            val adapter = itemAdapter
+            if (adapter.adapterItemCount >= 0) {
+                adapter.clear()
+            }
+            var item: Map<String, Any>
+            for (i in list.indices) {
+                item = list[i]
+                adapter.add(
+                    SymbolsItem()
+                        .withContext(this)
+                        .withId(i.toLong())
+                        .withIcon(item["img"] as Int)
+                        .withTitle(item["title"] as String)
+                        .withSubTitle(item["info"] as String)
+                        .withSymbolType(item["type"] as Int)
+                        .withPath(path)
+                )
+            }
+        }
+    }
+
     override fun onFoundApp(list: MutableList<Map<String, Any>>, mode: Boolean) {
         setVisibility(
             binding.symbolsNotFound, if (mode) {
@@ -250,5 +291,6 @@ class SymbolsActivity : BaseActivity(), SearchResultListener {
             }
         )
         updateSymbolsSize(list)
+        updateAdapter(list)
     }
 }

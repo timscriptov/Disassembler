@@ -9,54 +9,38 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
-import android.widget.RelativeLayout
 import androidx.core.app.ActivityCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.mcal.disassembler.R
 import com.mcal.disassembler.activities.BaseActivity
-import com.mcal.disassembler.adapters.FloatingListAdapter
+import com.mcal.disassembler.adapters.SymbolsItem
 import com.mcal.disassembler.data.Preferences
 import com.mcal.disassembler.databinding.FloatingMenuBinding
 import com.mcal.disassembler.interfaces.SearchResultListener
 import com.mcal.disassembler.nativeapi.Dumper
+import com.mikepenz.fastadapter.FastAdapter
+import com.mikepenz.fastadapter.adapters.ItemAdapter
 
 @SuppressLint("ViewConstructor")
 class FloatingMenuView internal constructor(
     private val activity: Activity,
     menu: FloatingMenu,
     private val path: String,
-) : RelativeLayout(
+) : SymbolsSearchView(
     activity
 ), SearchResultListener {
     private val binding by lazy { FloatingMenuBinding.inflate(activity.layoutInflater) }
-    private val data by lazy(LazyThreadSafetyMode.NONE) {
-        val list = mutableListOf<Map<String, Any>>()
-        var map: MutableMap<String, Any>
-        for (i in Dumper.symbols.indices) {
-            map = HashMap()
-            when (Dumper.symbols[i].type) {
-                1 -> map["img"] = R.drawable.ic_box_blue
-                2 -> map["img"] = R.drawable.ic_box_red
-                else -> map["img"] = R.drawable.ic_box_green
-            }
-            map["title"] = Dumper.symbols[i].demangledName
-            map["info"] = Dumper.symbols[i].name
-            map["type"] = Dumper.symbols[i].type
-            list.add(map)
-        }
-        list.sortBy {
-            it["title"] as String
-        }
-        list
-    }
-    private var lastValue: String? = null
+    private val itemAdapter = ItemAdapter<SymbolsItem>()
+    private val adapter = FastAdapter.with(itemAdapter)
 
     init {
-        val adapter = FloatingListAdapter(context, this, data)
-        val recyclerView = binding.recyclerView.apply {
-            layoutManager = LinearLayoutManager(context)
-            setAdapter(adapter)
+        val recyclerView = binding.recyclerView
+        recyclerView.adapter = adapter
+
+        if (data.isEmpty()) {
+            initData()
         }
+
+        updateAdapter(symbolsFilteredList)
 
         val searchText = binding.search
         val clearBtn = binding.clearText
@@ -80,18 +64,18 @@ class FloatingMenuView internal constructor(
 
             override fun afterTextChanged(s: Editable) {
                 clearBtn.visibility = if (s.isEmpty()) View.GONE else View.VISIBLE
-                if (adapter.canStartFilterProcess) {
+                if (canStartFilterProcess) {
                     if (!TextUtils.equals(s, lastValue)) {
                         val constraint = s.toString()
                         lastValue = constraint
                         recyclerView.smoothScrollToPosition(0)
-                        adapter.canStartFilterProcess = false
-                        adapter.filter(constraint)
+                        canStartFilterProcess = false
+                        filter(constraint)
                         return
                     }
                     return
                 }
-                adapter.newValue = s.toString()
+                newValue = s.toString()
             }
         })
 
@@ -133,6 +117,51 @@ class FloatingMenuView internal constructor(
         addView(binding.root)
     }
 
+    private fun updateAdapter(list: MutableList<Map<String, Any>>) {
+        var item: Map<String, Any>
+        for (i in list.indices) {
+            item = list[i]
+            itemAdapter.add(
+                SymbolsItem()
+                    .withContext(activity)
+                    .withId(i.toLong())
+                    .withIcon(item["img"] as Int)
+                    .withTitle(item["title"] as String)
+                    .withSubTitle(item["info"] as String)
+                    .withSymbolType(item["type"] as Int)
+                    .withPath(path)
+            )
+        }
+    }
+
+    private fun initData() {
+        val list = symbolsFilteredList
+        if (list.isNotEmpty()) {
+            list.clear()
+        }
+        var map: MutableMap<String, Any>
+        for (i in Dumper.symbols.indices) {
+            map = HashMap()
+            when (Dumper.symbols[i].type) {
+                1 -> map["img"] = R.drawable.ic_box_blue
+                2 -> map["img"] = R.drawable.ic_box_red
+                else -> map["img"] = R.drawable.ic_box_green
+            }
+            map["title"] = Dumper.symbols[i].demangledName
+            map["info"] = Dumper.symbols[i].name
+            map["type"] = Dumper.symbols[i].type
+            list.add(map)
+        }
+        list.sortBy {
+            it["title"] as String
+        }
+        val dataList = data
+        if (dataList.isNotEmpty()) {
+            dataList.clear()
+        }
+        dataList.addAll(list)
+    }
+
     private fun readFromClipboard(): String {
         val clipboardManager =
             activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -154,5 +183,9 @@ class FloatingMenuView internal constructor(
                 View.GONE
             }
         )
+        if (itemAdapter.adapterItemCount >= 0) {
+            itemAdapter.clear()
+        }
+        updateAdapter(list)
     }
 }

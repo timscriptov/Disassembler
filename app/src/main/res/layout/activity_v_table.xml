@@ -93,6 +93,7 @@
             android:listSelector="@android:color/transparent"
             app:fastScrollAutoHide="false"
             app:fastScrollPopupBgColor="@color/colorAccent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:fastScrollPopupTextColor="@android:color/primary_text_dark"
             app:fastScrollThumbColor="@color/colorAccent"
             tools:listitem="@layout/item_symbols" />
@@ -113,7 +114,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:onClick="save"
+        android:id="@+id/save"
         android:text="@string/save"
         android:textColor="#FFF"
         app:backgroundTint="@color/colorAccent"

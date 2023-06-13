@@ -167,7 +167,7 @@ class MainActivity : AppCompatActivity(), MainView, DialogProgressListener {
     private fun toClassesActivity() {
         startActivity(Intent(this@MainActivity, SymbolsActivity::class.java).apply {
             putExtras(Bundle().apply {
-                putString("filePath", path)
+                putString("path", path)
             })
         })
         dismissProgressDialog()
