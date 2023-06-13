@@ -1,7 +1,5 @@
 package com.mcal.disassembler.adapters
 
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +10,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.mcal.disassembler.R
 import com.mcal.disassembler.activities.SymbolActivity
+import com.mcal.disassembler.utils.StringHelper
 import com.mikepenz.fastadapter.items.AbstractItem
 
 class SymbolsItem : AbstractItem<SymbolsItem.ViewHolder>() {
@@ -74,25 +73,21 @@ class SymbolsItem : AbstractItem<SymbolsItem.ViewHolder>() {
         holder.title.text = title
         holder.info.text = subtitle
         holder.type = symbolType
-        holder.itemView.setOnClickListener {
-            context?.startActivity(Intent(context, SymbolActivity::class.java).apply {
-                putExtras(Bundle().apply {
-                    putString("demangledName", holder.title.text as String)
-                    putString("name", holder.info.text as String)
-                    putInt("type", holder.type)
-                    putString("filePath", path)
+        context?.let { context ->
+            holder.itemView.setOnClickListener {
+                context.startActivity(Intent(context, SymbolActivity::class.java).apply {
+                    putExtras(Bundle().apply {
+                        putString("demangledName", holder.title.text as String)
+                        putString("name", holder.info.text as String)
+                        putInt("type", holder.type)
+                        putString("filePath", path)
+                    })
                 })
-            })
-        }
-        holder.itemView.setOnLongClickListener {
-            context?.let { context ->
-                val copiedText = "$title // $subtitle"
-                (context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager).setPrimaryClip(
-                    ClipData.newPlainText("text", copiedText)
-                )
-                Toast.makeText(context, copiedText, Toast.LENGTH_LONG).show()
             }
-            return@setOnLongClickListener true
+            holder.itemView.setOnLongClickListener {
+                StringHelper.copyToClipboard("$title // $subtitle", context)
+                return@setOnLongClickListener true
+            }
         }
     }
 

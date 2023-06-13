@@ -2,8 +2,6 @@ package com.mcal.disassembler.view
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ClipboardManager
-import android.content.Context
 import android.graphics.Color
 import android.text.Editable
 import android.text.TextUtils
@@ -17,6 +15,7 @@ import com.mcal.disassembler.data.Preferences
 import com.mcal.disassembler.databinding.FloatingMenuBinding
 import com.mcal.disassembler.interfaces.SearchResultListener
 import com.mcal.disassembler.nativeapi.Dumper
+import com.mcal.disassembler.utils.StringHelper
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 
@@ -41,9 +40,10 @@ class FloatingMenuView internal constructor(
         }
 
         val searchText = binding.search
-        val clearBtn = binding.clearText
-        clearBtn.setOnClickListener {
-            searchText.setText("")
+        val clearBtn = binding.clearText.apply {
+            setOnClickListener {
+                searchText.setText("")
+            }
         }
         searchText.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(
@@ -90,14 +90,16 @@ class FloatingMenuView internal constructor(
             }
         }
         binding.floatingmenuButtonPaste.setOnClickListener {
-            binding.search.setText(readFromClipboard())
+            binding.search.setText(StringHelper.readFromClipboard(activity))
         }
         val preferences = Preferences(context)
         binding.regex.setBackgroundColor(
             if (preferences.regex) ActivityCompat.getColor(
                 context,
                 R.color.colorAccent
-            ) else Color.TRANSPARENT
+            ) else {
+                Color.TRANSPARENT
+            }
         )
         binding.regex.setOnClickListener {
             if (preferences.regex) {
@@ -163,12 +165,6 @@ class FloatingMenuView internal constructor(
             dataList.clear()
         }
         dataList.addAll(list)
-    }
-
-    private fun readFromClipboard(): String {
-        val clipboardManager =
-            activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        return clipboardManager.primaryClip?.getItemAt(0)?.text.toString()
     }
 
     private fun updateSymbolsSize(list: MutableList<Map<String, Any>>) {
