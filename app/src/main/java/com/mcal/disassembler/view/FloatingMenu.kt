@@ -9,67 +9,68 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
 import android.view.WindowManager
-import com.mcal.disassembler.App.Companion.dp
+import com.mcal.disassembler.App
 
-class FloatingMenu(private val activity: Activity, private val path: String) {
+class FloatingMenu(
+    private val activity: Activity,
+    path: String
+) {
     var isAdded = false
-    var wm: WindowManager? = null
-    var params: WindowManager.LayoutParams? = null
-    var floatView: FloatingMenuView? = null
+    var wm = activity.applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    var params = WindowManager.LayoutParams()
+    var floatView = FloatingMenuView(activity, this, path)
 
     @SuppressLint("ClickableViewAccessibility")
     fun show() {
-        val LAYOUT_FLAG: Int
-        LAYOUT_FLAG = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-        } else {
-            WindowManager.LayoutParams.TYPE_PHONE
-        }
-        wm = activity.applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        params = WindowManager.LayoutParams()
-        params!!.type = LAYOUT_FLAG // WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
-        params!!.format = PixelFormat.RGBA_8888
-        params!!.flags =
-            WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-        params!!.height = wm!!.defaultDisplay.height / 2
-        params!!.width = dp(activity, 250)
-        params!!.x = xPos
-        params!!.y = yPos
-        floatView = FloatingMenuView(activity, this, path)
-        floatView!!.isClickable = true
-        floatView!!.setOnTouchListener(object : OnTouchListener {
-            var lastX = 0
-            var lastY = 0
-            var paramX = 0
-            var paramY = 0
-            override fun onTouch(v: View, event: MotionEvent): Boolean {
-                when (event.action) {
-                    MotionEvent.ACTION_DOWN -> {
-                        lastX = event.rawX.toInt()
-                        lastY = event.rawY.toInt()
-                        paramX = params!!.x
-                        paramY = params!!.y
-                    }
+        wm.addView(floatView.apply {
+            isClickable = true
+            setOnTouchListener(object : OnTouchListener {
+                var lastX = 0
+                var lastY = 0
+                var paramX = 0
+                var paramY = 0
+                override fun onTouch(v: View, event: MotionEvent): Boolean {
+                    val param = params
+                    when (event.action) {
+                        MotionEvent.ACTION_DOWN -> {
+                            lastX = event.rawX.toInt()
+                            lastY = event.rawY.toInt()
+                            paramX = param.x
+                            paramY = param.y
+                        }
 
-                    MotionEvent.ACTION_MOVE -> {
-                        val dx = event.rawX.toInt() - lastX
-                        val dy = event.rawY.toInt() - lastY
-                        params!!.x = paramX + dx
-                        params!!.y = paramY + dy
-                        wm!!.updateViewLayout(floatView, params)
+                        MotionEvent.ACTION_MOVE -> {
+                            val dx = event.rawX.toInt() - lastX
+                            val dy = event.rawY.toInt() - lastY
+                            param.x = paramX + dx
+                            param.y = paramY + dy
+                            this@apply.updateViewLayout(this@apply, param)
+                        }
                     }
+                    xPos = param.x
+                    yPos = param.y
+                    return false
                 }
-                xPos = params!!.x
-                yPos = params!!.y
-                return false
+            })
+        }, params.apply {
+            type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+            } else {
+                WindowManager.LayoutParams.TYPE_PHONE
             }
+            format = PixelFormat.RGBA_8888
+            flags =
+                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+            height = wm.defaultDisplay.height / 2
+            width = App.dp(activity, 250)
+            x = xPos
+            y = yPos
         })
-        wm!!.addView(floatView, params)
         isAdded = true
     }
 
     fun dismiss() {
-        wm!!.removeView(floatView)
+        wm.removeView(floatView)
     }
 
     companion object {

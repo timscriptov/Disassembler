@@ -81,7 +81,9 @@
             android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"
             android:padding="8dp"
-            android:src="@drawable/ic_close" />
+            android:src="@drawable/ic_close"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
     </LinearLayout>
 
@@ -94,7 +96,7 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

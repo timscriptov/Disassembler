@@ -1,6 +1,8 @@
 package com.mcal.disassembler.activities
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
 import com.mcal.disassembler.R
@@ -18,6 +20,36 @@ class NameDemanglerActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupToolbar(binding.toolbar, getString(R.string.app_symbols))
+        val searchText = binding.namedemangleractivityEditText1
+        val clearBtn = binding.clearText
+        clearBtn.setOnClickListener {
+            searchText.setText("")
+        }
+        searchText.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(
+                s: CharSequence,
+                start: Int,
+                before: Int,
+                count: Int
+            ) = Unit
+
+            override fun beforeTextChanged(
+                s: CharSequence,
+                start: Int,
+                count: Int,
+                after: Int
+            ) = Unit
+
+            override fun afterTextChanged(s: Editable) {
+                setVisibility(
+                    clearBtn, if (s.isEmpty()) {
+                        View.GONE
+                    } else {
+                        View.VISIBLE
+                    }
+                )
+            }
+        })
     }
 
     fun demangle(view: View?) {

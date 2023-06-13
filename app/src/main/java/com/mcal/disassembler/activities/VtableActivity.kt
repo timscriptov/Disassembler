@@ -21,7 +21,7 @@ import com.mcal.disassembler.interfaces.SearchResultListener
 import com.mcal.disassembler.nativeapi.DisassemblerDumper
 import com.mcal.disassembler.nativeapi.DisassemblerVtable
 import com.mcal.disassembler.nativeapi.Dumper
-import com.mcal.disassembler.utils.FileSaver
+import com.mcal.disassembler.utils.FileHelper
 import com.mcal.disassembler.view.SnackBar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -162,7 +162,7 @@ class VtableActivity : BaseActivity(), SearchResultListener {
                 }
                 mName?.let { name ->
                     val homeDir = Storage.getVTablesDir(this@VtableActivity).path
-                    FileSaver(homeDir, "$name.txt", listNames).save()
+                    FileHelper.writeSymbolsToFile(homeDir, "$name.txt", listNames)
 
                     val listDemangledNames = arrayOfNulls<String>(size)
                     for (i in vtable.vtables.indices) {
@@ -173,7 +173,7 @@ class VtableActivity : BaseActivity(), SearchResultListener {
                     }
                     val demangledName = DisassemblerDumper.demangleOnly(name)
                     val fileName = demangledName.substring(demangledName.lastIndexOf(" ") + 1)
-                    FileSaver(homeDir, "$fileName.txt", listDemangledNames).save()
+                    FileHelper.writeSymbolsToFile(homeDir, "$fileName.txt", listDemangledNames)
                     withContext(Dispatchers.Main) {
                         SnackBar(this@VtableActivity, getString(R.string.done)).show()
                         dismissProgressDialog()

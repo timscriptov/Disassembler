@@ -19,7 +19,7 @@ import com.mcal.disassembler.databinding.ActivitySymbolsBinding
 import com.mcal.disassembler.databinding.ProgressDialogBinding
 import com.mcal.disassembler.interfaces.SearchResultListener
 import com.mcal.disassembler.nativeapi.Dumper
-import com.mcal.disassembler.utils.FileSaver
+import com.mcal.disassembler.utils.FileHelper
 import com.mcal.disassembler.view.FloatingButton
 import com.mcal.disassembler.view.SnackBar
 import kotlinx.coroutines.CoroutineScope
@@ -163,16 +163,16 @@ class SymbolsActivity : BaseActivity(), SearchResultListener {
                 symbols[i] = Dumper.symbols[i].name
                 demangledSymbols[i] = Dumper.symbols[i].demangledName
             }
-            FileSaver(
+            FileHelper.writeSymbolsToFile(
                 Storage.getSymbolsDir(this@SymbolsActivity).path,
                 "Symbols.txt",
                 symbols
-            ).save()
-            FileSaver(
+            )
+            FileHelper.writeSymbolsToFile(
                 Storage.getSymbolsDir(this@SymbolsActivity).path,
                 "Symbols_demangled.txt",
                 demangledSymbols
-            ).save()
+            )
             withContext(Dispatchers.Main) {
                 dismissProgressDialog()
                 mBar?.show() ?: run {

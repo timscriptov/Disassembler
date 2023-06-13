@@ -23,7 +23,7 @@ import com.mcal.disassembler.nativeapi.DisassemblerClass
 import com.mcal.disassembler.nativeapi.DisassemblerVtable
 import com.mcal.disassembler.nativeapi.Dumper
 import com.mcal.disassembler.utils.ClassGeter
-import com.mcal.disassembler.utils.FileSaver
+import com.mcal.disassembler.utils.FileHelper
 import com.mcal.disassembler.utils.HeaderGenerator
 import com.mcal.disassembler.view.SnackBar
 import com.mcal.disassembler.vtable.VtableDumper
@@ -176,11 +176,11 @@ class ClassActivity : BaseActivity(), SearchResultListener {
                     showSavingProgressDialog()
                 }
                 findClass()?.let { clazz ->
-                    FileSaver(
+                    FileHelper.writeSymbolsToFile(
                         Storage.getHeadersDir(this@ClassActivity).path,
                         getSaveName(name),
                         HeaderGenerator(clazz, findVtable()).generate()
-                    ).save()
+                    )
                 }
                 withContext(Dispatchers.Main) {
                     SnackBar(this@ClassActivity, this@ClassActivity.getString(R.string.done)).show()
