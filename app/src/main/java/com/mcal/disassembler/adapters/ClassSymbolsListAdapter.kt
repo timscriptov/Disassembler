@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mcal.disassembler.R
 import com.mcal.disassembler.activities.SymbolActivity
 import com.mcal.disassembler.data.Preferences
+import com.mcal.disassembler.interfaces.SearchResultListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,16 +24,12 @@ import java.util.regex.Pattern
 class ClassSymbolsListAdapter(
     private val context: Context,
     private val data: MutableList<Map<String, Any>>,
-    private val listener: SymbolItemClick,
+    private val listener: SearchResultListener,
     private val path: String
 ) : RecyclerView.Adapter<ClassSymbolsListAdapter.SymbolsListViewHolder>() {
     var newValue: String? = null
     var canStartFilterProcess = true
     private var symbolsFilteredList = data
-
-    interface SymbolItemClick {
-        fun onFoundApp(list: MutableList<Map<String, Any>>, mode: Boolean)
-    }
 
     override fun getItemCount(): Int {
         return symbolsFilteredList.size

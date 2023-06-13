@@ -17,6 +17,7 @@ import com.mcal.disassembler.data.Preferences
 import com.mcal.disassembler.data.Storage
 import com.mcal.disassembler.databinding.ActivityVTableBinding
 import com.mcal.disassembler.databinding.ProgressDialogBinding
+import com.mcal.disassembler.interfaces.SearchResultListener
 import com.mcal.disassembler.nativeapi.DisassemblerDumper
 import com.mcal.disassembler.nativeapi.DisassemblerVtable
 import com.mcal.disassembler.nativeapi.Dumper
@@ -27,7 +28,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class VtableActivity : BaseActivity(), VTableListAdapter.SymbolItemClick {
+class VtableActivity : BaseActivity(), SearchResultListener {
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         ActivityVTableBinding.inflate(
             layoutInflater
@@ -159,22 +160,24 @@ class VtableActivity : BaseActivity(), VTableListAdapter.SymbolItemClick {
                     }
                     listNames[i] = vtable.vtables[i].name
                 }
-                val homeDir = Storage.getVTablesDir(this@VtableActivity).path
-                FileSaver(homeDir, "$mName.txt", listNames).save()
+                mName?.let { name ->
+                    val homeDir = Storage.getVTablesDir(this@VtableActivity).path
+                    FileSaver(homeDir, "$name.txt", listNames).save()
 
-                val listDemangledNames = arrayOfNulls<String>(size)
-                for (i in vtable.vtables.indices) {
-                    withContext(Dispatchers.Main) {
-                        updateDialogProgress(i, size)
+                    val listDemangledNames = arrayOfNulls<String>(size)
+                    for (i in vtable.vtables.indices) {
+                        withContext(Dispatchers.Main) {
+                            updateDialogProgress(i, size)
+                        }
+                        listDemangledNames[i] = vtable.vtables[i].demangledName
                     }
-                    listDemangledNames[i] = vtable.vtables[i].demangledName
-                }
-                val demangledName = DisassemblerDumper.demangleOnly(mName)
-                val fileName = demangledName.substring(demangledName.lastIndexOf(" ") + 1)
-                FileSaver(homeDir, "$fileName.txt", listDemangledNames).save()
-                withContext(Dispatchers.Main) {
-                    SnackBar(this@VtableActivity, getString(R.string.done)).show()
-                    dismissProgressDialog()
+                    val demangledName = DisassemblerDumper.demangleOnly(name)
+                    val fileName = demangledName.substring(demangledName.lastIndexOf(" ") + 1)
+                    FileSaver(homeDir, "$fileName.txt", listDemangledNames).save()
+                    withContext(Dispatchers.Main) {
+                        SnackBar(this@VtableActivity, getString(R.string.done)).show()
+                        dismissProgressDialog()
+                    }
                 }
             }
         }
@@ -205,10 +208,16 @@ class VtableActivity : BaseActivity(), VTableListAdapter.SymbolItemClick {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        dismissProgressDialog()
+    }
+
     private fun dismissProgressDialog() {
-        dialog?.let {
+        dialog?.takeIf { it.isShowing }?.let {
             it.dismiss()
             dialog = null
+            dialogBinding = null
         }
     }
 
@@ -228,6 +237,13 @@ class VtableActivity : BaseActivity(), VTableListAdapter.SymbolItemClick {
                 View.VISIBLE
             }
         )
+        setVisibility(
+            binding.vtableActivityListView, if (mode) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+        )
         updateSymbolsSize(list)
     }
 
@@ -236,7 +252,10 @@ class VtableActivity : BaseActivity(), VTableListAdapter.SymbolItemClick {
         val oldText = symbolsSizeView.text.toString()
         val dataSize = list.size.toString()
         if (oldText != dataSize) {
-            symbolsSizeView.text = getString(R.string.symbols_count) + dataSize
+            symbolsSizeView.text = buildString {
+                append(getString(R.string.symbols_count))
+                append(dataSize)
+            }
         }
     }
 }

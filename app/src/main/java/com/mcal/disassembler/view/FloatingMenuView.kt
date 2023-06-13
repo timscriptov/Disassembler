@@ -13,9 +13,11 @@ import android.widget.RelativeLayout
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mcal.disassembler.R
+import com.mcal.disassembler.activities.BaseActivity
 import com.mcal.disassembler.adapters.FloatingListAdapter
 import com.mcal.disassembler.data.Preferences
 import com.mcal.disassembler.databinding.FloatingMenuBinding
+import com.mcal.disassembler.interfaces.SearchResultListener
 import com.mcal.disassembler.nativeapi.Dumper
 
 @SuppressLint("ViewConstructor")
@@ -25,7 +27,7 @@ class FloatingMenuView internal constructor(
     private val path: String,
 ) : RelativeLayout(
     activity
-), FloatingListAdapter.FloatingListItemClick {
+), SearchResultListener {
     private val binding by lazy { FloatingMenuBinding.inflate(activity.layoutInflater) }
     private val data by lazy(LazyThreadSafetyMode.NONE) {
         val list = mutableListOf<Map<String, Any>>()
@@ -137,10 +139,19 @@ class FloatingMenuView internal constructor(
     }
 
     override fun onFoundApp(list: MutableList<Map<String, Any>>, mode: Boolean) {
-        binding.symbolsNotFound.visibility = if (mode) {
-            View.GONE
-        } else {
-            View.VISIBLE
-        }
+        BaseActivity.setVisibility(
+            binding.symbolsNotFound, if (mode) {
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
+        )
+        BaseActivity.setVisibility(
+            binding.recyclerView, if (mode) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+        )
     }
 }

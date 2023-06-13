@@ -1,16 +1,11 @@
 package com.mcal.disassembler.activities
 
-import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.mcal.disassembler.view.CenteredToolBar
 
 open class BaseActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    fun setupToolbar(toolbar: CenteredToolBar, title: Integer) {
+    fun setupToolbar(toolbar: CenteredToolBar, title: Int) {
         setupToolbar(toolbar, title)
     }
 
@@ -23,9 +18,11 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
-    fun setVisibility(view: View, mode: Int) {
-        if (view.visibility != mode) {
-            view.visibility = mode
+    companion object {
+        fun setVisibility(view: View, mode: Int) {
+            if (view.visibility != mode) {
+                view.visibility = mode
+            }
         }
     }
 }

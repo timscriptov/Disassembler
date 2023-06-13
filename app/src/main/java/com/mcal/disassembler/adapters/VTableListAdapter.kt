@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mcal.disassembler.R
 import com.mcal.disassembler.activities.SymbolActivity
 import com.mcal.disassembler.data.Preferences
+import com.mcal.disassembler.interfaces.SearchResultListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,7 +24,7 @@ import java.util.regex.Pattern
 class VTableListAdapter(
     private val context: Context,
     private val data: MutableList<Map<String, Any>>,
-    private val listener: SymbolItemClick,
+    private val listener: SearchResultListener,
     private val path: String
 ) : RecyclerView.Adapter<VTableListAdapter.VTableListViewHolder>() {
     var newValue: String? = null
@@ -118,9 +119,5 @@ class VTableListAdapter(
         val title: TextView = itemView.findViewById(R.id.symbolslistitemTextViewtop)
         val info: TextView = itemView.findViewById(R.id.symbolslistitemTextViewbottom)
         var type = 0
-    }
-
-    interface SymbolItemClick {
-        fun onFoundApp(list: MutableList<Map<String, Any>>, mode: Boolean)
     }
 }

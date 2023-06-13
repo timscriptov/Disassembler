@@ -17,6 +17,7 @@ import com.mcal.disassembler.data.Preferences
 import com.mcal.disassembler.data.Storage
 import com.mcal.disassembler.databinding.ActivitySymbolsBinding
 import com.mcal.disassembler.databinding.ProgressDialogBinding
+import com.mcal.disassembler.interfaces.SearchResultListener
 import com.mcal.disassembler.nativeapi.Dumper
 import com.mcal.disassembler.utils.FileSaver
 import com.mcal.disassembler.view.FloatingButton
@@ -26,7 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SymbolsActivity : BaseActivity(), SymbolsListAdapter.SymbolItemClick {
+class SymbolsActivity : BaseActivity(), SearchResultListener {
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         ActivitySymbolsBinding.inflate(layoutInflater)
     }
@@ -133,7 +134,7 @@ class SymbolsActivity : BaseActivity(), SymbolsListAdapter.SymbolItemClick {
     }
 
     fun showFloatingMenu(view: View?) {
-        FloatingButton(this, path).show()
+        path?.let { FloatingButton(this, it).show() }
     }
 
     private fun showProgressDialog() {
@@ -173,10 +174,7 @@ class SymbolsActivity : BaseActivity(), SymbolsListAdapter.SymbolItemClick {
                 demangledSymbols
             ).save()
             withContext(Dispatchers.Main) {
-                dialog?.dismiss().also {
-                    dialog = null
-                    dialogBinding = null
-                }
+                dismissProgressDialog()
                 mBar?.show() ?: run {
                     SnackBar(
                         this@SymbolsActivity,
@@ -184,6 +182,19 @@ class SymbolsActivity : BaseActivity(), SymbolsListAdapter.SymbolItemClick {
                     ).show()
                 }
             }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        dismissProgressDialog()
+    }
+
+    private fun dismissProgressDialog() {
+        dialog?.takeIf { it.isShowing }?.let {
+            it.dismiss()
+            dialog = null
+            dialogBinding = null
         }
     }
 
@@ -225,6 +236,13 @@ class SymbolsActivity : BaseActivity(), SymbolsListAdapter.SymbolItemClick {
                 View.GONE
             } else {
                 View.VISIBLE
+            }
+        )
+        setVisibility(
+            binding.symbolsActivityListView, if (mode) {
+                View.VISIBLE
+            } else {
+                View.GONE
             }
         )
         updateSymbolsSize(list)

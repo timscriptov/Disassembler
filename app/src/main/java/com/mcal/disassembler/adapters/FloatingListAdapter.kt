@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.mcal.disassembler.R
 import com.mcal.disassembler.data.Preferences
+import com.mcal.disassembler.interfaces.SearchResultListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,17 +23,13 @@ import java.util.regex.Pattern
 
 class FloatingListAdapter(
     private val context: Context,
-    private val listener: FloatingListItemClick,
+    private val listener: SearchResultListener,
     private val data: MutableList<Map<String, Any>>,
 ) :
     RecyclerView.Adapter<FloatingListAdapter.SymbolsListViewHolder>() {
     var newValue: String? = null
     var canStartFilterProcess = true
     private var symbolsFilteredList = data
-
-    interface FloatingListItemClick {
-        fun onFoundApp(list: MutableList<Map<String, Any>>, mode: Boolean)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SymbolsListViewHolder {
         val itemView =

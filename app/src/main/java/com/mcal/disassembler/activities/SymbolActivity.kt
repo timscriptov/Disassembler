@@ -177,10 +177,16 @@ class SymbolActivity : BaseActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        dismissProgressDialog()
+    }
+
     private fun dismissProgressDialog() {
-        dialog?.let {
+        dialog?.takeIf { it.isShowing }?.let {
             it.dismiss()
             dialog = null
+            dialogBinding = null
         }
     }
 

@@ -1,5 +1,6 @@
 package com.mcal.disassembler.nativeapi
 
+import com.mcal.disassembler.interfaces.DialogProgressListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.Vector
@@ -13,7 +14,7 @@ object Dumper {
 
     @JvmField
     var classes = Vector<DisassemblerClass>()
-    suspend fun readData(listener: DumperListener) {
+    suspend fun readData(listener: DialogProgressListener) {
         symbols.clear()
         exploed.clear()
         classes.clear()
@@ -23,7 +24,7 @@ object Dumper {
                 listener.updateDialogProgress(i.toInt(), size.toInt())
             }
             var demangledName = DisassemblerDumper.getDemangledNameAt(i)
-            if (demangledName == null || demangledName.isEmpty() || demangledName == " ") {
+            if (demangledName.isNullOrEmpty() || demangledName == " ") {
                 demangledName = DisassemblerDumper.getNameAt(i)
             }
             val newSymbol = DisassemblerSymbol(
@@ -33,9 +34,5 @@ object Dumper {
             )
             symbols.addElement(newSymbol)
         }
-    }
-
-    interface DumperListener {
-        fun updateDialogProgress(last: Int, total: Int)
     }
 }

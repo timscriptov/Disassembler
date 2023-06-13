@@ -19,6 +19,7 @@ import com.mcal.disassembler.data.RecentsManager
 import com.mcal.disassembler.data.Storage
 import com.mcal.disassembler.databinding.ActivityMainBinding
 import com.mcal.disassembler.databinding.ProgressDialogBinding
+import com.mcal.disassembler.interfaces.DialogProgressListener
 import com.mcal.disassembler.interfaces.MainView
 import com.mcal.disassembler.nativeapi.DisassemblerDumper
 import com.mcal.disassembler.nativeapi.Dumper
@@ -30,7 +31,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 
-class MainActivity : AppCompatActivity(), MainView, Dumper.DumperListener {
+class MainActivity : AppCompatActivity(), MainView, DialogProgressListener {
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         ActivityMainBinding.inflate(
             layoutInflater
@@ -150,11 +151,17 @@ class MainActivity : AppCompatActivity(), MainView, Dumper.DumperListener {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        dismissProgressDialog()
+    }
+
     private fun dismissProgressDialog() {
-        dialog?.dismiss().also {
+        dialog?.takeIf { it.isShowing }?.let {
+            it.dismiss()
             dialog = null
+            dialogBinding = null
         }
-        dialogBinding = null
     }
 
     private fun toClassesActivity() {

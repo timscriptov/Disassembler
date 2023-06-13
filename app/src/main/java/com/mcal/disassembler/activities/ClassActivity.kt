@@ -18,6 +18,7 @@ import com.mcal.disassembler.data.Preferences
 import com.mcal.disassembler.data.Storage
 import com.mcal.disassembler.databinding.ActivityClassBinding
 import com.mcal.disassembler.databinding.ProgressDialogBinding
+import com.mcal.disassembler.interfaces.SearchResultListener
 import com.mcal.disassembler.nativeapi.DisassemblerClass
 import com.mcal.disassembler.nativeapi.DisassemblerVtable
 import com.mcal.disassembler.nativeapi.Dumper
@@ -31,7 +32,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ClassActivity : BaseActivity(), ClassSymbolsListAdapter.SymbolItemClick {
+class ClassActivity : BaseActivity(), SearchResultListener {
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         ActivityClassBinding.inflate(
             layoutInflater
@@ -239,7 +240,7 @@ class ClassActivity : BaseActivity(), ClassSymbolsListAdapter.SymbolItemClick {
             CoroutineScope(Dispatchers.IO).launch {
                 val vtable = VtableDumper.dump(mPath, getZTVName(name))
                 if (vtable != null) {
-                    toVtableActivity_(vtable)
+                    toVtableActivity(vtable)
                 }
                 dismissProgressDialog()
             }
@@ -258,7 +259,7 @@ class ClassActivity : BaseActivity(), ClassSymbolsListAdapter.SymbolItemClick {
         return false
     }
 
-    private fun toVtableActivity_(vtable: DisassemblerVtable) {
+    private fun toVtableActivity(vtable: DisassemblerVtable) {
         mName?.let { name ->
             Dumper.exploed.addElement(vtable)
             startActivity(Intent(this, VtableActivity::class.java).apply {
@@ -296,10 +297,16 @@ class ClassActivity : BaseActivity(), ClassSymbolsListAdapter.SymbolItemClick {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        dismissProgressDialog()
+    }
+
     private fun dismissProgressDialog() {
-        dialog?.let {
+        dialog?.takeIf { it.isShowing }?.let {
             it.dismiss()
             dialog = null
+            dialogBinding = null
         }
     }
 
@@ -319,6 +326,13 @@ class ClassActivity : BaseActivity(), ClassSymbolsListAdapter.SymbolItemClick {
                 View.VISIBLE
             }
         )
+        setVisibility(
+            binding.classActivityListView, if (mode) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+        )
         updateSymbolsSize(list)
     }
 
@@ -327,7 +341,10 @@ class ClassActivity : BaseActivity(), ClassSymbolsListAdapter.SymbolItemClick {
         val oldText = symbolsSizeView.text.toString()
         val dataSize = list.size.toString()
         if (oldText != dataSize) {
-            symbolsSizeView.text = getString(R.string.symbols_count) + dataSize
+            symbolsSizeView.text = buildString {
+                append(getString(R.string.symbols_count))
+                append(dataSize)
+            }
         }
     }
 }
