@@ -50,11 +50,11 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/demangle"
         style="@style/Widget.Material3.Button.TonalButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:onClick="demangle"
         android:src="@drawable/ic_run"
         android:text="@string/convert"
         tools:ignore="ContentDescription,UsingOnClickInXml" />

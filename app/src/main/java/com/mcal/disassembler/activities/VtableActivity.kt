@@ -65,22 +65,21 @@ class VtableActivity : SymbolsSearchActivity() {
                 }
             }
             if (path != null && name != null && vTable != null) {
-
                 title = DisassemblerDumper.demangle(name)
 
-                val recyclerView = binding.vtableActivityListView
-                recyclerView.adapter = fastAdapter
-
-                if (data.isEmpty()) {
-                    initData()
+                val recyclerView = binding.vtableActivityListView.apply {
+                    adapter = fastAdapter
                 }
 
-                updateAdapter(symbolsFilteredList)
+                if (data.isEmpty()) {
+                    initData(vTable)
+                }
 
                 val searchText = binding.search
-                val clearBtn = binding.clearText
-                clearBtn.setOnClickListener {
-                    searchText.setText("")
+                val clearBtn = binding.clearText.apply {
+                    setOnClickListener {
+                        searchText.setText("")
+                    }
                 }
                 searchText.addTextChangedListener(object : TextWatcher {
                     override fun onTextChanged(
@@ -98,12 +97,19 @@ class VtableActivity : SymbolsSearchActivity() {
                     ) = Unit
 
                     override fun afterTextChanged(s: Editable) {
-                        setVisibility(clearBtn, if (s.isEmpty()) View.GONE else View.VISIBLE)
+                        setVisibility(
+                            clearBtn, if (s.isEmpty()) {
+                                View.GONE
+                            } else {
+                                View.VISIBLE
+                            }
+                        )
                         if (canStartFilterProcess) {
                             if (!TextUtils.equals(s, lastValue)) {
                                 val constraint = s.toString()
                                 lastValue = constraint
                                 recyclerView.smoothScrollToPosition(0)
+                                setVisibility(binding.progress, View.VISIBLE)
                                 canStartFilterProcess = false
                                 filter(constraint)
                                 return
@@ -126,29 +132,27 @@ class VtableActivity : SymbolsSearchActivity() {
                             }
                             listNames[i] = vTable.vtables[i].name
                         }
-                        mName?.let { name ->
-                            val homeDir = Storage.getVTablesDir(this@VtableActivity).path
-                            FileHelper.writeSymbolsToFile(homeDir, "$name.txt", listNames)
+                        val homeDir = Storage.getVTablesDir(this@VtableActivity).path
+                        FileHelper.writeSymbolsToFile(homeDir, "$name.txt", listNames)
 
-                            val listDemangledNames = arrayOfNulls<String>(size)
-                            for (i in vTable.vtables.indices) {
-                                withContext(Dispatchers.Main) {
-                                    updateDialogProgress(i, size)
-                                }
-                                listDemangledNames[i] = vTable.vtables[i].demangledName
-                            }
-                            val demangledName = DisassemblerDumper.demangleOnly(name)
-                            val fileName =
-                                demangledName.substring(demangledName.lastIndexOf(" ") + 1)
-                            FileHelper.writeSymbolsToFile(
-                                homeDir,
-                                "$fileName.txt",
-                                listDemangledNames
-                            )
+                        val listDemangledNames = arrayOfNulls<String>(size)
+                        for (i in vTable.vtables.indices) {
                             withContext(Dispatchers.Main) {
-                                SnackBar(this@VtableActivity, getString(R.string.done)).show()
-                                dismissProgressDialog()
+                                updateDialogProgress(i, size)
                             }
+                            listDemangledNames[i] = vTable.vtables[i].demangledName
+                        }
+                        val demangledName = DisassemblerDumper.demangleOnly(name)
+                        val fileName =
+                            demangledName.substring(demangledName.lastIndexOf(" ") + 1)
+                        FileHelper.writeSymbolsToFile(
+                            homeDir,
+                            "$fileName.txt",
+                            listDemangledNames
+                        )
+                        withContext(Dispatchers.Main) {
+                            SnackBar(this@VtableActivity, getString(R.string.done)).show()
+                            dismissProgressDialog()
                         }
                     }
                 }
@@ -179,26 +183,26 @@ class VtableActivity : SymbolsSearchActivity() {
         }
     }
 
-    private fun initData() {
+    private fun initData(vtable: DisassemblerVtable) {
+        setVisibility(binding.progress, View.VISIBLE)
         val list = symbolsFilteredList
         if (list.isNotEmpty()) {
             list.clear()
         }
         var map: MutableMap<String, Any>
-        mVTable?.let { vtable ->
-            for (i in vtable.vtables.indices) {
-                map = HashMap()
-                map["img"] = R.drawable.ic_box_blue
-                map["title"] = vtable.vtables[i].demangledName
-                map["info"] = vtable.vtables[i].name
-                map["type"] = vtable.vtables[i].type
-                list.add(map)
-            }
+        for (i in vtable.vtables.indices) {
+            map = HashMap()
+            map["img"] = R.drawable.ic_box_blue
+            map["title"] = vtable.vtables[i].demangledName
+            map["info"] = vtable.vtables[i].name
+            map["type"] = vtable.vtables[i].type
+            list.add(map)
         }
         list.sortBy {
             it["title"] as String
         }
         updateSymbolsSize(list)
+        updateAdapter(list)
         val dataList = data
         if (dataList.isNotEmpty()) {
             dataList.clear()
@@ -220,9 +224,10 @@ class VtableActivity : SymbolsSearchActivity() {
 
     private fun updateDialogProgress(last: Int, total: Int) {
         dialogBinding?.let { binding ->
-            val progressView = binding.progress
-            progressView.progress = last
-            progressView.max = total
+            binding.progress.apply {
+                progress = last
+                max = total
+            }
             binding.count.text = buildString {
                 append(last)
                 append(" / ")
@@ -268,18 +273,14 @@ class VtableActivity : SymbolsSearchActivity() {
             }
         )
         updateSymbolsSize(list)
-        val path = mPath
-        if (path != null) {
-            if (itemAdapter.adapterItemCount >= 0) {
-                itemAdapter.clear()
-            }
-            updateAdapter(list)
+        if (itemAdapter.adapterItemCount >= 0) {
+            itemAdapter.clear()
         }
+        updateAdapter(list)
     }
 
     private fun updateAdapter(list: MutableList<Map<String, Any>>) {
-        val path = mPath
-        if (path != null) {
+        mPath?.let { path ->
             val adapter = itemAdapter
             if (adapter.adapterItemCount >= 0) {
                 adapter.clear()
@@ -299,13 +300,13 @@ class VtableActivity : SymbolsSearchActivity() {
                 )
             }
         }
+        setVisibility(binding.progress, View.GONE)
     }
 
     private fun updateSymbolsSize(list: MutableList<Map<String, Any>>) {
         val symbolsSizeView = binding.symbolsSize
-        val oldText = symbolsSizeView.text.toString()
         val dataSize = list.size.toString()
-        if (oldText != dataSize) {
+        if (symbolsSizeView.text.toString() != dataSize) {
             symbolsSizeView.text = buildString {
                 append(getString(R.string.symbols_count))
                 append(dataSize)

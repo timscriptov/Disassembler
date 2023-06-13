@@ -49,19 +49,19 @@ class SymbolsActivity : SymbolsSearchActivity() {
                 mPath = path
             }
             if (path != null) {
-                val recyclerView = binding.symbolsActivityListView
-                recyclerView.adapter = fastAdapter
+                val recyclerView = binding.symbolsActivityListView.apply {
+                    adapter = fastAdapter
+                }
 
                 if (data.isEmpty()) {
                     initData()
                 }
 
-                updateAdapter(symbolsFilteredList)
-
                 val searchText = binding.search
-                val clearBtn = binding.clearText
-                clearBtn.setOnClickListener {
-                    searchText.setText("")
+                val clearBtn = binding.clearText.apply {
+                    setOnClickListener {
+                        searchText.setText("")
+                    }
                 }
                 searchText.addTextChangedListener(object : TextWatcher {
                     override fun onTextChanged(
@@ -85,6 +85,7 @@ class SymbolsActivity : SymbolsSearchActivity() {
                                 val constraint = s.toString()
                                 lastValue = constraint
                                 recyclerView.smoothScrollToPosition(0)
+                                setVisibility(binding.progress, View.VISIBLE)
                                 canStartFilterProcess = false
                                 filter(constraint)
                                 return
@@ -133,7 +134,9 @@ class SymbolsActivity : SymbolsSearchActivity() {
                     if (preferences.regex) ActivityCompat.getColor(
                         this,
                         R.color.colorAccent
-                    ) else Color.TRANSPARENT
+                    ) else {
+                        Color.TRANSPARENT
+                    }
                 )
                 binding.regex.setOnClickListener {
                     if (preferences.regex) {
@@ -154,6 +157,7 @@ class SymbolsActivity : SymbolsSearchActivity() {
     }
 
     private fun initData() {
+        setVisibility(binding.progress, View.VISIBLE)
         val list = symbolsFilteredList
         if (list.isNotEmpty()) {
             list.clear()
@@ -175,6 +179,7 @@ class SymbolsActivity : SymbolsSearchActivity() {
             it["title"] as String
         }
         updateSymbolsSize(list)
+        updateAdapter(list)
         val dataList = data
         if (dataList.isNotEmpty()) {
             dataList.clear()
@@ -184,9 +189,8 @@ class SymbolsActivity : SymbolsSearchActivity() {
 
     private fun updateSymbolsSize(list: MutableList<Map<String, Any>>) {
         val symbolsSizeView = binding.symbolsSize
-        val oldText = symbolsSizeView.text.toString()
         val dataSize = list.size.toString()
-        if (oldText != dataSize) {
+        if (symbolsSizeView.text.toString() != dataSize) {
             symbolsSizeView.text = buildString {
                 append(getString(R.string.symbols_count))
                 append(dataSize)
@@ -221,9 +225,10 @@ class SymbolsActivity : SymbolsSearchActivity() {
 
     private fun updateDialogProgress(last: Int, total: Int) {
         dialogBinding?.let { binding ->
-            val progressView = binding.progress
-            progressView.progress = last
-            progressView.max = total
+            binding.progress.apply {
+                progress = last
+                max = total
+            }
             binding.count.text = buildString {
                 append(last)
                 append(" / ")
@@ -242,11 +247,9 @@ class SymbolsActivity : SymbolsSearchActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                finish()
-                return true
-            }
+        if (item.itemId == android.R.id.home) {
+            finish()
+            return true
         }
         return super.onOptionsItemSelected(item)
     }
@@ -273,6 +276,7 @@ class SymbolsActivity : SymbolsSearchActivity() {
                 )
             }
         }
+        setVisibility(binding.progress, View.GONE)
     }
 
     override fun onFoundApp(list: MutableList<Map<String, Any>>, mode: Boolean) {

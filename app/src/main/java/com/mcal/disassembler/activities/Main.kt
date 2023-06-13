@@ -85,8 +85,10 @@ class Main : BaseActivity() {
         startActivity(intent)
     }
 
+    @Deprecated("Deprecated in Java")
     @TargetApi(Build.VERSION_CODES.M)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        @Suppress("DEPRECATION")
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE) {
             checkPermission()
@@ -96,12 +98,11 @@ class Main : BaseActivity() {
     private fun checkPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.canDrawOverlays(this)) {
-                val intent = Intent(
-                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:$packageName")
-                )
                 startActivityForResult(
-                    intent,
+                    Intent(
+                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:$packageName")
+                    ),
                     ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE
                 )
             }

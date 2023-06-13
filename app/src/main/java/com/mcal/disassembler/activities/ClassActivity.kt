@@ -44,7 +44,7 @@ class ClassActivity : SymbolsSearchActivity() {
     private var mName: String? = null
 
     private val itemAdapter = ItemAdapter<SymbolsItem>()
-    private val adapter = FastAdapter.with(itemAdapter)
+    private val fastAdapter = FastAdapter.with(itemAdapter)
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,8 +60,9 @@ class ClassActivity : SymbolsSearchActivity() {
             if (path != null && name != null) {
                 title = name
 
-                val recyclerView = binding.classActivityListView
-                recyclerView.adapter = adapter
+                val recyclerView = binding.classActivityListView.apply {
+                    adapter = fastAdapter
+                }
 
                 if (data.isEmpty()) {
                     initData()
@@ -70,9 +71,10 @@ class ClassActivity : SymbolsSearchActivity() {
                 updateAdapter(symbolsFilteredList)
 
                 val searchText = binding.search
-                val clearBtn = binding.clearText
-                clearBtn.setOnClickListener {
-                    searchText.setText("")
+                val clearBtn = binding.clearText.apply {
+                    setOnClickListener {
+                        searchText.setText("")
+                    }
                 }
                 searchText.addTextChangedListener(object : TextWatcher {
                     override fun onTextChanged(
@@ -90,7 +92,13 @@ class ClassActivity : SymbolsSearchActivity() {
                     ) = Unit
 
                     override fun afterTextChanged(s: Editable) {
-                        setVisibility(clearBtn, if (s.isEmpty()) View.GONE else View.VISIBLE)
+                        setVisibility(
+                            clearBtn, if (s.isEmpty()) {
+                                View.GONE
+                            } else {
+                                View.VISIBLE
+                            }
+                        )
                         if (canStartFilterProcess) {
                             if (!TextUtils.equals(s, lastValue)) {
                                 val constraint = s.toString()
@@ -129,11 +137,12 @@ class ClassActivity : SymbolsSearchActivity() {
                 binding.classactivityButtonFloat.setOnClickListener {
                     showLoadingProgressDialog()
                     CoroutineScope(Dispatchers.IO).launch {
-                        val vtable = VtableDumper.dump(mPath, getZTVName(name))
-                        if (vtable != null) {
+                        VtableDumper.dump(path, getZTVName(name))?.let { vtable ->
                             toVtableActivity(vtable)
                         }
-                        dismissProgressDialog()
+                        withContext(Dispatchers.Main) {
+                            dismissProgressDialog()
+                        }
                     }
                 }
                 val preferences = Preferences(this)
@@ -141,7 +150,9 @@ class ClassActivity : SymbolsSearchActivity() {
                     if (preferences.regex) ActivityCompat.getColor(
                         this,
                         R.color.colorAccent
-                    ) else Color.TRANSPARENT
+                    ) else {
+                        Color.TRANSPARENT
+                    }
                 )
                 binding.regex.setOnClickListener {
                     if (preferences.regex) {
@@ -158,7 +169,7 @@ class ClassActivity : SymbolsSearchActivity() {
                     }
                 }
                 if (hasVtable()) {
-                    binding.classactivityButtonFloat.visibility = View.VISIBLE
+                    setVisibility(binding.classactivityButtonFloat, View.VISIBLE)
                 }
             }
         }
@@ -355,9 +366,8 @@ class ClassActivity : SymbolsSearchActivity() {
 
     private fun updateSymbolsSize(list: MutableList<Map<String, Any>>) {
         val symbolsSizeView = binding.symbolsSize
-        val oldText = symbolsSizeView.text.toString()
         val dataSize = list.size.toString()
-        if (oldText != dataSize) {
+        if (symbolsSizeView.text.toString() != dataSize) {
             symbolsSizeView.text = buildString {
                 append(getString(R.string.symbols_count))
                 append(dataSize)

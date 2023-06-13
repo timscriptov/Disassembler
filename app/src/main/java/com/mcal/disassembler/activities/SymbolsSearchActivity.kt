@@ -5,23 +5,25 @@ import com.mcal.disassembler.data.Preferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Locale
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 abstract class SymbolsSearchActivity : BaseActivity() {
-    var data = mutableListOf<Map<String, Any>>()
-    var symbolsFilteredList = mutableListOf<Map<String, Any>>()
+    val data = mutableListOf<Map<String, Any>>()
+    val symbolsFilteredList = mutableListOf<Map<String, Any>>()
 
     var lastValue: String? = null
     var newValue: String? = null
     var canStartFilterProcess = true
 
-    fun filter(constraint: CharSequence?) = CoroutineScope(Dispatchers.IO).launch {
-        val list = mutableListOf<Map<String, Any>>()
+    fun filter(constraint: CharSequence) = CoroutineScope(Dispatchers.IO).launch {
+        val listStart = mutableListOf<Map<String, Any>>()
+        val listEnd = mutableListOf<Map<String, Any>>()
         val charSearch = constraint.toString().lowercase(Locale.ROOT)
         if (charSearch.isEmpty()) {
-            list.addAll(data)
+            listStart.addAll(data)
         } else {
             val isRegex = Preferences(this@SymbolsSearchActivity).regex
             var name: String?
@@ -33,21 +35,27 @@ abstract class SymbolsSearchActivity : BaseActivity() {
                     if (isRegex) {
                         matcher = pattern.matcher(name)
                         if (matcher.find()) {
-                            list.add(symbol)
+                            listStart.add(symbol)
                         }
                     } else {
-                        if (name.contains(charSearch)) {
-                            list.add(symbol)
+                        if (name.startsWith(charSearch)) {
+                            listStart.add(symbol)
+                        } else if (name.contains(charSearch)) {
+                            listEnd.add(symbol)
                         }
                     }
                 }
             }
         }
-        symbolsFilteredList.apply {
-            clear()
-            addAll(list)
+        val offset1 = listStart.size
+        val list: MutableList<Map<String, Any>> = ArrayList(offset1 + listEnd.size)
+        for (app in listStart) {
+            list.add(0, app)
         }
-        CoroutineScope(Dispatchers.Main).launch {
+        for (app in listEnd) {
+            list.add(offset1, app)
+        }
+        withContext(Dispatchers.Main) {
             publishResults(list)
         }
     }
@@ -55,12 +63,14 @@ abstract class SymbolsSearchActivity : BaseActivity() {
     @SuppressLint("NotifyDataSetChanged")
     private fun publishResults(results: MutableList<Map<String, Any>>) {
         val isNotEmpty = results.isNotEmpty()
+        val filterList = symbolsFilteredList
         if (isNotEmpty) {
-            symbolsFilteredList = results.also { list ->
-                list.sortBy { it["title"] as String }
+            if (filterList.isNotEmpty()) {
+                filterList.clear()
             }
+            filterList.addAll(results)
         }
-        onFoundApp(symbolsFilteredList, isNotEmpty)
+        onFoundApp(filterList, isNotEmpty)
         val text = newValue
         if (text.isNullOrEmpty()) {
             canStartFilterProcess = true

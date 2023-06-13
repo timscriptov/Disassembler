@@ -6,12 +6,14 @@
     android:layout_height="match_parent"
     android:background="@drawable/dialog_background"
     android:gravity="top"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -45,6 +47,7 @@
         android:id="@+id/search_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:background="@drawable/dialog_background"
         android:gravity="center"
         android:orientation="horizontal">
@@ -87,14 +90,40 @@
 
     </LinearLayout>
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/symbols_size_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        tools:ignore="UselessParent">
+
+        <TextView
+            android:id="@+id/symbols_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/symbols_count" />
+
+    </com.google.android.material.card.MaterialCardView>
+
     <LinearLayout
         android:id="@+id/result_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="-8dp"
-        android:layout_marginEnd="-8dp"
         android:gravity="center"
         android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            tools:visibility="visible" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
@@ -103,10 +132,10 @@
             android:divider="@null"
             android:listSelector="@android:color/transparent"
             app:fastScrollAutoHide="false"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:fastScrollPopupBgColor="@color/colorAccent"
             app:fastScrollPopupTextColor="@android:color/primary_text_dark"
             app:fastScrollThumbColor="@color/colorAccent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_symbols" />
 
         <TextView

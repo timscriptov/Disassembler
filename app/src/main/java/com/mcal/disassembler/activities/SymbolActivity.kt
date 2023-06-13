@@ -35,54 +35,43 @@ class SymbolActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupToolbar(binding.toolbar, getString(R.string.app_symbol))
-        intent.extras?.let {
-            val type = it.getInt("type")
-            val name = it.getString("name")
-            val demangledName = it.getString("demangledName")
-            val path = it.getString("filePath")
+        intent.extras?.let { bundle ->
+            val name = bundle.getString("name").also {
+                mName = it
+            }
+            val path = bundle.getString("filePath").also {
+                mPath = it
+            }
             if (name != null && path != null) {
-                mName = name
-                mPath = path
+                val type = bundle.getInt("type")
                 binding.symbolactivityImageView.apply {
                     when (type) {
-                        1 -> {
-                            setImageResource(R.drawable.ic_box_blue)
-                        }
-
-                        2 -> {
-                            setImageResource(R.drawable.ic_box_red)
-                        }
-
-                        else -> {
-                            setImageResource(R.drawable.ic_box_green)
-                        }
+                        1 -> setImageResource(R.drawable.ic_box_blue)
+                        2 -> setImageResource(R.drawable.ic_box_red)
+                        else -> setImageResource(R.drawable.ic_box_green)
                     }
                 }
                 binding.symbolactivityTextViewName.apply {
                     text = name
                 }
+                val demangledName = bundle.getString("demangledName")
                 binding.symbolactivityTextViewDemangledName.apply {
                     text = demangledName
                 }
                 binding.symbolactivityTextViewArguments.apply {
-                    text =
-                        if (demangledName != null && demangledName.contains("(") && demangledName.lastIndexOf(
-                                ")"
-                            ) != -1
-                        ) {
-                            demangledName.substring(
-                                demangledName.indexOf("(") + 1,
-                                demangledName.lastIndexOf(")")
-                            )
-                        } else {
-                            "NULL"
-                        }
+                    text = demangledName?.takeIf { it.contains("(") && it.lastIndexOf(")") != -1 }
+                        ?.let {
+                            it.substring(it.indexOf("(") + 1, it.lastIndexOf(")"))
+                        } ?: run {
+                        "NULL"
+                    }
                 }
-                val symbolMainName = if (demangledName != null && demangledName.contains("(")) {
-                    demangledName.substring(0, demangledName.indexOf("("))
-                } else {
+                val symbolMainName = demangledName?.takeIf { it.contains("(") }?.let {
+                    it.substring(0, it.indexOf("("))
+                } ?: run {
                     demangledName
                 }
+
                 className = if (symbolMainName != null && symbolMainName.lastIndexOf("::") != -1) {
                     symbolMainName.substring(0, symbolMainName.lastIndexOf("::"))
                 } else if (symbolMainName != null && symbolMainName.startsWith("vtable")) {
@@ -90,13 +79,14 @@ class SymbolActivity : BaseActivity() {
                 } else {
                     "NULL"
                 }
+
                 binding.symbolactivityTextClass.apply {
                     text = className
                 }
                 binding.symbolactivityTextViewSymbolMainName.apply {
-                    text = if (symbolMainName != null && symbolMainName.lastIndexOf("::") != -1) {
-                        symbolMainName.substring(symbolMainName.lastIndexOf("::") + 2)
-                    } else {
+                    text = symbolMainName?.takeIf { it.lastIndexOf("::") != -1 }?.let {
+                        it.substring(it.lastIndexOf("::") + 2)
+                    } ?: run {
                         symbolMainName
                     }
                 }
@@ -104,64 +94,62 @@ class SymbolActivity : BaseActivity() {
                     text = Tables.symbol_type[type]
                 }
                 if (name.startsWith("_ZTV")) {
-                    binding.symbolactivityButtonFloat.visibility = View.VISIBLE
+                    setVisibility(binding.symbolactivityButtonFloat, View.VISIBLE)
                 }
                 if (className != "NULL") {
-                    binding.symbolactivityButtonFloatClass.visibility = View.VISIBLE
+                    setVisibility(binding.symbolactivityButtonFloatClass, View.VISIBLE)
+                }
+                binding.symbolactivityButtonFloat.setOnClickListener {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        withContext(Dispatchers.Main) {
+                            showProgressDialog()
+                        }
+                        VtableDumper.dump(path, name)?.let { vtable ->
+                            toVtableActivity(path, name, vtable)
+                        }
+                        withContext(Dispatchers.Main) {
+                            dismissProgressDialog()
+                        }
+                    }
+                }
+                binding.symbolactivityButtonFloatClass.setOnClickListener {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        withContext(Dispatchers.Main) {
+                            showProgressDialog()
+                        }
+                        VtableDumper.dump(path, name)?.let {
+                            toClassActivity(path)
+                        }
+                        withContext(Dispatchers.Main) {
+                            dismissProgressDialog()
+                        }
+                    }
                 }
             }
         }
     }
 
-    fun toVtableActivity(view: View?) {
-        CoroutineScope(Dispatchers.IO).launch {
-            withContext(Dispatchers.Main) {
-                showProgressDialog()
-            }
-            val vtable = VtableDumper.dump(mPath, mName)
-            if (vtable != null) {
-                toVtableActivity(vtable)
-            }
-            withContext(Dispatchers.Main) {
-                dismissProgressDialog()
-            }
-        }
-    }
-
-    fun toClassActivity(view: View?) {
-        CoroutineScope(Dispatchers.IO).launch {
-            withContext(Dispatchers.Main) {
-                showProgressDialog()
-            }
-            val vtable = VtableDumper.dump(mPath, mName)
-            if (vtable != null) toClassActivity()
-            withContext(Dispatchers.Main) {
-                dismissProgressDialog()
-            }
-        }
-    }
-
-    private fun toClassActivity() {
+    private fun toClassActivity(path: String) {
         val name = className
-        if (name == null || name == "" || name == " " || name.isEmpty() || name == "NULL") {
+        if (name == null || name.trim().isEmpty() || name == "NULL") {
             return
         }
-        val bundle = Bundle()
-        bundle.putString("name", name)
-        bundle.putString("path", mPath)
-        val intent = Intent(this, ClassActivity::class.java)
-        intent.putExtras(bundle)
-        startActivity(intent)
+        startActivity(Intent(this, ClassActivity::class.java).apply {
+            putExtras(Bundle().apply {
+                putString("name", name)
+                putString("path", path)
+            })
+        })
     }
 
-    private fun toVtableActivity(vtable: DisassemblerVtable?) {
-        val bundle = Bundle()
-        bundle.putString("name", mName)
-        bundle.putString("path", mPath)
+    private fun toVtableActivity(path: String, name: String, vtable: DisassemblerVtable?) {
         Dumper.exploed.addElement(vtable)
-        val intent = Intent(this, VtableActivity::class.java)
-        intent.putExtras(bundle)
-        startActivity(intent)
+        startActivity(Intent(this, VtableActivity::class.java).apply {
+            putExtras(Bundle().apply {
+                putString("name", name)
+                putString("path", path)
+            })
+        })
     }
 
     private fun showProgressDialog() {
@@ -191,11 +179,9 @@ class SymbolActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                finish()
-                return true
-            }
+        if (item.itemId == android.R.id.home) {
+            finish()
+            return true
         }
         return super.onOptionsItemSelected(item)
     }

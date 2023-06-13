@@ -21,9 +21,10 @@ class NameDemanglerActivity : BaseActivity() {
         setContentView(binding.root)
         setupToolbar(binding.toolbar, getString(R.string.app_symbols))
         val searchText = binding.namedemangleractivityEditText1
-        val clearBtn = binding.clearText
-        clearBtn.setOnClickListener {
-            searchText.setText("")
+        val clearBtn = binding.clearText.apply {
+            setOnClickListener {
+                searchText.setText("")
+            }
         }
         searchText.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(
@@ -50,12 +51,11 @@ class NameDemanglerActivity : BaseActivity() {
                 )
             }
         })
-    }
-
-    fun demangle(view: View?) {
-        val editText1 = binding.namedemangleractivityEditText1
-        if (editText1.text.toString().isNotEmpty()) {
-            binding.namedemangleractivityEditText2.setText(DisassemblerDumper.demangle(editText1.text.toString()))
+        binding.demangle.setOnClickListener {
+            val editText1 = binding.namedemangleractivityEditText1
+            if (editText1.text.toString().isNotEmpty()) {
+                binding.namedemangleractivityEditText2.setText(DisassemblerDumper.demangle(editText1.text.toString()))
+            }
         }
     }
 

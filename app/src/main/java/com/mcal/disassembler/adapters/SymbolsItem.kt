@@ -75,14 +75,14 @@ class SymbolsItem : AbstractItem<SymbolsItem.ViewHolder>() {
         holder.info.text = subtitle
         holder.type = symbolType
         holder.itemView.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("demangledName", holder.title.text as String)
-            bundle.putString("name", holder.info.text as String)
-            bundle.putInt("type", holder.type)
-            bundle.putString("filePath", path)
-            val intent = Intent(context, SymbolActivity::class.java)
-            intent.putExtras(bundle)
-            context?.startActivity(intent)
+            context?.startActivity(Intent(context, SymbolActivity::class.java).apply {
+                putExtras(Bundle().apply {
+                    putString("demangledName", holder.title.text as String)
+                    putString("name", holder.info.text as String)
+                    putInt("type", holder.type)
+                    putString("filePath", path)
+                })
+            })
         }
         holder.itemView.setOnLongClickListener {
             context?.let { context ->
