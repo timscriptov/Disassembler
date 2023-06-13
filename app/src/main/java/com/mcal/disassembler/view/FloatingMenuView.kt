@@ -40,8 +40,6 @@ class FloatingMenuView internal constructor(
             initData()
         }
 
-        updateAdapter(symbolsFilteredList)
-
         val searchText = binding.search
         val clearBtn = binding.clearText
         clearBtn.setOnClickListener {
@@ -69,6 +67,7 @@ class FloatingMenuView internal constructor(
                         val constraint = s.toString()
                         lastValue = constraint
                         recyclerView.smoothScrollToPosition(0)
+                        BaseActivity.setVisibility(binding.progress, VISIBLE)
                         canStartFilterProcess = false
                         filter(constraint)
                         return
@@ -132,9 +131,11 @@ class FloatingMenuView internal constructor(
                     .withPath(path)
             )
         }
+        BaseActivity.setVisibility(binding.progress, GONE)
     }
 
     private fun initData() {
+        BaseActivity.setVisibility(binding.progress, VISIBLE)
         val list = symbolsFilteredList
         if (list.isNotEmpty()) {
             list.clear()
@@ -155,6 +156,8 @@ class FloatingMenuView internal constructor(
         list.sortBy {
             it["title"] as String
         }
+        updateSymbolsSize(list)
+        updateAdapter(list)
         val dataList = data
         if (dataList.isNotEmpty()) {
             dataList.clear()
@@ -166,6 +169,17 @@ class FloatingMenuView internal constructor(
         val clipboardManager =
             activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         return clipboardManager.primaryClip?.getItemAt(0)?.text.toString()
+    }
+
+    private fun updateSymbolsSize(list: MutableList<Map<String, Any>>) {
+        val symbolsSizeView = binding.symbolsSize
+        val dataSize = list.size.toString()
+        if (symbolsSizeView.text.toString() != dataSize) {
+            symbolsSizeView.text = buildString {
+                append(activity.getString(R.string.symbols_count))
+                append(dataSize)
+            }
+        }
     }
 
     override fun onFoundApp(list: MutableList<Map<String, Any>>, mode: Boolean) {
