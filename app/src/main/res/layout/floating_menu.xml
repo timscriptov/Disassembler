@@ -29,7 +29,7 @@
             android:id="@+id/floatingmenuButtonClose"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/bg_clickable"
+            android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_minimize"
             app:tint="@color/colorAccent" />
 
@@ -37,7 +37,7 @@
             android:id="@+id/floatingmenuButtonHide"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:background="@drawable/bg_clickable"
+            android:background="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_close"
             app:tint="#D32F2F" />
 
