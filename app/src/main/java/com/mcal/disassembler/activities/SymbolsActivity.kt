@@ -84,7 +84,7 @@ class SymbolsActivity : SymbolsSearchActivity() {
                             if (!TextUtils.equals(s, lastValue)) {
                                 val constraint = s.toString()
                                 lastValue = constraint
-                                recyclerView.smoothScrollToPosition(0)
+                                recyclerView.scrollToPosition(0)
                                 canStartFilterProcess = false
                                 filter(constraint)
                                 return
@@ -161,7 +161,7 @@ class SymbolsActivity : SymbolsSearchActivity() {
         if (list.isNotEmpty()) {
             list.clear()
         }
-        var map: MutableMap<String, Any>
+        var map: Map<String, Any>
         for (i in Dumper.symbols.indices) {
             map = HashMap()
             when (Dumper.symbols[i].type) {
@@ -186,7 +186,7 @@ class SymbolsActivity : SymbolsSearchActivity() {
         dataList.addAll(list)
     }
 
-    private fun updateSymbolsSize(list: MutableList<Map<String, Any>>) {
+    private fun updateSymbolsSize(list: ArrayList<Map<String, Any>>) {
         val symbolsSizeView = binding.symbolsSize
         val dataSize = list.size.toString()
         if (symbolsSizeView.text.toString() != dataSize) {
@@ -253,7 +253,7 @@ class SymbolsActivity : SymbolsSearchActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun updateAdapter(list: MutableList<Map<String, Any>>) {
+    private fun updateAdapter(list: ArrayList<Map<String, Any>>) {
         val path = mPath
         if (path != null) {
             val adapter = itemAdapter
@@ -282,7 +282,7 @@ class SymbolsActivity : SymbolsSearchActivity() {
         setVisibility(binding.progress, View.VISIBLE)
     }
 
-    override fun onFoundApp(list: MutableList<Map<String, Any>>, mode: Boolean) {
+    override fun onFoundApp(list: ArrayList<Map<String, Any>>, mode: Boolean) {
         setVisibility(
             binding.symbolsNotFound, if (mode) {
                 View.GONE

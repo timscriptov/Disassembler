@@ -7,14 +7,12 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.WindowManager
-import android.widget.LinearLayout
 import androidx.core.app.ActivityCompat
 import com.mcal.disassembler.R
 import com.mcal.disassembler.activities.BaseActivity
 import com.mcal.disassembler.adapters.SymbolsItem
 import com.mcal.disassembler.data.Preferences
 import com.mcal.disassembler.databinding.FloatingMenuBinding
-import com.mcal.disassembler.interfaces.SearchResultListener
 import com.mcal.disassembler.nativeapi.Dumper
 import com.mcal.disassembler.utils.StringHelper
 import com.mikepenz.fastadapter.FastAdapter
@@ -27,11 +25,12 @@ class FloatingMenuView internal constructor(
     private val path: String,
 ) : SymbolsSearchView(
     activity
-), SearchResultListener {
+) {
     private val binding by lazy { FloatingMenuBinding.inflate(activity.layoutInflater) }
     private val itemAdapter = ItemAdapter<SymbolsItem>()
     private val fastAdapter = FastAdapter.with(itemAdapter)
-    private val params = WindowManager.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+    private val params =
+        WindowManager.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
 
     init {
         val recyclerView = binding.recyclerView.apply {
@@ -73,7 +72,7 @@ class FloatingMenuView internal constructor(
                     if (!TextUtils.equals(s, lastValue)) {
                         val constraint = s.toString()
                         lastValue = constraint
-                        recyclerView.smoothScrollToPosition(0)
+                        recyclerView.scrollToPosition(0)
                         canStartFilterProcess = false
                         filter(constraint)
                         return
@@ -173,7 +172,7 @@ class FloatingMenuView internal constructor(
         dataList.addAll(list)
     }
 
-    private fun updateSymbolsSize(list: MutableList<Map<String, Any>>) {
+    private fun updateSymbolsSize(list: ArrayList<Map<String, Any>>) {
         val symbolsSizeView = binding.symbolsSize
         val dataSize = list.size.toString()
         if (symbolsSizeView.text.toString() != dataSize) {
@@ -188,7 +187,7 @@ class FloatingMenuView internal constructor(
         BaseActivity.setVisibility(binding.progress, VISIBLE)
     }
 
-    override fun onFoundApp(list: MutableList<Map<String, Any>>, mode: Boolean) {
+    override fun onFoundApp(list: ArrayList<Map<String, Any>>, mode: Boolean) {
         BaseActivity.setVisibility(
             binding.symbolsNotFound, if (mode) {
                 GONE
@@ -203,6 +202,7 @@ class FloatingMenuView internal constructor(
                 GONE
             }
         )
+        updateSymbolsSize(list)
         if (itemAdapter.adapterItemCount >= 0) {
             itemAdapter.clear()
         }

@@ -101,7 +101,7 @@ class ClassActivity : SymbolsSearchActivity() {
                             if (!TextUtils.equals(s, lastValue)) {
                                 val constraint = s.toString()
                                 lastValue = constraint
-                                recyclerView.smoothScrollToPosition(0)
+                                recyclerView.scrollToPosition(0)
                                 canStartFilterProcess = false
                                 filter(constraint)
                                 return
@@ -179,8 +179,8 @@ class ClassActivity : SymbolsSearchActivity() {
         if (list.isNotEmpty()) {
             list.clear()
         }
-        var map: MutableMap<String, Any>
         findClass()?.let { classThis ->
+            var map: Map<String, Any>
             for (i in classThis.symbols.indices) {
                 map = HashMap()
                 when (classThis.symbols[i].type) {
@@ -325,7 +325,7 @@ class ClassActivity : SymbolsSearchActivity() {
         setVisibility(binding.progress, View.VISIBLE)
     }
 
-    override fun onFoundApp(list: MutableList<Map<String, Any>>, mode: Boolean) {
+    override fun onFoundApp(list: ArrayList<Map<String, Any>>, mode: Boolean) {
         setVisibility(
             binding.symbolsNotFound, if (mode) {
                 View.GONE
@@ -344,7 +344,7 @@ class ClassActivity : SymbolsSearchActivity() {
         updateAdapter(symbolsFilteredList)
     }
 
-    private fun updateAdapter(list: MutableList<Map<String, Any>>) {
+    private fun updateAdapter(list: ArrayList<Map<String, Any>>) {
         val path = mPath
         if (path != null) {
             val adapter = itemAdapter
@@ -369,7 +369,7 @@ class ClassActivity : SymbolsSearchActivity() {
         setVisibility(binding.progress, View.GONE)
     }
 
-    private fun updateSymbolsSize(list: MutableList<Map<String, Any>>) {
+    private fun updateSymbolsSize(list: ArrayList<Map<String, Any>>) {
         val symbolsSizeView = binding.symbolsSize
         val dataSize = list.size.toString()
         if (symbolsSizeView.text.toString() != dataSize) {
