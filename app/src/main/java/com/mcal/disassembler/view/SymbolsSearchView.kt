@@ -12,7 +12,9 @@ import java.util.Locale
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-abstract class SymbolsSearchView(private val activity: Activity) : RelativeLayout(activity) {
+abstract class SymbolsSearchView(
+    private val activity: Activity
+) : RelativeLayout(activity) {
     val data = arrayListOf<Map<String, Any>>()
     val symbolsFilteredList = arrayListOf<Map<String, Any>>()
 
@@ -22,7 +24,7 @@ abstract class SymbolsSearchView(private val activity: Activity) : RelativeLayou
 
     fun filter(constraint: CharSequence) = CoroutineScope(Dispatchers.IO).launch {
         withContext(Dispatchers.Main) {
-            startSearch()
+            onStartSearch()
         }
         val list: ArrayList<Map<String, Any>>
         val charSearch = constraint.toString().lowercase(Locale.ROOT)
@@ -86,6 +88,6 @@ abstract class SymbolsSearchView(private val activity: Activity) : RelativeLayou
         filter(text)
     }
 
-    abstract fun startSearch()
+    abstract fun onStartSearch()
     abstract fun onFoundApp(list: ArrayList<Map<String, Any>>, mode: Boolean)
 }

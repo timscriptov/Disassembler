@@ -1,173 +1,123 @@
 package com.mcal.disassembler.activities
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.annotation.TargetApi
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.appcompat.app.AppCompatDelegate
 import com.mcal.disassembler.R
-import com.mcal.disassembler.adapters.ListAdapter
-import com.mcal.disassembler.data.Database
-import com.mcal.disassembler.data.RecentsManager
-import com.mcal.disassembler.data.Storage
+import com.mcal.disassembler.data.Preferences
 import com.mcal.disassembler.databinding.ActivityMainBinding
-import com.mcal.disassembler.databinding.ProgressDialogBinding
-import com.mcal.disassembler.interfaces.DialogProgressListener
-import com.mcal.disassembler.interfaces.MainView
-import com.mcal.disassembler.nativeapi.DisassemblerDumper
-import com.mcal.disassembler.nativeapi.Dumper
-import com.mcal.disassembler.utils.FileHelper
-import com.mcal.disassembler.utils.FilePickHelper
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.io.File
-import java.io.FileOutputStream
 
-class MainActivity : BaseActivity(), MainView, DialogProgressListener {
+class MainActivity : BaseActivity() {
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         ActivityMainBinding.inflate(
             layoutInflater
         )
     }
-    private var dialogBinding: ProgressDialogBinding? = null
-    private val paths = ArrayList<String>()
-    private var dialog: AlertDialog? = null
-    private var path: String? = null
-    private var pickLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            result?.takeIf { it.resultCode == RESULT_OK }?.data?.data?.let { uri ->
-                contentResolver.openInputStream(uri)?.let { inputStream ->
-                    val soFile = File(
-                        Storage.getHomeDir(this),
-                        FilePickHelper.getFileName(this, uri)
-                    )
-                    val filePath = soFile.path
-                    FileHelper.copyFile(inputStream, FileOutputStream(soFile))
-                    if (filePath.endsWith(".so")) {
-                        RecentsManager.add(filePath)
-                        updateRecents()
-                        loadSo(filePath)
-                    } else {
-                        Toast.makeText(
-                            this@MainActivity,
-                            R.string.noFile,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            }
-        }
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        setupToolbar(binding.toolbar, getString(R.string.app_name))
-        Database(this)
-        updateRecents()
-        binding.openLib.setOnClickListener {
-            pickLauncher.launch(FilePickHelper.pickFile(false))
+        setupToolbar(binding.toolbar, getString(R.string.app_name), false)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Settings.ACTION_MANAGE_OVERLAY_PERMISSION) != PackageManager.PERMISSION_GRANTED
+            ) {
+                requestPermissions(
+                    arrayOf(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION
+                    ), 1
+                )
+            }
         }
+        checkPermission()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    @SuppressLint("WrongConstant")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            finish()
-            return true
+        if (item.itemId == R.id.night_mode) {
+            val preferences = Preferences(this)
+            if (preferences.nightMode) {
+                preferences.nightMode = false
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                delegate.applyDayNight()
+            } else {
+                preferences.nightMode = true
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                delegate.applyDayNight()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun updateRecents() {
-        paths.clear()
-        val cursor = RecentsManager.getRecents()
-        val welcomeLayout = binding.welcomeLayout
-        val recentOpened = binding.items
-        val adapter = ListAdapter(paths, this)
-        if (cursor.count == 0) {
-            recentOpened.visibility = View.GONE
-            welcomeLayout.visibility = View.VISIBLE
-            recentOpened.adapter = adapter
-        } else {
-            welcomeLayout.visibility = View.INVISIBLE
-            recentOpened.visibility = View.VISIBLE
-            if (cursor.count > 0) {
-                while (cursor.moveToNext()) {
-                    paths.add(cursor.getString(0))
-                }
+    fun github(view: View?) {
+        startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://github.com/TimScriptov/Disassembler.git")
+            )
+        )
+    }
+
+    fun telegram(view: View?) {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/dexprotect")))
+    }
+
+    fun toNameDemangler(view: View?) {
+        startActivity(Intent(this, DemanglerActivity::class.java))
+    }
+
+    fun symbols(view: View?) {
+        val intent = Intent(this, RecentFilesActivity::class.java)
+        startActivity(intent)
+    }
+
+    @Deprecated("Deprecated in Java")
+    @TargetApi(Build.VERSION_CODES.M)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        @Suppress("DEPRECATION")
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE) {
+            checkPermission()
+        }
+    }
+
+    private fun checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(this)) {
+                startActivityForResult(
+                    Intent(
+                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:$packageName")
+                    ),
+                    ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE
+                )
             }
-            recentOpened.adapter = adapter
-        }
-        if (cursor.count > 0) {
-            while (cursor.moveToNext()) {
-                paths.add(cursor.getString(0))
-            }
-        }
-        adapter.notifyDataSetChanged()
-    }
-
-    override fun loadSo(path: String) {
-        showProgressDialog()
-        this.path = path
-        CoroutineScope(Dispatchers.IO).launch {
-            DisassemblerDumper.load(path)
-            Dumper.readData(this@MainActivity)
-            toClassesActivity()
         }
     }
 
-    private fun showProgressDialog() {
-        dialog = MaterialAlertDialogBuilder(this).apply {
-            dialogBinding = ProgressDialogBinding.inflate(layoutInflater).also { binding ->
-                setView(binding.root)
-            }
-            setCancelable(false)
-            setTitle(R.string.loading)
-        }.create().also {
-            it.show()
-        }
-    }
+    companion object {
+        var ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 5469
 
-    override fun onDestroy() {
-        super.onDestroy()
-        dismissProgressDialog()
-    }
-
-    private fun dismissProgressDialog() {
-        dialog?.takeIf { it.isShowing }?.let {
-            it.dismiss()
-            dialog = null
-            dialogBinding = null
-        }
-    }
-
-    private fun toClassesActivity() {
-        startActivity(Intent(this@MainActivity, SymbolsActivity::class.java).apply {
-            putExtras(Bundle().apply {
-                putString("path", path)
-            })
-        })
-        dismissProgressDialog()
-    }
-
-    override fun updateDialogProgress(last: Int, total: Int) {
-        runOnUiThread {
-            dialogBinding?.let { binding ->
-                binding.progress.apply {
-                    progress = last
-                    max = total
-                }
-                binding.count.text = buildString {
-                    append(last)
-                    append(" / ")
-                    append(total)
-                }
-            }
+        init {
+            System.loadLibrary("disassembler")
         }
     }
 }

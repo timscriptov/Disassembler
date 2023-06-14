@@ -183,7 +183,7 @@ class FloatingMenuView internal constructor(
         }
     }
 
-    override fun startSearch() {
+    override fun onStartSearch() {
         BaseActivity.setVisibility(binding.progress, VISIBLE)
     }
 

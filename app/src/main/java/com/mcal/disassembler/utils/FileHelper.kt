@@ -18,9 +18,8 @@ object FileHelper {
     }
 
     @JvmStatic
-    fun writeSymbolsToFile(path: String, name: String, symbolsList: Array<String?>) {
+    fun writeSymbolsToFile(dir: File, name: String, symbolsList: Array<String?>) {
         try {
-            val dir = File(path)
             if (!dir.exists()) {
                 dir.mkdirs()
             }
@@ -36,5 +35,10 @@ object FileHelper {
         } catch (e: IOException) {
             e.printStackTrace()
         }
+    }
+
+    @JvmStatic
+    fun writeSymbolsToFile(path: String, name: String, symbolsList: Array<String?>) {
+        writeSymbolsToFile(File(path), name, symbolsList)
     }
 }

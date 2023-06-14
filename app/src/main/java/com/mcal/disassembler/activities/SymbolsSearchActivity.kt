@@ -20,7 +20,7 @@ abstract class SymbolsSearchActivity : BaseActivity() {
 
     fun filter(constraint: CharSequence) = CoroutineScope(Dispatchers.IO).launch {
         withContext(Dispatchers.Main) {
-            startSearch()
+            onStartSearch()
         }
         val list: ArrayList<Map<String, Any>>
         val charSearch = constraint.toString().lowercase(Locale.ROOT)
@@ -84,6 +84,6 @@ abstract class SymbolsSearchActivity : BaseActivity() {
         filter(text)
     }
 
-    abstract fun startSearch()
+    abstract fun onStartSearch()
     abstract fun onFoundApp(list: ArrayList<Map<String, Any>>, mode: Boolean)
 }

@@ -108,13 +108,14 @@ class SymbolsActivity : SymbolsSearchActivity() {
                                 symbols[i] = Dumper.symbols[i].name
                                 demangledSymbols[i] = Dumper.symbols[i].demangledName
                             }
+                            val storage = Storage(this@SymbolsActivity)
                             FileHelper.writeSymbolsToFile(
-                                Storage.getSymbolsDir(this@SymbolsActivity).path,
+                                storage.getSymbolsDir(),
                                 "Symbols.txt",
                                 symbols
                             )
                             FileHelper.writeSymbolsToFile(
-                                Storage.getSymbolsDir(this@SymbolsActivity).path,
+                                storage.getSymbolsDir(),
                                 "Symbols_demangled.txt",
                                 demangledSymbols
                             )
@@ -278,7 +279,7 @@ class SymbolsActivity : SymbolsSearchActivity() {
         setVisibility(binding.progress, View.GONE)
     }
 
-    override fun startSearch() {
+    override fun onStartSearch() {
         setVisibility(binding.progress, View.VISIBLE)
     }
 

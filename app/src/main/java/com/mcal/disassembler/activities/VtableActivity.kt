@@ -131,7 +131,7 @@ class VtableActivity : SymbolsSearchActivity() {
                             }
                             listNames[i] = vTable.vtables[i].name
                         }
-                        val homeDir = Storage.getVTablesDir(this@VtableActivity).path
+                        val homeDir = Storage(this@VtableActivity).getVTablesDir()
                         FileHelper.writeSymbolsToFile(homeDir, "$name.txt", listNames)
 
                         val listDemangledNames = arrayOfNulls<String>(size)
@@ -256,7 +256,7 @@ class VtableActivity : SymbolsSearchActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun startSearch() {
+    override fun onStartSearch() {
         setVisibility(binding.progress, View.VISIBLE)
     }
 

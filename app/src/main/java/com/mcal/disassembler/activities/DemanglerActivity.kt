@@ -9,7 +9,7 @@ import com.mcal.disassembler.R
 import com.mcal.disassembler.databinding.ActivityDemanglerBinding
 import com.mcal.disassembler.nativeapi.DisassemblerDumper
 
-class NameDemanglerActivity : BaseActivity() {
+class DemanglerActivity : BaseActivity() {
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         ActivityDemanglerBinding.inflate(
             layoutInflater

@@ -23,7 +23,7 @@
         tools:targetApi="q">
 
         <activity
-            android:name=".activities.Main"
+            android:name=".activities.MainActivity"
             android:exported="true">
 
             <intent-filter>
@@ -36,7 +36,7 @@
 
         </activity>
 
-        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.RecentFilesActivity" />
 
         <activity
             android:name=".activities.SymbolsActivity"
@@ -55,7 +55,7 @@
             android:label="@string/vtableActivity" />
 
         <activity
-            android:name=".activities.NameDemanglerActivity"
+            android:name=".activities.DemanglerActivity"
             android:label="@string/nameDemangler" />
 
         <provider

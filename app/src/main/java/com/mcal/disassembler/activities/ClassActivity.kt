@@ -118,7 +118,7 @@ class ClassActivity : SymbolsSearchActivity() {
                         }
                         findClass()?.let { clazz ->
                             FileHelper.writeSymbolsToFile(
-                                Storage.getHeadersDir(this@ClassActivity).path,
+                                Storage(this@ClassActivity).getHeadersDir(),
                                 getSaveName(name),
                                 HeaderGenerator(clazz, findVtable()).generate()
                             )
@@ -321,7 +321,7 @@ class ClassActivity : SymbolsSearchActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun startSearch() {
+    override fun onStartSearch() {
         setVisibility(binding.progress, View.VISIBLE)
     }
 
