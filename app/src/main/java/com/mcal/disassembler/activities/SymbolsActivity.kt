@@ -85,7 +85,6 @@ class SymbolsActivity : SymbolsSearchActivity() {
                                 val constraint = s.toString()
                                 lastValue = constraint
                                 recyclerView.smoothScrollToPosition(0)
-                                setVisibility(binding.progress, View.VISIBLE)
                                 canStartFilterProcess = false
                                 filter(constraint)
                                 return
@@ -277,6 +276,10 @@ class SymbolsActivity : SymbolsSearchActivity() {
             }
         }
         setVisibility(binding.progress, View.GONE)
+    }
+
+    override fun startSearch() {
+        setVisibility(binding.progress, View.VISIBLE)
     }
 
     override fun onFoundApp(list: MutableList<Map<String, Any>>, mode: Boolean) {

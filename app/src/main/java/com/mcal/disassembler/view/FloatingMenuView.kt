@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
-import android.view.View
 import androidx.core.app.ActivityCompat
 import com.mcal.disassembler.R
 import com.mcal.disassembler.activities.BaseActivity
@@ -29,11 +28,12 @@ class FloatingMenuView internal constructor(
 ), SearchResultListener {
     private val binding by lazy { FloatingMenuBinding.inflate(activity.layoutInflater) }
     private val itemAdapter = ItemAdapter<SymbolsItem>()
-    private val adapter = FastAdapter.with(itemAdapter)
+    private val fastAdapter = FastAdapter.with(itemAdapter)
 
     init {
-        val recyclerView = binding.recyclerView
-        recyclerView.adapter = adapter
+        val recyclerView = binding.recyclerView.apply {
+            adapter = fastAdapter
+        }
 
         if (data.isEmpty()) {
             initData()
@@ -61,13 +61,16 @@ class FloatingMenuView internal constructor(
             ) = Unit
 
             override fun afterTextChanged(s: Editable) {
-                clearBtn.visibility = if (s.isEmpty()) View.GONE else View.VISIBLE
+                clearBtn.visibility = if (s.isEmpty()) {
+                    GONE
+                } else {
+                    VISIBLE
+                }
                 if (canStartFilterProcess) {
                     if (!TextUtils.equals(s, lastValue)) {
                         val constraint = s.toString()
                         lastValue = constraint
                         recyclerView.smoothScrollToPosition(0)
-                        BaseActivity.setVisibility(binding.progress, VISIBLE)
                         canStartFilterProcess = false
                         filter(constraint)
                         return
@@ -178,19 +181,23 @@ class FloatingMenuView internal constructor(
         }
     }
 
+    override fun startSearch() {
+        BaseActivity.setVisibility(binding.progress, VISIBLE)
+    }
+
     override fun onFoundApp(list: MutableList<Map<String, Any>>, mode: Boolean) {
         BaseActivity.setVisibility(
             binding.symbolsNotFound, if (mode) {
-                View.GONE
+                GONE
             } else {
-                View.VISIBLE
+                VISIBLE
             }
         )
         BaseActivity.setVisibility(
             binding.recyclerView, if (mode) {
-                View.VISIBLE
+                VISIBLE
             } else {
-                View.GONE
+                GONE
             }
         )
         if (itemAdapter.adapterItemCount >= 0) {

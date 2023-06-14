@@ -68,8 +68,6 @@ class ClassActivity : SymbolsSearchActivity() {
                     initData()
                 }
 
-                updateAdapter(symbolsFilteredList)
-
                 val searchText = binding.search
                 val clearBtn = binding.clearText.apply {
                     setOnClickListener {
@@ -176,6 +174,7 @@ class ClassActivity : SymbolsSearchActivity() {
     }
 
     private fun initData() {
+        setVisibility(binding.progress, View.VISIBLE)
         val list = symbolsFilteredList
         if (list.isNotEmpty()) {
             list.clear()
@@ -199,6 +198,7 @@ class ClassActivity : SymbolsSearchActivity() {
             it["title"] as String
         }
         updateSymbolsSize(list)
+        updateAdapter(list)
         val dataList = data
         if (dataList.isNotEmpty()) {
             dataList.clear()
@@ -321,6 +321,10 @@ class ClassActivity : SymbolsSearchActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun startSearch() {
+        setVisibility(binding.progress, View.VISIBLE)
+    }
+
     override fun onFoundApp(list: MutableList<Map<String, Any>>, mode: Boolean) {
         setVisibility(
             binding.symbolsNotFound, if (mode) {
@@ -362,6 +366,7 @@ class ClassActivity : SymbolsSearchActivity() {
                 )
             }
         }
+        setVisibility(binding.progress, View.GONE)
     }
 
     private fun updateSymbolsSize(list: MutableList<Map<String, Any>>) {

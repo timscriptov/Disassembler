@@ -19,6 +19,9 @@ abstract class SymbolsSearchActivity : BaseActivity() {
     var canStartFilterProcess = true
 
     fun filter(constraint: CharSequence) = CoroutineScope(Dispatchers.IO).launch {
+        withContext(Dispatchers.Main) {
+            startSearch()
+        }
         val listStart = mutableListOf<Map<String, Any>>()
         val listEnd = mutableListOf<Map<String, Any>>()
         val charSearch = constraint.toString().lowercase(Locale.ROOT)
@@ -80,5 +83,6 @@ abstract class SymbolsSearchActivity : BaseActivity() {
         filter(text)
     }
 
+    abstract fun startSearch()
     abstract fun onFoundApp(list: MutableList<Map<String, Any>>, mode: Boolean)
 }
