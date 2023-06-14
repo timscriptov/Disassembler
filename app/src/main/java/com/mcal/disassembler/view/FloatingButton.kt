@@ -67,8 +67,7 @@ class FloatingButton(
                 WindowManager.LayoutParams.TYPE_PHONE
             }
             format = PixelFormat.TRANSPARENT
-            flags = (WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                    or WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+            flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
             width = App.dp(activity, 64)
             height = App.dp(activity, 64)
             x = xPos
@@ -82,7 +81,7 @@ class FloatingButton(
     }
 
     companion object {
-        var xPos = 0
-        var yPos = 0
+        private var xPos = 0
+        private var yPos = 0
     }
 }

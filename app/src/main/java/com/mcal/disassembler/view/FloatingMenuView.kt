@@ -6,6 +6,8 @@ import android.graphics.Color
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.WindowManager
+import android.widget.LinearLayout
 import androidx.core.app.ActivityCompat
 import com.mcal.disassembler.R
 import com.mcal.disassembler.activities.BaseActivity
@@ -29,6 +31,7 @@ class FloatingMenuView internal constructor(
     private val binding by lazy { FloatingMenuBinding.inflate(activity.layoutInflater) }
     private val itemAdapter = ItemAdapter<SymbolsItem>()
     private val fastAdapter = FastAdapter.with(itemAdapter)
+    private val params = WindowManager.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
 
     init {
         val recyclerView = binding.recyclerView.apply {
@@ -118,7 +121,7 @@ class FloatingMenuView internal constructor(
                 )
             }
         }
-        addView(binding.root)
+        addView(binding.root, params)
     }
 
     private fun updateAdapter(list: MutableList<Map<String, Any>>) {

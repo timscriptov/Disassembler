@@ -15,20 +15,22 @@ class FloatingMenu(
     private val activity: Activity,
     path: String
 ) {
-    var isAdded = false
-    var wm = activity.applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-    var params = WindowManager.LayoutParams()
-    var floatView = FloatingMenuView(activity, this, path)
+    private var isAdded = false
+    private val windowManager =
+        activity.applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+    private val params = WindowManager.LayoutParams()
+    private val floatView = FloatingMenuView(activity, this, path)
 
-    @SuppressLint("ClickableViewAccessibility")
     fun show() {
-        wm.addView(floatView.apply {
+        windowManager.addView(floatView.apply {
             isClickable = true
             setOnTouchListener(object : OnTouchListener {
                 var lastX = 0
                 var lastY = 0
                 var paramX = 0
                 var paramY = 0
+
+                @SuppressLint("ClickableViewAccessibility")
                 override fun onTouch(v: View, event: MotionEvent): Boolean {
                     val param = params
                     when (event.action) {
@@ -44,7 +46,7 @@ class FloatingMenu(
                             val dy = event.rawY.toInt() - lastY
                             param.x = paramX + dx
                             param.y = paramY + dy
-                            wm.updateViewLayout(this@apply, param)
+                            windowManager.updateViewLayout(this@apply, param)
                         }
                     }
                     xPos = param.x
@@ -58,11 +60,10 @@ class FloatingMenu(
             } else {
                 WindowManager.LayoutParams.TYPE_PHONE
             }
-            format = PixelFormat.RGBA_8888
-            flags =
-                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-            height = wm.defaultDisplay.height / 2
+            format = PixelFormat.TRANSPARENT
+            flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
             width = App.dp(activity, 250)
+            height = windowManager.defaultDisplay.height / 2
             x = xPos
             y = yPos
         })
@@ -70,11 +71,11 @@ class FloatingMenu(
     }
 
     fun dismiss() {
-        wm.removeView(floatView)
+        windowManager.removeView(floatView)
     }
 
     companion object {
-        var xPos = 0
-        var yPos = 0
+        private var xPos = 0
+        private var yPos = 0
     }
 }
