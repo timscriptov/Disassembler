@@ -32,7 +32,7 @@ THE SOFTWARE.
 
 namespace ELFIO {
 
-static struct class_table_t
+static const struct class_table_t
 {
     const char  key;
     const char* str;
@@ -41,7 +41,7 @@ static struct class_table_t
     { ELFCLASS64, "ELF64" },
 };
 
-static struct endian_table_t
+static const struct endian_table_t
 {
     const char  key;
     const char* str;
@@ -51,7 +51,34 @@ static struct endian_table_t
     { ELFDATA2MSB, "Big endian" },
 };
 
-static struct version_table_t
+static const struct os_abi_table_t
+{
+    const unsigned char key;
+    const char*         str;
+} os_abi_table[] = {
+    { ELFOSABI_NONE, "UNIX System V" },
+    { ELFOSABI_HPUX, "Hewlett-Packard HP-UX" },
+    { ELFOSABI_NETBSD, "NetBSD" },
+    { ELFOSABI_LINUX, "Linux" },
+    { ELFOSABI_HURD, "GNU Hurd" },
+    { ELFOSABI_SOLARIS, "Sun Solaris" },
+    { ELFOSABI_AIX, "AIX" },
+    { ELFOSABI_IRIX, "IRIX" },
+    { ELFOSABI_FREEBSD, "FreeBSD" },
+    { ELFOSABI_TRU64, "Compaq TRU64 UNIX" },
+    { ELFOSABI_MODESTO, "Novell Modesto" },
+    { ELFOSABI_OPENBSD, "Open BSD" },
+    { ELFOSABI_OPENVMS, "Open VMS" },
+    { ELFOSABI_NSK, "Hewlett-Packard Non-Stop Kernel" },
+    { ELFOSABI_AROS, "Amiga Research OS" },
+    { ELFOSABI_FENIXOS, "FenixOS" },
+    { ELFOSABI_NUXI, "Nuxi CloudABI" },
+    { ELFOSABI_OPENVOS, "OpenVOS" },
+    { ELFOSABI_ARM, "ARM" },
+    { ELFOSABI_STANDALONE, "Standalone (embedded)" },
+};
+
+static const struct version_table_t
 {
     const Elf64_Word key;
     const char*      str;
@@ -60,7 +87,7 @@ static struct version_table_t
     { EV_CURRENT, "Current" },
 };
 
-static struct type_table_t
+static const struct type_table_t
 {
     const Elf32_Half key;
     const char*      str;
@@ -70,7 +97,7 @@ static struct type_table_t
     { ET_CORE, "Core file" },
 };
 
-static struct machine_table_t
+static const struct machine_table_t
 {
     const Elf64_Half key;
     const char*      str;
@@ -264,7 +291,7 @@ static struct machine_table_t
     { EM_L1OM, "Intel L1OM" },
     { EM_INTEL181, "Reserved by Intel" },
     { EM_INTEL182, "Reserved by Intel" },
-    { EM_res183, "Reserved by ARM" },
+    { EM_AARCH64, "ARM AArch64" },
     { EM_res184, "Reserved by ARM" },
     { EM_AVR32, "Atmel Corporation 32-bit microprocessor family" },
     { EM_STM8, "STMicroeletronics STM8 8-bit microcontroller" },
@@ -336,9 +363,9 @@ static struct machine_table_t
     { EM_S12Z, "Freescale S12Z" },
 };
 
-static struct section_type_table_t
+static const struct section_type_table_t
 {
-    const Elf64_Half key;
+    const Elf64_Word key;
     const char*      str;
 } section_type_table[] = {
     { SHT_NULL, "NULL" },
@@ -357,29 +384,63 @@ static struct section_type_table_t
     { SHT_FINI_ARRAY, "FINI_ARRAY" },
     { SHT_PREINIT_ARRAY, "PREINIT_ARRAY" },
     { SHT_GROUP, "GROUP" },
-    { SHT_SYMTAB_SHNDX, "SYMTAB_SHNDX " },
+    { SHT_SYMTAB_SHNDX, "SYMTAB_SHNDX" },
+    { SHT_GNU_ATTRIBUTES, "GNU_ATTRIBUTES" },
+    { SHT_GNU_HASH, "GNU_HASH" },
+    { SHT_GNU_LIBLIST, "GNU_LIBLIST" },
+    { SHT_CHECKSUM, "CHECKSUM" },
+    { SHT_LOSUNW, "LOSUNW" },
+    { SHT_SUNW_move, "SUNW_move" },
+    { SHT_SUNW_COMDAT, "SUNW_COMDAT" },
+    { SHT_SUNW_syminfo, "SUNW_syminfo" },
+    { SHT_GNU_verdef, "GNU_verdef" },
+    { SHT_GNU_verneed, "GNU_verneed" },
+    { SHT_GNU_versym, "GNU_versym" },
+    { SHT_ARM_EXIDX, "ARM_EXIDX" },
+    { SHT_ARM_PREEMPTMAP, "ARM_PREEMPTMAP" },
+    { SHT_ARM_ATTRIBUTES, "ARM_ATTRIBUTES" },
+    { SHT_ARM_DEBUGOVERLAY, "ARM_DEBUGOVERLAY" },
+    { SHT_ARM_OVERLAYSECTION, "ARM_OVERLAYSECTION" },
+
 };
 
-static struct segment_type_table_t
+static const struct segment_type_table_t
 {
     const Elf_Word key;
     const char*    str;
 } segment_type_table[] = {
-    { PT_NULL, "NULL" },     { PT_LOAD, "LOAD" }, { PT_DYNAMIC, "DYNAMIC" },
-    { PT_INTERP, "INTERP" }, { PT_NOTE, "NOTE" }, { PT_SHLIB, "SHLIB" },
-    { PT_PHDR, "PHDR" },     { PT_TLS, "TLS" },
+    { PT_NULL, "NULL" },
+    { PT_LOAD, "LOAD" },
+    { PT_DYNAMIC, "DYNAMIC" },
+    { PT_INTERP, "INTERP" },
+    { PT_NOTE, "NOTE" },
+    { PT_SHLIB, "SHLIB" },
+    { PT_PHDR, "PHDR" },
+    { PT_TLS, "TLS" },
+    { PT_GNU_EH_FRAME, "GNU_EH_FRAME" },
+    { PT_GNU_STACK, "GNU_STACK" },
+    { PT_GNU_RELRO, "GNU_RELRO" },
+    { PT_GNU_PROPERTY, "GNU_PROPERTY" },
+    { PT_GNU_MBIND_LO, "GNU_MBIND_LO" },
+    { PT_GNU_MBIND_HI, "GNU_MBIND_HI" },
+    { PT_PAX_FLAGS, "PAX_FLAGS" },
+    { PT_OPENBSD_RANDOMIZE, "OPENBSD_RANDOMIZE" },
+    { PT_OPENBSD_WXNEEDED, "OPENBSD_WXNEEDED " },
+    { PT_OPENBSD_BOOTDATA, "OPENBSD_BOOTDATA " },
+    { PT_SUNWBSS, "PT_SUNWBSS" },
+    { PT_SUNWSTACK, "SUNWSTACK" },
 };
 
-static struct segment_flag_table_t
+static const struct segment_flag_table_t
 {
     const Elf_Word key;
     const char*    str;
 } segment_flag_table[] = {
-    { 0, "" },  { 1, "X" },  { 2, "W" },  { 3, "WX" },
-    { 4, "R" }, { 5, "RX" }, { 6, "RW" }, { 7, "RWX" },
+    { 0, "   " }, { 1, "  E" }, { 2, " W " }, { 3, " WE" },
+    { 4, "R  " }, { 5, "R E" }, { 6, "RW " }, { 7, "RWE" },
 };
 
-static struct symbol_bind_t
+static const struct symbol_bind_t
 {
     const Elf_Word key;
     const char*    str;
@@ -390,7 +451,7 @@ static struct symbol_bind_t
     { STB_LOPROC, "LOPROC" }, { STB_HIPROC, "HIPROC" },
 };
 
-static struct symbol_type_t
+static const struct symbol_type_t
 {
     const Elf_Word key;
     const char*    str;
@@ -403,7 +464,7 @@ static struct symbol_type_t
     { STT_HIPROC, "HIPROC" },
 };
 
-static struct dynamic_tag_t
+static const struct dynamic_tag_t
 {
     const Elf_Word key;
     const char*    str;
@@ -443,7 +504,170 @@ static struct dynamic_tag_t
     { DT_PREINIT_ARRAY, "PREINIT_ARRAY" },
     { DT_PREINIT_ARRAYSZ, "PREINIT_ARRAYSZ" },
     { DT_MAXPOSTAGS, "MAXPOSTAGS" },
+    { DT_GNU_HASH, "GNU_HASH" },
+    { DT_TLSDESC_PLT, "TLSDESC_PLT" },
+    { DT_TLSDESC_GOT, "TLSDESC_GOT" },
+    { DT_GNU_CONFLICT, "GNU_CONFLICT" },
+    { DT_GNU_LIBLIST, "GNU_LIBLIST" },
+    { DT_CONFIG, "CONFIG" },
+    { DT_DEPAUDIT, "DEPAUDIT" },
+    { DT_AUDIT, "AUDIT" },
+    { DT_PLTPAD, "PLTPAD" },
+    { DT_MOVETAB, "MOVETAB" },
+    { DT_SYMINFO, "SYMINFO" },
+    { DT_ADDRRNGHI, "ADDRRNGHI" },
+    { DT_VERSYM, "VERSYM" },
+    { DT_RELACOUNT, "RELACOUNT" },
+    { DT_RELCOUNT, "RELCOUNT" },
+    { DT_FLAGS_1, "FLAGS_1" },
+    { DT_VERDEF, "VERDEF" },
+    { DT_VERDEFNUM, "VERDEFNUM" },
+    { DT_VERNEED, "VERNEED" },
+    { DT_VERNEEDNUM, "VERNEEDNUM" },
 };
+
+// clang-format off
+static const struct note_tag_t
+{
+    struct note_values_t
+    {
+        Elf64_Word  type;
+        std::string type_str;
+        std::string description;
+    };
+    std::string                name;
+    std::vector<note_values_t> values;
+} note_tag_table[] = {
+    { "",
+      { { NT_PRSTATUS,     "NT_PRSTATUS",     "prstatus struct" },
+        { NT_FPREGSET,     "NT_FPREGSET",     "fpregset struct" },
+        { NT_PRPSINFO,     "NT_PRPSINFO",     "prpsinfo struct" },
+        { NT_TASKSTRUCT,   "NT_TASKSTRUCT",   "task struct" },
+        { NT_AUXV,         "NT_AUXV",         "Elfxx_auxv_t" },
+        { NT_PSTATUS,      "NT_PSTATUS",      "pstatus struct" },
+        { NT_FPREGS,       "NT_FPREGS",       "fpregset struct" },
+        { NT_PSINFO,       "NT_PSINFO",       "psinfo struct" },
+        { NT_LWPSTATUS,    "NT_LWPSTATUS",    "lwpstatus_t struct" },
+        { NT_LWPSINFO,     "NT_LWPSINFO",     "lwpsinfo_t struct" },
+        { NT_WIN32PSTATUS, "NT_WIN32PSTATUS", "win32_pstatus struct" },
+      } },
+    { "LINUX",
+      { { NT_PRXFPREG,             "NT_PRXFPREG", "Contains a user_xfpregs_struct;" },
+        { NT_PPC_VMX,              "NT_PPC_VMX", "PowerPC Altivec/VMX registers" },
+        { NT_PPC_VSX,              "NT_PPC_VSX", "PowerPC VSX registers" },
+        { NT_PPC_TAR,              "NT_PPC_TAR", "PowerPC Target Address Register" },
+        { NT_PPC_PPR,              "NT_PPC_PPR", "PowerPC Program Priority Register" },
+        { NT_PPC_DSCR,             "NT_PPC_DSCR", "PowerPC Data Stream Control Register" },
+        { NT_PPC_EBB,              "NT_PPC_EBB", "PowerPC Event Based Branch Registers" },
+        { NT_PPC_PMU,              "NT_PPC_PMU", "PowerPC Performance Monitor Registers" },
+        { NT_PPC_TM_CGPR,          "NT_PPC_TM_CGPR", "PowerPC TM checkpointed GPR Registers" },
+        { NT_PPC_TM_CFPR,          "NT_PPC_TM_CFPR", "PowerPC TM checkpointed FPR Registers" },
+        { NT_PPC_TM_CVMX,          "NT_PPC_TM_CVMX", "PowerPC TM checkpointed VMX Registers" },
+        { NT_PPC_TM_CVSX,          "NT_PPC_TM_CVSX", "PowerPC TM checkpointed VSX Registers" },
+        { NT_PPC_TM_SPR,           "NT_PPC_TM_SPR",   "PowerPC TM Special Purpose Registers" },
+        { NT_PPC_TM_CTAR,          "NT_PPC_TM_CTAR", "PowerPC TM checkpointed TAR" },
+        { NT_PPC_TM_CPPR,          "NT_PPC_TM_CPPR", "PowerPC TM checkpointed PPR" },
+        { NT_PPC_TM_CDSCR,         "NT_PPC_TM_CDSCR", "PowerPC TM checkpointed Data SCR" },
+        { NT_386_TLS,              "NT_386_TLS", "x86 TLS information" },
+        { NT_386_IOPERM,           "NT_386_IOPERM", "x86 io permissions" },
+        { NT_X86_XSTATE,           "NT_X86_XSTATE", "x86 XSAVE extended state" },
+        { NT_X86_CET,              "NT_X86_CET", "x86 CET state" },
+        { NT_S390_HIGH_GPRS,       "NT_S390_HIGH_GPRS", "S/390 upper halves of GPRs " },
+        { NT_S390_TIMER,           "NT_S390_TIMER", "S390 timer" },
+        { NT_S390_TODCMP,          "NT_S390_TODCMP", "S390 TOD clock comparator" },
+        { NT_S390_TODPREG,         "NT_S390_TODPREG", "S390 TOD programmable register" },
+        { NT_S390_CTRS,            "NT_S390_CTRS", "S390 control registers" },
+        { NT_S390_PREFIX,          "NT_S390_PREFIX", "S390 prefix register" },
+        { NT_S390_LAST_BREAK,      "NT_S390_LAST_BREAK", "S390 breaking event address" },
+        { NT_S390_SYSTEM_CALL,     "NT_S390_SYSTEM_CALL", "S390 system call restart data" },
+        { NT_S390_TDB,             "NT_S390_TDB", "S390 transaction diagnostic block" },
+        { NT_S390_VXRS_LOW,        "NT_S390_VXRS_LOW", "S390 vector registers 0-15 upper half" },
+        { NT_S390_VXRS_HIGH,       "NT_S390_VXRS_HIGH", "S390 vector registers 16-31" },
+        { NT_S390_GS_CB,           "NT_S390_GS_CB", "s390 guarded storage registers" },
+        { NT_S390_GS_BC,           "NT_S390_GS_BC", "s390 guarded storage broadcast control block" },
+        { NT_ARM_VFP,              "NT_ARM_VFP", "ARM VFP registers" },
+        { NT_ARM_TLS,              "NT_ARM_TLS", "AArch TLS registers" },
+        { NT_ARM_HW_BREAK,         "NT_ARM_HW_BREAK", "AArch hardware breakpoint registers" },
+        { NT_ARM_HW_WATCH,         "NT_ARM_HW_WATCH", "AArch hardware watchpoint registers" },
+        { NT_ARM_SVE,              "NT_ARM_SVE", "AArch SVE registers. " },
+        { NT_ARM_PAC_MASK,         "NT_ARM_PAC_MASK", "AArch pointer authentication code masks" },
+        { NT_ARM_PACA_KEYS,        "NT_ARM_PACA_KEYS", "ARM pointer authentication address keys" },
+        { NT_ARM_PACG_KEYS,        "NT_ARM_PACG_KEYS", "ARM pointer authentication generic keys" },
+        { NT_ARM_TAGGED_ADDR_CTRL, "NT_ARM_TAGGED_ADDR_CTRL", "AArch64 tagged address control (prctl())" },
+        { NT_ARM_PAC_ENABLED_KEYS, "NT_ARM_PAC_ENABLED_KEYS", "AArch64 pointer authentication enabled keys (prctl())" },
+        { NT_ARC_V2,               "NT_ARC_V2", "ARC HS accumulator/extra registers. " },
+        { NT_LARCH_CPUCFG,         "NT_LARCH_CPUCFG", "LoongArch CPU config registers" },
+        { NT_LARCH_CSR,            "NT_LARCH_CSR", "LoongArch Control State Registers" },
+        { NT_LARCH_LSX,            "NT_LARCH_LSX", "LoongArch SIMD eXtension registers" },
+        { NT_LARCH_LASX,           "NT_LARCH_LASX", "LoongArch Advanced SIMD eXtension registers" },
+        { NT_RISCV_CSR,            "NT_RISCV_CSR", "RISC-V Control and Status Registers" },
+      } },
+    { "CORE",
+      { { NT_LARCH_LBT, "NT_LARCH_LBT", "LoongArch Binary Translation registers" }
+      } },
+    { "FreeBSD",
+      { { NT_FREEBSD_THRMISC,            "NT_FREEBSD_THRMISC",            "Thread miscellaneous info." },
+        { NT_FREEBSD_PROCSTAT_PROC,      "NT_FREEBSD_PROCSTAT_PROC",      "Procstat proc data." },
+        { NT_FREEBSD_PROCSTAT_FILES,     "NT_FREEBSD_PROCSTAT_FILES",     "Procstat files data." },
+        { NT_FREEBSD_PROCSTAT_VMMAP,     "NT_FREEBSD_PROCSTAT_VMMAP",     "Procstat vmmap data." },
+        { NT_FREEBSD_PROCSTAT_GROUPS,    "NT_FREEBSD_PROCSTAT_GROUPS",    "Procstat groups data." },
+        { NT_FREEBSD_PROCSTAT_UMASK,     "NT_FREEBSD_PROCSTAT_UMASK",     "Procstat umask data." },
+        { NT_FREEBSD_PROCSTAT_RLIMIT,    "NT_FREEBSD_PROCSTAT_RLIMIT",    "Procstat rlimit data." },
+        { NT_FREEBSD_PROCSTAT_OSREL,     "NT_FREEBSD_PROCSTAT_OSREL",     "Procstat osreldate data." },
+        { NT_FREEBSD_PROCSTAT_PSSTRINGS, "NT_FREEBSD_PROCSTAT_PSSTRINGS", "Procstat ps_strings data." },
+        { NT_FREEBSD_PROCSTAT_AUXV,      "NT_FREEBSD_PROCSTAT_AUXV",      "Procstat auxv data." },
+        { NT_FREEBSD_PTLWPINFO,          "NT_FREEBSD_PTLWPINFO",          "Thread ptrace miscellaneous info." },
+      } },
+    { "NetBSD-CORE",
+      { { NT_NETBSDCORE_PROCINFO,  "NT_NETBSDCORE_PROCINFO",  "Has a struct procinfo" },
+        { NT_NETBSDCORE_AUXV,      "NT_NETBSDCORE_AUXV",      "Has auxv data" },
+        { NT_NETBSDCORE_LWPSTATUS, "NT_NETBSDCORE_LWPSTATUS", "Has LWPSTATUS data" },
+        { NT_NETBSDCORE_FIRSTMACH, "NT_NETBSDCORE_FIRSTMACH", "start of machdep note types" },
+      } },
+    { "OpenBSD",
+      { { NT_OPENBSD_PROCINFO, "NT_OPENBSD_PROCINFO", "" },
+        { NT_OPENBSD_AUXV,     "NT_OPENBSD_AUXV",     "" },
+        { NT_OPENBSD_REGS,     "NT_OPENBSD_REGS",     "" },
+        { NT_OPENBSD_FPREGS,   "NT_OPENBSD_FPREGS",   "" },
+        { NT_OPENBSD_XFPREGS,  "NT_OPENBSD_XFPREGS",  "" },
+        { NT_OPENBSD_WCOOKIE,  "NT_OPENBSD_WCOOKIE",  "" },
+      } },
+    { "SPU",
+      { { NT_SPU, "NT_SPU", "" }
+      } },
+    { "GNU",
+      { 
+        { NT_GNU_ABI_TAG,          "NT_GNU_ABI_TAG",         "GNU ABI tag" },
+        { NT_GNU_HWCAP,            "NT_GNU_HWCAP",           "Used by ld.so and kernel vDSO" },
+        { NT_GNU_BUILD_ID,         "NT_GNU_BUILD_ID",        "Build ID of the binary" },
+        { NT_GNU_GOLD_VERSION,     "NT_GNU_GOLD_VERSION",    "Version of GNU gold used to link the binary" },
+        { NT_GNU_PROPERTY_TYPE_0,  "NT_GNU_PROPERTY_TYPE_0", "Property type 0" },
+        // { NT_GNU_PROPERTY_TYPE_1,  "NT_GNU_PROPERTY_TYPE_1",  "Property type 1" },
+        // { NT_GNU_PROPERTY_TYPE_2,  "NT_GNU_PROPERTY_TYPE_2",  "Property type 2" },
+        // { NT_GNU_PROPERTY_TYPE_3,  "NT_GNU_PROPERTY_TYPE_3",  "Property type 3" },
+        // { NT_GNU_PROPERTY_TYPE_4,  "NT_GNU_PROPERTY_TYPE_4",  "Property type 4" },
+        // { NT_GNU_PROPERTY_TYPE_5,  "NT_GNU_PROPERTY_TYPE_5",  "Property type 5" },
+        // { NT_GNU_PROPERTY_TYPE_6,  "NT_GNU_PROPERTY_TYPE_6",  "Property type 6" },
+        // { NT_GNU_PROPERTY_TYPE_7,  "NT_GNU_PROPERTY_TYPE_7",  "Property type 7" },
+        // { NT_GNU_PROPERTY_TYPE_8,  "NT_GNU_PROPERTY_TYPE_8",  "Property type 8" },
+        // { NT_GNU_PROPERTY_TYPE_9,  "NT_GNU_PROPERTY_TYPE_9",  "Property type 9" },
+        // { NT_GNU_PROPERTY_TYPE_10, "NT_GNU_PROPERTY_TYPE_10", "Property type 10" },
+        // { NT_GNU_PROPERTY_TYPE_11, "NT_GNU_PROPERTY_TYPE_11", "Property type 11" },
+        // { NT_GNU_PROPERTY_TYPE_12, "NT_GNU_PROPERTY_TYPE_12", "Property type 12" },
+        // { NT_GNU_PROPERTY_TYPE_13, "NT_GNU_PROPERTY_TYPE_13", "Property type 13" },
+        // { NT_GNU_PROPERTY_TYPE_14, "NT_GNU_PROPERTY_TYPE_14", "Property type 14" },
+      } },
+    // { "SOLARIS",
+    //   { { NT_SOLARIS_AUXV, "NT_SOLARIS_AUXV", "" }
+    //   } },
+    // { "AIX",
+    //   { { NT_AIX_AUXV, "NT_AIX_AUXV", "" }
+    //   } },
+    // { "IRIX",
+    //   { { NT_IRIX_FPREGS, "NT_IRIX_FPREGS", "" }
+    //   } },
+};
+// clang-format on
 
 static const ELFIO::Elf_Xword MAX_DATA_ENTRIES = 64;
 
@@ -452,6 +676,8 @@ class dump
 {
 #define DUMP_DEC_FORMAT( width ) \
     std::setw( width ) << std::setfill( ' ' ) << std::dec << std::right
+#define DUMP_HEX0x_FORMAT( width ) \
+    "0x" << std::setw( width ) << std::setfill( '0' ) << std::hex << std::right
 #define DUMP_HEX_FORMAT( width ) \
     std::setw( width ) << std::setfill( '0' ) << std::hex << std::right
 #define DUMP_STR_FORMAT( width ) \
@@ -471,6 +697,9 @@ class dump
             << std::endl
             << "  ELFVersion: " << str_version( reader.get_elf_version() )
             << std::endl
+            << "  OS/ABI:     " << str_os_abi( reader.get_os_abi() )
+            << std::endl
+            << "  ABI Version:" << (int)reader.get_abi_version() << std::endl
             << "  Type:       " << str_type( reader.get_type() ) << std::endl
             << "  Machine:    " << str_machine( reader.get_machine() )
             << std::endl
@@ -494,23 +723,27 @@ class dump
 
         out << "Section Headers:" << std::endl;
         if ( reader.get_class() == ELFCLASS32 ) { // Output for 32-bit
-            out << "[  Nr ] Type              Addr     Size     ES Flg Lk Inf "
-                   "Al Name"
+            out << "[  Nr ] Type              Addr       Size       ES   Flg "
+                   "Lk   Inf   Al   Name"
                 << std::endl;
         }
         else { // Output for 64-bit
-            out << "[  Nr ] Type              Addr             Size            "
-                   " ES   Flg"
+            out << "[  Nr ] Type              Addr               Size          "
+                   "     Offset     Flg"
                 << std::endl
-                << "        Lk   Inf  Al      Name" << std::endl;
+                << "        ES     Lk     Inf    Al       Name" << std::endl;
         }
 
         for ( Elf_Half i = 0; i < n; ++i ) { // For all sections
-            section* sec = reader.sections[i];
+            const section* sec = reader.sections[i];
             section_header( out, i, sec, reader.get_class() );
         }
 
-        out << "Key to Flags: W (write), A (alloc), X (execute)\n\n"
+        out << "Key to Flags: W (write), A (alloc), X (execute), " << std::endl;
+        out << "              M (merge), S (strings), I (info)," << std::endl;
+        out << "              L (link order), O (extra OS processing required),"
+            << std::endl;
+        out << "              G (group), T (TLS), C (compressed), E (exclude)"
             << std::endl;
     }
 
@@ -522,31 +755,36 @@ class dump
     {
         std::ios_base::fmtflags original_flags = out.flags();
 
+        // clang-format off
         if ( elf_class == ELFCLASS32 ) { // Output for 32-bit
             out << "[" << DUMP_DEC_FORMAT( 5 ) << no << "] "
                 << DUMP_STR_FORMAT( 17 ) << str_section_type( sec->get_type() )
-                << " " << DUMP_HEX_FORMAT( 8 ) << sec->get_address() << " "
-                << DUMP_HEX_FORMAT( 8 ) << sec->get_size() << " "
-                << DUMP_HEX_FORMAT( 2 ) << sec->get_entry_size() << " "
+                << " " << DUMP_HEX0x_FORMAT( 8 ) << sec->get_address() << " "
+                << DUMP_HEX0x_FORMAT( 8 ) << sec->get_size() << " "
+                << DUMP_HEX0x_FORMAT( 2 ) << sec->get_entry_size() << " "
                 << DUMP_STR_FORMAT( 3 ) << section_flags( sec->get_flags() )
-                << " " << DUMP_HEX_FORMAT( 2 ) << sec->get_link() << " "
-                << DUMP_HEX_FORMAT( 3 ) << sec->get_info() << " "
-                << DUMP_HEX_FORMAT( 2 ) << sec->get_addr_align() << " "
+                << " " << DUMP_HEX0x_FORMAT( 2 ) << sec->get_link() << " "
+                << DUMP_HEX0x_FORMAT( 3 ) << sec->get_info() << " "
+                << DUMP_HEX0x_FORMAT( 2 ) << sec->get_addr_align() << " "
                 << DUMP_STR_FORMAT( 17 ) << sec->get_name() << " " << std::endl;
         }
         else { // Output for 64-bit
             out << "[" << DUMP_DEC_FORMAT( 5 ) << no << "] "
-                << DUMP_STR_FORMAT( 17 ) << str_section_type( sec->get_type() )
-                << " " << DUMP_HEX_FORMAT( 16 ) << sec->get_address() << " "
-                << DUMP_HEX_FORMAT( 16 ) << sec->get_size() << " "
-                << DUMP_HEX_FORMAT( 4 ) << sec->get_entry_size() << " "
-                << DUMP_STR_FORMAT( 3 ) << section_flags( sec->get_flags() )
-                << " " << std::endl
-                << "        " << DUMP_HEX_FORMAT( 4 ) << sec->get_link() << " "
-                << DUMP_HEX_FORMAT( 4 ) << sec->get_info() << " "
-                << DUMP_HEX_FORMAT( 4 ) << sec->get_addr_align() << "    "
-                << DUMP_STR_FORMAT( 17 ) << sec->get_name() << " " << std::endl;
+                << DUMP_STR_FORMAT( 17 ) << str_section_type( sec->get_type() ) << " "
+                << DUMP_HEX0x_FORMAT( 16 ) << sec->get_address()                  << " "
+                << DUMP_HEX0x_FORMAT( 16 ) << sec->get_size()                     << " "
+                << DUMP_HEX0x_FORMAT(  8 ) << sec->get_offset()                   << " "
+                << DUMP_STR_FORMAT(  3) << section_flags( sec->get_flags() )
+                << std::endl
+                << DUMP_STR_FORMAT( 8 ) << " "
+                << DUMP_HEX0x_FORMAT( 4 ) << sec->get_entry_size() << " "
+                << DUMP_HEX0x_FORMAT( 4 ) << sec->get_link()       << " "
+                << DUMP_HEX0x_FORMAT( 4 ) << sec->get_info()       << " "
+                << DUMP_HEX0x_FORMAT( 4 ) << sec->get_addr_align() << "   "
+                << DUMP_STR_FORMAT( 17 ) << sec->get_name()
+                << std::endl;
         }
+        // clang-format on
 
         out.flags( original_flags );
 
@@ -561,23 +799,24 @@ class dump
             return;
         }
 
-        out << "Segment headers:" << std::endl;
+        out << "Program Headers:" << std::endl;
         if ( reader.get_class() == ELFCLASS32 ) { // Output for 32-bit
-            out << "[  Nr ] Type           VirtAddr PhysAddr FileSize Mem.Size "
-                   "Flags    Align"
+            out << "[  Nr ] Type           VirtAddr   PhysAddr   FileSize   "
+                   "Mem.Size   Flags    Align"
                 << std::endl;
         }
         else { // Output for 64-bit
-            out << "[  Nr ] Type           VirtAddr         PhysAddr         "
-                   "Flags"
+            out << "[  Nr ] Type           Offset             VirtAddr         "
+                   "  PhysAddr"
+
                 << std::endl
-                << "                       FileSize         Mem.Size         "
-                   "Align"
+                << "                       FileSize           MemSize          "
+                   "   Flags  Align"
                 << std::endl;
         }
 
         for ( Elf_Half i = 0; i < n; ++i ) {
-            segment* seg = reader.segments[i];
+            const segment* seg = reader.segments[i];
             segment_header( out, i, seg, reader.get_class() );
         }
 
@@ -591,30 +830,33 @@ class dump
                                 unsigned int   elf_class )
     {
         std::ios_base::fmtflags original_flags = out.flags();
-
+        // clang-format off
         if ( elf_class == ELFCLASS32 ) { // Output for 32-bit
             out << "[" << DUMP_DEC_FORMAT( 5 ) << no << "] "
                 << DUMP_STR_FORMAT( 14 ) << str_segment_type( seg->get_type() )
-                << " " << DUMP_HEX_FORMAT( 8 ) << seg->get_virtual_address()
-                << " " << DUMP_HEX_FORMAT( 8 ) << seg->get_physical_address()
-                << " " << DUMP_HEX_FORMAT( 8 ) << seg->get_file_size() << " "
-                << DUMP_HEX_FORMAT( 8 ) << seg->get_memory_size() << " "
+                << " " << DUMP_HEX0x_FORMAT( 8 ) << seg->get_virtual_address()
+                << " " << DUMP_HEX0x_FORMAT( 8 ) << seg->get_physical_address()
+                << " " << DUMP_HEX0x_FORMAT( 8 ) << seg->get_file_size() << " "
+                << DUMP_HEX0x_FORMAT( 8 ) << seg->get_memory_size() << " "
                 << DUMP_STR_FORMAT( 8 ) << str_segment_flag( seg->get_flags() )
-                << " " << DUMP_HEX_FORMAT( 8 ) << seg->get_align() << " "
+                << " " << DUMP_HEX0x_FORMAT( 8 ) << seg->get_align() << " "
                 << std::endl;
         }
         else { // Output for 64-bit
             out << "[" << DUMP_DEC_FORMAT( 5 ) << no << "] "
-                << DUMP_STR_FORMAT( 14 ) << str_segment_type( seg->get_type() )
-                << " " << DUMP_HEX_FORMAT( 16 ) << seg->get_virtual_address()
-                << " " << DUMP_HEX_FORMAT( 16 ) << seg->get_physical_address()
-                << " " << DUMP_STR_FORMAT( 16 )
-                << str_segment_flag( seg->get_flags() ) << " " << std::endl
-                << "                       " << DUMP_HEX_FORMAT( 16 )
-                << seg->get_file_size() << " " << DUMP_HEX_FORMAT( 16 )
-                << seg->get_memory_size() << " " << DUMP_HEX_FORMAT( 16 )
-                << seg->get_align() << " " << std::endl;
+                << DUMP_STR_FORMAT( 14 ) << str_segment_type( seg->get_type() ) << " " 
+                << DUMP_HEX0x_FORMAT( 16 ) << seg->get_offset()           << " "
+                << DUMP_HEX0x_FORMAT( 16 ) << seg->get_virtual_address()  << " "
+                << DUMP_HEX0x_FORMAT( 16 ) << seg->get_physical_address()
+                << std::endl
+                << DUMP_STR_FORMAT( 23 ) << " "
+                << DUMP_HEX0x_FORMAT( 16 ) << seg->get_file_size()         << " "
+                << DUMP_HEX0x_FORMAT( 16 ) << seg->get_memory_size()       << "  "
+                << DUMP_STR_FORMAT(  3 ) << str_segment_flag( seg->get_flags() ) << "    "
+                << DUMP_HEX0x_FORMAT(  1 ) << seg->get_align() 
+                << std::endl;
         }
+        // clang-format on
 
         out.flags( original_flags );
     }
@@ -622,66 +864,64 @@ class dump
     //------------------------------------------------------------------------------
     static void symbol_tables( std::ostream& out, const elfio& reader )
     {
-        Elf_Half n = reader.sections.size();
-        for ( Elf_Half i = 0; i < n; ++i ) { // For all sections
-            section* sec = reader.sections[i];
+        for ( const auto& sec : reader.sections ) { // For all sections
             if ( SHT_SYMTAB == sec->get_type() ||
                  SHT_DYNSYM == sec->get_type() ) {
-                symbol_section_accessor symbols( reader, sec );
+                const_symbol_section_accessor symbols( reader, sec.get() );
 
                 Elf_Xword sym_no = symbols.get_symbols_num();
-                if ( sym_no > 0 ) {
-                    out << "Symbol table (" << sec->get_name() << ")"
-                        << std::endl;
-                    if ( reader.get_class() ==
-                         ELFCLASS32 ) { // Output for 32-bit
-                        out << "[  Nr ] Value    Size     Type    Bind      "
-                               "Sect Name"
-                            << std::endl;
-                    }
-                    else { // Output for 64-bit
-                        out << "[  Nr ] Value            Size             Type "
-                               "   Bind      Sect"
-                            << std::endl
-                            << "        Name" << std::endl;
-                    }
-                    for ( Elf_Xword i = 0; i < sym_no; ++i ) {
-                        std::string   name;
-                        Elf64_Addr    value   = 0;
-                        Elf_Xword     size    = 0;
-                        unsigned char bind    = 0;
-                        unsigned char type    = 0;
-                        Elf_Half      section = 0;
-                        unsigned char other   = 0;
-                        symbols.get_symbol( i, name, value, size, bind, type,
-                                            section, other );
-                        symbol_table( out, i, name, value, size, bind, type,
-                                      section, reader.get_class() );
-                    }
-
-                    out << std::endl;
+                if ( sym_no == 0 ) {
+                    continue;
                 }
+
+                out << "Symbol table (" << sec->get_name() << ")" << std::endl;
+                if ( reader.get_class() == ELFCLASS32 ) { // Output for 32-bit
+                    out << "[  Nr ] Value      Size       Type    Bind     "
+                           " Sect Name"
+                        << std::endl;
+                }
+                else { // Output for 64-bit
+                    out << "[  Nr ] Value              Size               "
+                           "Type    Bind      Sect"
+                        << std::endl
+                        << "        Name" << std::endl;
+                }
+                for ( Elf_Xword i = 0; i < sym_no; ++i ) {
+                    std::string   name;
+                    Elf64_Addr    value   = 0;
+                    Elf_Xword     size    = 0;
+                    unsigned char bind    = 0;
+                    unsigned char type    = 0;
+                    Elf_Half      section = 0;
+                    unsigned char other   = 0;
+                    symbols.get_symbol( i, name, value, size, bind, type,
+                                        section, other );
+                    symbol_table( out, i, name, value, size, bind, type,
+                                  section, reader.get_class() );
+                }
+
+                out << std::endl;
             }
         }
     }
 
     //------------------------------------------------------------------------------
-    static void symbol_table( std::ostream& out,
-                              Elf_Xword     no,
-                              std::string&  name,
-                              Elf64_Addr    value,
-                              Elf_Xword     size,
-                              unsigned char bind,
-                              unsigned char type,
-                              Elf_Half      section,
-                              unsigned int  elf_class )
+    static void symbol_table( std::ostream&      out,
+                              Elf_Xword          no,
+                              const std::string& name,
+                              Elf64_Addr         value,
+                              Elf_Xword          size,
+                              unsigned char      bind,
+                              unsigned char      type,
+                              Elf_Half           section,
+                              unsigned int       elf_class )
     {
         std::ios_base::fmtflags original_flags = out.flags();
 
         if ( elf_class == ELFCLASS32 ) { // Output for 32-bit
             out << "[" << DUMP_DEC_FORMAT( 5 ) << no << "] "
-                << DUMP_HEX_FORMAT( 8 ) << value << " " << DUMP_HEX_FORMAT( 8 )
-                << size << " " << DUMP_STR_FORMAT( 7 )
+                << DUMP_HEX0x_FORMAT( 8 ) << value << " "
+                << DUMP_HEX0x_FORMAT( 8 ) << size << " " << DUMP_STR_FORMAT( 7 )
                 << str_symbol_type( type ) << " " << DUMP_STR_FORMAT( 8 )
                 << str_symbol_bind( bind ) << " " << DUMP_DEC_FORMAT( 5 )
                 << section << " " << DUMP_STR_FORMAT( 1 ) << name << " "
@@ -689,11 +929,11 @@ class dump
         }
         else { // Output for 64-bit
             out << "[" << DUMP_DEC_FORMAT( 5 ) << no << "] "
-                << DUMP_HEX_FORMAT( 16 ) << value << " "
-                << DUMP_HEX_FORMAT( 16 ) << size << " " << DUMP_STR_FORMAT( 7 )
-                << str_symbol_type( type ) << " " << DUMP_STR_FORMAT( 8 )
-                << str_symbol_bind( bind ) << " " << DUMP_DEC_FORMAT( 5 )
-                << section << " " << std::endl
+                << DUMP_HEX0x_FORMAT( 16 ) << value << " "
+                << DUMP_HEX0x_FORMAT( 16 ) << size << " "
+                << DUMP_STR_FORMAT( 7 ) << str_symbol_type( type ) << " "
+                << DUMP_STR_FORMAT( 8 ) << str_symbol_bind( bind ) << " "
+                << DUMP_DEC_FORMAT( 5 ) << section << " " << std::endl
                 << "        " << DUMP_STR_FORMAT( 1 ) << name << " "
                 << std::endl;
         }
@@ -704,31 +944,110 @@ class dump
     //------------------------------------------------------------------------------
     static void notes( std::ostream& out, const elfio& reader )
     {
-        Elf_Half no = reader.sections.size();
-        for ( Elf_Half i = 0; i < no; ++i ) { // For all sections
-            section* sec = reader.sections[i];
-            if ( SHT_NOTE == sec->get_type() ) { // Look at notes
-                note_section_accessor notes( reader, sec );
+        for ( const auto& sec : reader.sections ) { // For all sections
+            if ( SHT_NOTE == sec->get_type() ) {    // Look at notes
+                note_section_accessor notes( reader, sec.get() );
                 Elf_Word              no_notes = notes.get_notes_num();
-                if ( no > 0 ) {
-                    out << "Note section (" << sec->get_name() << ")"
-                        << std::endl
-                        << "    No Type     Name" << std::endl;
-                    for ( Elf_Word j = 0; j < no_notes; ++j ) { // For all notes
-                        Elf_Word    type;
-                        std::string name;
-                        void*       desc;
-                        Elf_Word    descsz;
 
-                        if ( notes.get_note( j, type, name, desc, descsz ) ) {
-                            // 'name' usually contains \0 at the end. Try to fix it
-                            name = name.c_str();
-                            note( out, j, type, name );
-                        }
+                if ( no_notes == 0 )
+                    continue;
+
+                out << "Note section (" << sec->get_name() << ")" << std::endl
+                    << "    No Name         Data size  Description"
+                    << std::endl;
+                for ( Elf_Word j = 0; j < no_notes; ++j ) { // For all notes
+                    Elf_Word    type;
+                    std::string name;
+                    char*       desc;
+                    Elf_Word    descsz;
+
+                    if ( notes.get_note( j, type, name, desc, descsz ) ) {
+                        // 'name' usually contains \0 at the end. Remove it
+                        name = name.c_str();
+                        note( out, j, type, name, desc, descsz );
+                        out << std::endl;
                     }
-
-                    out << std::endl;
                 }
+
+                out << std::endl;
+            }
+        }
+
+        Elf_Half no = reader.segments.size();
+        for ( Elf_Half i = 0; i < no; ++i ) { // For all segments
+            segment* seg = reader.segments[i];
+            if ( PT_NOTE == seg->get_type() ) { // Look at notes
+                note_segment_accessor notes( reader, seg );
+                Elf_Word              no_notes = notes.get_notes_num();
+
+                if ( no_notes == 0 )
+                    continue;
+
+                out << "Note segment (" << i << ")" << std::endl
+                    << "    No Name         Data size  Description"
+                    << std::endl;
+                for ( Elf_Word j = 0; j < no_notes; ++j ) { // For all notes
+                    Elf_Word    type;
+                    std::string name;
+                    char*       desc;
+                    Elf_Word    descsz;
+
+                    if ( notes.get_note( j, type, name, desc, descsz ) ) {
+                        // 'name' usually contains \0 at the end. Remove it
+                        name = name.c_str();
+                        note( out, j, type, name, desc, descsz );
+                        out << std::endl;
+                    }
+                }
+
+                out << std::endl;
+            }
+        }
+    }
+
+    //------------------------------------------------------------------------------
+    static void note( std::ostream&      out,
+                      int                no,
+                      Elf_Word           type,
+                      const std::string& name,
+                      void*              desc,
+                      Elf_Word           descsz )
+    {
+        out << "  [" << DUMP_DEC_FORMAT( 2 ) << no << "] ";
+
+        const auto name_group = std::find_if(
+            std::begin( note_tag_table ), std::end( note_tag_table ),
+            [&name]( const note_tag_t& entry ) { return entry.name == name; } );
+
+        std::vector<note_tag_t::note_values_t>::const_iterator type_value;
+        if ( name_group != std::end( note_tag_table ) ) {
+            type_value = std::find_if(
+                name_group->values.begin(), name_group->values.end(),
+                [&type]( const note_tag_t::note_values_t& e ) {
+                    return e.type == type;
+                } );
+        }
+
+        if ( name_group != std::end( note_tag_table ) &&
+             type_value != name_group->values.end() ) {
+            out << DUMP_STR_FORMAT( 12 ) << name_group->name << " "
+                << DUMP_HEX0x_FORMAT( 8 ) << descsz << " "
+                << type_value->type_str << " (" << type_value->description
+                << ")";
+        }
+        else {
+            out << DUMP_STR_FORMAT( 12 ) << name << " "
+                << DUMP_HEX0x_FORMAT( 8 ) << descsz << " "
+                << DUMP_HEX0x_FORMAT( 8 ) << type;
+        }
+
+        if ( descsz != 0 ) {
+            for ( Elf_Word i = 0; i < descsz; ++i ) {
+                if ( i % 16 == 0 ) {
+                    out << std::endl << "         ";
+                }
+                out << DUMP_HEX_FORMAT( 2 )
+                    << (uint32_t)( (uint8_t*)( desc ) )[i];
             }
         }
     }
@@ -736,13 +1055,11 @@ class dump
     //------------------------------------------------------------------------------
     static void modinfo( std::ostream& out, const elfio& reader )
     {
-        Elf_Half no = reader.sections.size();
-        for ( Elf_Half i = 0; i < no; ++i ) { // For all sections
-            section* sec = reader.sections[i];
-            if ( ".modinfo" == sec->get_name() ) { // Look for the section
+        for ( const auto& sec : reader.sections ) { // For all sections
+            if ( ".modinfo" == sec->get_name() ) {  // Look for the section
                 out << "Section .modinfo" << std::endl;
 
-                const_modinfo_section_accessor modinfo( sec );
+                const_modinfo_section_accessor modinfo( sec.get() );
                 for ( Elf_Word i = 0; i < modinfo.get_attribute_num(); i++ ) {
                     std::string field;
                     std::string value;
@@ -759,58 +1076,47 @@ class dump
     }
 
     //------------------------------------------------------------------------------
-    static void
-    note( std::ostream& out, int no, Elf_Word type, const std::string& name )
-    {
-        out << "  [" << DUMP_DEC_FORMAT( 2 ) << no << "] "
-            << DUMP_HEX_FORMAT( 8 ) << type << " " << DUMP_STR_FORMAT( 1 )
-            << name << std::endl;
-    }
-
-    //------------------------------------------------------------------------------
     static void dynamic_tags( std::ostream& out, const elfio& reader )
     {
-        Elf_Half n = reader.sections.size();
-        for ( Elf_Half i = 0; i < n; ++i ) { // For all sections
-            section* sec = reader.sections[i];
+        for ( const auto& sec : reader.sections ) { // For all sections
             if ( SHT_DYNAMIC == sec->get_type() ) {
-                dynamic_section_accessor dynamic( reader, sec );
+                dynamic_section_accessor dynamic( reader, sec.get() );
 
                 Elf_Xword dyn_no = dynamic.get_entries_num();
-                if ( dyn_no > 0 ) {
-                    out << "Dynamic section (" << sec->get_name() << ")"
-                        << std::endl;
-                    out << "[  Nr ] Tag              Name/Value" << std::endl;
-                    for ( Elf_Xword i = 0; i < dyn_no; ++i ) {
-                        Elf_Xword   tag   = 0;
-                        Elf_Xword   value = 0;
-                        std::string str;
-                        dynamic.get_entry( i, tag, value, str );
-                        dynamic_tag( out, i, tag, value, str,
-                                     reader.get_class() );
-                        if ( DT_NULL == tag ) {
-                            break;
-                        }
-                    }
+                if ( dyn_no == 0 )
+                    continue;
 
-                    out << std::endl;
+                out << "Dynamic section (" << sec->get_name() << ")"
+                    << std::endl;
+                out << "[  Nr ] Tag              Name/Value" << std::endl;
+                for ( Elf_Xword i = 0; i < dyn_no; ++i ) {
+                    Elf_Xword   tag   = 0;
+                    Elf_Xword   value = 0;
+                    std::string str;
+                    dynamic.get_entry( i, tag, value, str );
+                    dynamic_tag( out, i, tag, value, str, reader.get_class() );
+                    if ( DT_NULL == tag ) {
+                        break;
+                    }
                 }
+
+                out << std::endl;
             }
         }
     }
 
     //------------------------------------------------------------------------------
-    static void dynamic_tag( std::ostream& out,
-                             Elf_Xword     no,
-                             Elf_Xword     tag,
-                             Elf_Xword     value,
-                             std::string   str,
+    static void dynamic_tag( std::ostream&      out,
+                             Elf_Xword          no,
+                             Elf_Xword          tag,
+                             Elf_Xword          value,
+                             const std::string& str,
                              unsigned int /*elf_class*/ )
     {
         out << "[" << DUMP_DEC_FORMAT( 5 ) << no << "] "
             << DUMP_STR_FORMAT( 16 ) << str_dynamic_tag( tag ) << " ";
         if ( str.empty() ) {
-            out << DUMP_HEX_FORMAT( 16 ) << value << " ";
+            out << DUMP_HEX0x_FORMAT( 16 ) << value << " ";
         }
         else {
             out << DUMP_STR_FORMAT( 32 ) << str << " ";
@@ -830,10 +1136,11 @@ class dump
             for ( i = 0; i < std::min( sec->get_size(), MAX_DATA_ENTRIES );
                   ++i ) {
                 if ( i % 16 == 0 ) {
-                    out << "[" << DUMP_HEX_FORMAT( 8 ) << i << "]";
+                    out << "[" << DUMP_HEX0x_FORMAT( 8 ) << i << "]";
                 }
 
-                out << " " << DUMP_HEX_FORMAT( 2 ) << ( pdata[i] & 0x000000FF );
+                out << " " << DUMP_HEX0x_FORMAT( 2 )
+                    << ( pdata[i] & 0x000000FF );
 
                 if ( i % 16 == 15 ) {
                     out << std::endl;
@@ -861,7 +1168,7 @@ class dump
         out << "Section Data:" << std::endl;
 
         for ( Elf_Half i = 1; i < n; ++i ) { // For all sections
-            section* sec = reader.sections[i];
+            const section* sec = reader.sections[i];
             if ( sec->get_type() == SHT_NOBITS ) {
                 continue;
             }
@@ -884,10 +1191,11 @@ class dump
             for ( i = 0; i < std::min( seg->get_file_size(), MAX_DATA_ENTRIES );
                   ++i ) {
                 if ( i % 16 == 0 ) {
-                    out << "[" << DUMP_HEX_FORMAT( 8 ) << i << "]";
+                    out << "[" << DUMP_HEX0x_FORMAT( 8 ) << i << "]";
                 }
 
-                out << " " << DUMP_HEX_FORMAT( 2 ) << ( pdata[i] & 0x000000FF );
+                out << " " << DUMP_HEX0x_FORMAT( 2 )
+                    << ( pdata[i] & 0x000000FF );
 
                 if ( i % 16 == 15 ) {
                     out << std::endl;
@@ -915,12 +1223,34 @@ class dump
         out << "Segment Data:" << std::endl;
 
         for ( Elf_Half i = 0; i < n; ++i ) { // For all sections
-            segment* seg = reader.segments[i];
+            const segment* seg = reader.segments[i];
             segment_data( out, i, seg );
         }
 
         out << std::endl;
     }
+
+//------------------------------------------------------------------------------
+#define STR_FUNC_TABLE( name )                                         \
+    template <typename T> static std::string str_##name( const T key ) \
+    {                                                                  \
+        return format_assoc( name##_table, key );                      \
+    }
+
+    STR_FUNC_TABLE( class )
+    STR_FUNC_TABLE( endian )
+    STR_FUNC_TABLE( version )
+    STR_FUNC_TABLE( os_abi )
+    STR_FUNC_TABLE( type )
+    STR_FUNC_TABLE( machine )
+    STR_FUNC_TABLE( section_type )
+    STR_FUNC_TABLE( segment_type )
+    STR_FUNC_TABLE( segment_flag )
+    STR_FUNC_TABLE( symbol_bind )
+    STR_FUNC_TABLE( symbol_type )
+    STR_FUNC_TABLE( dynamic_tag )
+
+#undef STR_FUNC_TABLE
 
   private:
     //------------------------------------------------------------------------------
@@ -973,35 +1303,44 @@ class dump
         if ( flags & SHF_EXECINSTR ) {
             ret += "X";
         }
+        if ( flags & SHF_MERGE ) {
+            ret += "M";
+        }
+        if ( flags & SHF_STRINGS ) {
+            ret += "S";
+        }
+        if ( flags & SHF_INFO_LINK ) {
+            ret += "I";
+        }
+        if ( flags & SHF_LINK_ORDER ) {
+            ret += "L";
+        }
+        if ( flags & SHF_OS_NONCONFORMING ) {
+            ret += "O";
+        }
+        if ( flags & SHF_GROUP ) {
+            ret += "G";
+        }
+        if ( flags & SHF_TLS ) {
+            ret += "T";
+        }
+        if ( flags & SHF_COMPRESSED ) {
+            ret += "C";
+        }
+        if ( flags & SHF_EXCLUDE ) {
+            ret += "E";
+        }
+        if ( flags & SHF_GNU_MBIND ) {
+            ret += "D";
+        }
 
         return ret;
     }
 
-//------------------------------------------------------------------------------
-#define STR_FUNC_TABLE( name )                                         \
-    template <typename T> static std::string str_##name( const T key ) \
-    {                                                                  \
-        return format_assoc( name##_table, key );                      \
-    }
-
-    STR_FUNC_TABLE( class )
-    STR_FUNC_TABLE( endian )
-    STR_FUNC_TABLE( version )
-    STR_FUNC_TABLE( type )
-    STR_FUNC_TABLE( machine )
-    STR_FUNC_TABLE( section_type )
-    STR_FUNC_TABLE( segment_type )
-    STR_FUNC_TABLE( segment_flag )
-    STR_FUNC_TABLE( symbol_bind )
-    STR_FUNC_TABLE( symbol_type )
-    STR_FUNC_TABLE( dynamic_tag )
-
-#undef STR_FUNC_TABLE
 #undef DUMP_DEC_FORMAT
-#undef DUMP_HEX_FORMAT
+#undef DUMP_HEX0x_FORMAT
 #undef DUMP_STR_FORMAT
 }; // class dump
-
-}; // namespace ELFIO
+} // namespace ELFIO
 
 #endif // ELFIO_DUMP_HPP

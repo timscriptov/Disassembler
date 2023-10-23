@@ -25,32 +25,33 @@ THE SOFTWARE.
 
 #include <cstdint>
 #include <ostream>
-
-#define ELFIO_GET_ACCESS( TYPE, NAME, FIELD ) \
-    TYPE get_##NAME() const { return ( *convertor )( FIELD ); }
-
-#define ELFIO_SET_ACCESS( TYPE, NAME, FIELD ) \
-    void set_##NAME( TYPE value )             \
-    {                                         \
-        FIELD = value;                        \
-        FIELD = ( *convertor )( FIELD );      \
-    }
-#define ELFIO_GET_SET_ACCESS( TYPE, NAME, FIELD )               \
-    TYPE get_##NAME() const { return ( *convertor )( FIELD ); } \
-    void set_##NAME( TYPE value )                               \
-    {                                                           \
-        FIELD = value;                                          \
-        FIELD = ( *convertor )( FIELD );                        \
-    }
+#include <cstring>
 
 #define ELFIO_GET_ACCESS_DECL( TYPE, NAME ) virtual TYPE get_##NAME() const = 0
 
 #define ELFIO_SET_ACCESS_DECL( TYPE, NAME ) \
-    virtual void set_##NAME( TYPE value ) = 0
+    virtual void set_##NAME( const TYPE& value ) = 0
 
-#define ELFIO_GET_SET_ACCESS_DECL( TYPE, NAME ) \
-    virtual TYPE get_##NAME() const       = 0;  \
-    virtual void set_##NAME( TYPE value ) = 0
+#define ELFIO_GET_SET_ACCESS_DECL( TYPE, NAME )       \
+    virtual TYPE get_##NAME() const              = 0; \
+    virtual void set_##NAME( const TYPE& value ) = 0
+
+#define ELFIO_GET_ACCESS( TYPE, NAME, FIELD ) \
+    TYPE get_##NAME() const override { return ( *convertor )( FIELD ); }
+
+#define ELFIO_SET_ACCESS( TYPE, NAME, FIELD )     \
+    void set_##NAME( const TYPE& value ) override \
+    {                                             \
+        FIELD = decltype( FIELD )( value );       \
+        FIELD = ( *convertor )( FIELD );          \
+    }
+#define ELFIO_GET_SET_ACCESS( TYPE, NAME, FIELD )                        \
+    TYPE get_##NAME() const override { return ( *convertor )( FIELD ); } \
+    void set_##NAME( const TYPE& value ) override                        \
+    {                                                                    \
+        FIELD = decltype( FIELD )( value );                              \
+        FIELD = ( *convertor )( FIELD );                                 \
+    }
 
 namespace ELFIO {
 
@@ -58,9 +59,6 @@ namespace ELFIO {
 class endianess_convertor
 {
   public:
-    //------------------------------------------------------------------------------
-    endianess_convertor() { need_conversion = false; }
-
     //------------------------------------------------------------------------------
     void setup( unsigned char elf_file_encoding )
     {
@@ -73,14 +71,14 @@ class endianess_convertor
         if ( !need_conversion ) {
             return value;
         }
-        value = ( ( value & 0x00000000000000FFull ) << 56 ) |
-                ( ( value & 0x000000000000FF00ull ) << 40 ) |
-                ( ( value & 0x0000000000FF0000ull ) << 24 ) |
-                ( ( value & 0x00000000FF000000ull ) << 8 ) |
-                ( ( value & 0x000000FF00000000ull ) >> 8 ) |
-                ( ( value & 0x0000FF0000000000ull ) >> 24 ) |
-                ( ( value & 0x00FF000000000000ull ) >> 40 ) |
-                ( ( value & 0xFF00000000000000ull ) >> 56 );
+        value = ( ( value & 0x00000000000000FFuLL ) << 56 ) |
+                ( ( value & 0x000000000000FF00uLL ) << 40 ) |
+                ( ( value & 0x0000000000FF0000uLL ) << 24 ) |
+                ( ( value & 0x00000000FF000000uLL ) << 8 ) |
+                ( ( value & 0x000000FF00000000uLL ) >> 8 ) |
+                ( ( value & 0x0000FF0000000000uLL ) >> 24 ) |
+                ( ( value & 0x00FF000000000000uLL ) >> 40 ) |
+                ( ( value & 0xFF00000000000000uLL ) >> 56 );
 
         return value;
     }
@@ -91,7 +89,7 @@ class endianess_convertor
         if ( !need_conversion ) {
             return value;
         }
-        return ( int64_t )( *this )( (uint64_t)value );
+        return (int64_t)( *this )( (uint64_t)value );
     }
 
     //------------------------------------------------------------------------------
@@ -113,7 +111,7 @@ class endianess_convertor
         if ( !need_conversion ) {
             return value;
         }
-        return ( int32_t )( *this )( (uint32_t)value );
+        return (int32_t)( *this )( (uint32_t)value );
     }
 
     //------------------------------------------------------------------------------
@@ -122,7 +120,8 @@ class endianess_convertor
         if ( !need_conversion ) {
             return value;
         }
-        value = ( ( value & 0x00FF ) << 8 ) | ( ( value & 0xFF00 ) >> 8 );
+        value =
+            (uint16_t)( ( value & 0x00FF ) << 8 ) | ( ( value & 0xFF00 ) >> 8 );
 
         return value;
     }
@@ -133,7 +132,7 @@ class endianess_convertor
         if ( !need_conversion ) {
             return value;
         }
-        return ( int16_t )( *this )( (uint16_t)value );
+        return (int16_t)( *this )( (uint16_t)value );
     }
 
     //------------------------------------------------------------------------------
@@ -148,7 +147,7 @@ class endianess_convertor
     unsigned char get_host_encoding() const
     {
         static const int tmp = 1;
-        if ( 1 == *(const char*)&tmp ) {
+        if ( 1 == *reinterpret_cast<const char*>( &tmp ) ) {
             return ELFDATA2LSB;
         }
         else {
@@ -157,15 +156,63 @@ class endianess_convertor
     }
 
     //------------------------------------------------------------------------------
+    bool need_conversion = false;
+};
+
+//------------------------------------------------------------------------------
+struct address_translation
+{
+    address_translation( uint64_t start, uint64_t size, uint64_t mapped_to )
+        : start( start ), size( size ), mapped_to( mapped_to ){};
+    std::streampos start;
+    std::streampos size;
+    std::streampos mapped_to;
+};
+
+//------------------------------------------------------------------------------
+class address_translator
+{
+  public:
+    //------------------------------------------------------------------------------
+    void set_address_translation( std::vector<address_translation>& addr_trans )
+    {
+        addr_translations = addr_trans;
+
+        std::sort( addr_translations.begin(), addr_translations.end(),
+                   []( const address_translation& a,
+                       const address_translation& b ) -> bool {
+                       return a.start < b.start;
+                   } );
+    }
+
+    //------------------------------------------------------------------------------
+    std::streampos operator[]( std::streampos value ) const
+    {
+        if ( addr_translations.empty() ) {
+            return value;
+        }
+
+        for ( auto& t : addr_translations ) {
+            if ( ( t.start <= value ) && ( ( value - t.start ) < t.size ) ) {
+                return value - t.start + t.mapped_to;
+            }
+        }
+
+        return value;
+    }
+
+    bool empty() const { return addr_translations.empty(); }
+
   private:
-    bool need_conversion;
+    std::vector<address_translation> addr_translations;
 };
 
 //------------------------------------------------------------------------------
 inline uint32_t elf_hash( const unsigned char* name )
 {
-    uint32_t h = 0, g;
-    while ( *name ) {
+    uint32_t h = 0;
+    uint32_t g = 0;
+    while ( *name != '\0' ) {
         h = ( h << 4 ) + *name++;
         g = h & 0xf0000000;
         if ( g != 0 )
@@ -175,31 +222,88 @@ inline uint32_t elf_hash( const unsigned char* name )
     return h;
 }
 
+//------------------------------------------------------------------------------
+inline uint32_t elf_gnu_hash( const unsigned char* s )
+{
+    uint32_t h = 0x1505;
+    for ( unsigned char c = *s; c != '\0'; c = *++s )
+        h = ( h << 5 ) + h + c;
+    return h;
+}
+
+//------------------------------------------------------------------------------
 inline std::string to_hex_string( uint64_t value )
 {
     std::string str;
 
     while ( value ) {
-        auto digit = value & 0xF;
-        if ( digit < 0xA )
+        if ( auto digit = value & 0xF; digit < 0xA ) {
             str = char( '0' + digit ) + str;
-        else
+        }
+        else {
             str = char( 'A' + digit - 0xA ) + str;
+        }
         value >>= 4;
     }
 
     return "0x" + str;
 }
 
+//------------------------------------------------------------------------------
 inline void adjust_stream_size( std::ostream& stream, std::streamsize offset )
 {
-    stream.seekp( 0, stream.end );
+    stream.seekp( 0, std::ios_base::end );
     if ( stream.tellp() < offset ) {
         std::streamsize size = offset - stream.tellp();
-        stream.write( std::string( size, '\0' ).c_str(), size );
+        stream.write( std::string( size_t( size ), '\0' ).c_str(), size );
     }
     stream.seekp( offset );
 }
+
+//------------------------------------------------------------------------------
+inline static size_t strnlength( const char* s, size_t n )
+{
+    auto found = (const char*)std::memchr( s, '\0', n );
+    return found ? (size_t)( found - s ) : n;
+}
+
+/**
+ * Consumers should write an implementation of this class and pass an instance of it to the ELFIO::elfio constructor.
+ */
+class compression_interface
+{
+  public:
+    virtual ~compression_interface() = default;
+    /**
+     * decompresses a compressed section
+     *
+     * @param data the buffer of compressed data
+     * @param endianness_convertor pointer to an endianness_convertor instance, used to convert numbers to/from the target endianness.
+     * @param compressed_size the size of the data buffer, in bytes
+     * @param decompressed_size a reference to a variable where the decompressed buffer size will be stored.
+     * @returns a smart pointer to the decompressed data.
+     */
+    virtual std::unique_ptr<char[]>
+    inflate( const char*                data,
+             const endianess_convertor* convertor,
+             Elf_Xword                  compressed_size,
+             Elf_Xword&                 uncompressed_size ) const = 0;
+
+    /**
+     * compresses a section
+     *
+     * @param data the buffer of uncompressed data
+     * @param endianness_convertor pointer to an endianness_convertor instance, used to convert numbers to/from the target endianness.
+     * @param decompressed_size the size of the data buffer, in bytes
+     * @param compressed_size a reference to a variable where the compressed buffer size will be stored.
+     * @returns a smart pointer to the compressed data.
+     */
+    virtual std::unique_ptr<char[]>
+    deflate( const char*                data,
+             const endianess_convertor* convertor,
+             Elf_Xword                  decompressed_size,
+             Elf_Xword&                 compressed_size ) const = 0;
+};
 
 } // namespace ELFIO
 

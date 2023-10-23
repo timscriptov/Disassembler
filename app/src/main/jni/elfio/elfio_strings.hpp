@@ -34,7 +34,8 @@ template <class S> class string_section_accessor_template
 {
   public:
     //------------------------------------------------------------------------------
-    string_section_accessor_template( S* section ) : string_section( section )
+    explicit string_section_accessor_template( S* section )
+        : string_section( section )
     {
     }
 
@@ -42,15 +43,16 @@ template <class S> class string_section_accessor_template
     const char* get_string( Elf_Word index ) const
     {
         if ( string_section ) {
-            if ( index < string_section->get_size() ) {
-                const char* data = string_section->get_data();
-                if ( 0 != data ) {
+            const char* data = string_section->get_data();
+            if ( index < string_section->get_size() && nullptr != data ) {
+                size_t string_length = strnlength(
+                    data + index, string_section->get_size() - index );
+                if ( string_length < ( string_section->get_size() - index ) )
                     return data + index;
-                }
             }
         }
 
-        return 0;
+        return nullptr;
     }
 
     //------------------------------------------------------------------------------
@@ -60,15 +62,16 @@ template <class S> class string_section_accessor_template
 
         if ( string_section ) {
             // Strings are addeded to the end of the current section data
-            current_position = (Elf_Word)string_section->get_size();
+            current_position =
+                static_cast<Elf_Word>( string_section->get_size() );
 
             if ( current_position == 0 ) {
                 char empty_string = '\0';
                 string_section->append_data( &empty_string, 1 );
                 current_position++;
             }
-            string_section->append_data( str,
-                                         (Elf_Word)std::strlen( str ) + 1 );
+            string_section->append_data(
+                str, static_cast<Elf_Word>( std::strlen( str ) + 1 ) );
         }
 
         return current_position;

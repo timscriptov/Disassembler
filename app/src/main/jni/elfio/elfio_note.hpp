@@ -38,12 +38,13 @@ namespace ELFIO {
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
-template <class S> class note_section_accessor_template
+template <class S, Elf_Xword ( S::*F_get_size )() const>
+class note_section_accessor_template
 {
   public:
     //------------------------------------------------------------------------------
-    note_section_accessor_template( const elfio& elf_file, S* section )
-        : elf_file( elf_file ), note_section( section )
+    explicit note_section_accessor_template( const elfio& elf_file, S* section )
+        : elf_file( elf_file ), notes( section )
     {
         process_section();
     }
@@ -58,16 +59,15 @@ template <class S> class note_section_accessor_template
     bool get_note( Elf_Word     index,
                    Elf_Word&    type,
                    std::string& name,
-                   void*&       desc,
+                   char*&       desc,
                    Elf_Word&    descSize ) const
     {
-        if ( index >= note_section->get_size() ) {
+        if ( index >= ( notes->*F_get_size )() ) {
             return false;
         }
 
-        const char* pData =
-            note_section->get_data() + note_start_positions[index];
-        int align = sizeof( Elf_Word );
+        const char* pData = notes->get_data() + note_start_positions[index];
+        int         align = sizeof( Elf_Word );
 
         const endianess_convertor& convertor = elf_file.get_convertor();
         type = convertor( *(const Elf_Word*)( pData + 2 * (size_t)align ) );
@@ -75,14 +75,14 @@ template <class S> class note_section_accessor_template
         descSize = convertor( *(const Elf_Word*)( pData + sizeof( namesz ) ) );
 
         Elf_Xword max_name_size =
-            note_section->get_size() - note_start_positions[index];
+            ( notes->*F_get_size )() - note_start_positions[index];
         if ( namesz < 1 || namesz > max_name_size ||
              (Elf_Xword)namesz + descSize > max_name_size ) {
             return false;
         }
         name.assign( pData + 3 * (size_t)align, namesz - 1 );
         if ( 0 == descSize ) {
-            desc = 0;
+            desc = nullptr;
         }
         else {
             desc = const_cast<char*>( pData + 3 * (size_t)align +
@@ -96,7 +96,7 @@ template <class S> class note_section_accessor_template
     //------------------------------------------------------------------------------
     void add_note( Elf_Word           type,
                    const std::string& name,
-                   const void*        desc,
+                   const char*        desc,
                    Elf_Word           descSize )
     {
         const endianess_convertor& convertor = elf_file.get_convertor();
@@ -116,15 +116,15 @@ template <class S> class note_section_accessor_template
         if ( nameLen % align != 0 ) {
             buffer.append( pad, (size_t)align - nameLen % align );
         }
-        if ( desc != 0 && descSize != 0 ) {
-            buffer.append( reinterpret_cast<const char*>( desc ), descSize );
+        if ( desc != nullptr && descSize != 0 ) {
+            buffer.append( desc, descSize );
             if ( descSize % align != 0 ) {
                 buffer.append( pad, (size_t)align - descSize % align );
             }
         }
 
-        note_start_positions.push_back( note_section->get_size() );
-        note_section->append_data( buffer );
+        note_start_positions.emplace_back( ( notes->*F_get_size )() );
+        notes->append_data( buffer );
     }
 
   private:
@@ -132,40 +132,52 @@ template <class S> class note_section_accessor_template
     void process_section()
     {
         const endianess_convertor& convertor = elf_file.get_convertor();
-        const char*                data      = note_section->get_data();
-        Elf_Xword                  size      = note_section->get_size();
+        const char*                data      = notes->get_data();
+        Elf_Xword                  size      = ( notes->*F_get_size )();
         Elf_Xword                  current   = 0;
 
         note_start_positions.clear();
 
         // Is it empty?
-        if ( 0 == data || 0 == size ) {
+        if ( nullptr == data || 0 == size ) {
             return;
         }
 
         Elf_Word align = sizeof( Elf_Word );
         while ( current + (Elf_Xword)3 * align <= size ) {
-            note_start_positions.push_back( current );
             Elf_Word namesz = convertor( *(const Elf_Word*)( data + current ) );
             Elf_Word descsz = convertor(
                 *(const Elf_Word*)( data + current + sizeof( namesz ) ) );
+            Elf_Word advance =
+                (Elf_Xword)3 * sizeof( Elf_Word ) +
+                ( ( namesz + align - 1 ) / align ) * (Elf_Xword)align +
+                ( ( descsz + align - 1 ) / align ) * (Elf_Xword)align;
+            if ( namesz < size && descsz < size && current + advance <= size ) {
+                note_start_positions.emplace_back( current );
+            }
+            else {
+                break;
+            }
 
-            current += (Elf_Xword)3 * sizeof( Elf_Word ) +
-                       ( ( namesz + align - 1 ) / align ) * (Elf_Xword)align +
-                       ( ( descsz + align - 1 ) / align ) * (Elf_Xword)align;
+            current += advance;
         }
     }
 
     //------------------------------------------------------------------------------
   private:
     const elfio&           elf_file;
-    S*                     note_section;
+    S*                     notes;
     std::vector<Elf_Xword> note_start_positions;
 };
 
-using note_section_accessor = note_section_accessor_template<section>;
+using note_section_accessor =
+    note_section_accessor_template<section, &section::get_size>;
 using const_note_section_accessor =
-    note_section_accessor_template<const section>;
+    note_section_accessor_template<const section, &section::get_size>;
+using note_segment_accessor =
+    note_section_accessor_template<segment, &segment::get_file_size>;
+using const_note_segment_accessor =
+    note_section_accessor_template<const segment, &segment::get_file_size>;
 
 } // namespace ELFIO
 

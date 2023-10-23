@@ -13,7 +13,7 @@ class Dump {
         bs = Utils.readFile(path);
         elf = new Elf();
 
-        header h = elf.hdr;
+        Header h = elf.hdr;
         h.ident = Utils.cp(bs, 0, 16);
         h.type = Utils.cb2i(bs, 16, 2);
         h.machine = Utils.cb2i(bs, 18, 2);
@@ -31,7 +31,7 @@ class Dump {
 
         for (int i = 0; i < h.shnum; ++i) {
             byte[] sh = Utils.cp(bs, h.shoff + i * h.shentsize, h.shentsize);
-            section shdr = new section();
+            Section shdr = new Section();
             shdr.name = "" + Utils.cb2i(sh, 0, 4);
             shdr.type = Utils.cb2i(sh, 4, 4);
             shdr.flags = Utils.cb2i(sh, 8, 4);
@@ -44,14 +44,14 @@ class Dump {
             shdr.entsize = Utils.cb2i(sh, 36, 4);
             elf.sections.add(shdr);
         }
-        for (section sh : elf.sections) {
+        for (Section sh : elf.sections) {
             sh.name = getString(elf.sections.get(h.shstrndx), Integer.parseInt(sh.name));
         }
 
 
         for (int i = 0; i < elf.hdr.phnum; ++i) {
             byte[] ph = Utils.cp(bs, h.phoff + i * h.phentsize, h.phentsize);
-            segment phdr = new segment();
+            Segment phdr = new Segment();
             phdr.type = Utils.cb2i(ph, 0, 4);
             phdr.offset = Utils.cb2i(ph, 4, 4);
             phdr.vaddr = Utils.cb2i(ph, 8, 4);
@@ -64,7 +64,7 @@ class Dump {
 
             int endoff = phdr.offset + phdr.filesz;
             int endaddr = phdr.vaddr + phdr.memsz;
-            for (section psec : elf.sections) {
+            for (Section psec : elf.sections) {
                 if (((psec.flags & 2) != 0) ? (phdr.vaddr <= psec.addr && psec.addr + psec.size <= endaddr) : (phdr.offset <= psec.offset && psec.offset + psec.size <= endoff)) {
                     phdr.sections.add(psec);
                 }
@@ -72,9 +72,9 @@ class Dump {
         }
     }
 
-    Vector<symbol> getSyms() {
-        Vector<symbol> syms = new Vector<>();
-        for (section sec : elf.sections) {
+    Vector<Symbol> getSyms() {
+        Vector<Symbol> syms = new Vector<>();
+        for (Section sec : elf.sections) {
             if (sec.type == 2 || sec.type == 11) {
                 for (int i = 0; i < getSymNum(sec); ++i) {
                     syms.add(getSym(sec, i));
@@ -84,13 +84,13 @@ class Dump {
         return syms;
     }
 
-    int getSymNum(@NotNull section sec) {
+    int getSymNum(@NotNull Section sec) {
         return sec.size / 16;
     }
 
-    symbol getSym(@NotNull section sec, int index) {
+    Symbol getSym(@NotNull Section sec, int index) {
         byte[] des = Utils.cp(bs, index * 16 + sec.offset, 16);
-        symbol sym = new symbol();
+        Symbol sym = new Symbol();
         sym.name = getString(elf.sections.get(sec.link), Utils.cb2i(des, 0, 4));
         sym.value = Utils.cb2i(des, 4, 4);
         sym.size = Utils.cb2i(des, 8, 4);
@@ -102,13 +102,13 @@ class Dump {
         return sym;
     }
 
-    int getRelNum(@NotNull section sec) {
+    int getRelNum(@NotNull Section sec) {
         return sec.size / sec.entsize;
     }
 
-    Vector<relocation> getRels() {
-        Vector<relocation> rels = new Vector<>();
-        for (section sec : elf.sections) {
+    Vector<Relocation> getRels() {
+        Vector<Relocation> rels = new Vector<>();
+        for (Section sec : elf.sections) {
             if (sec.type == 9) {
                 for (int i = 0; i < getRelNum(sec); ++i) {
                     rels.add(getRel(sec, i));
@@ -119,16 +119,16 @@ class Dump {
         return rels;
     }
 
-    relocation getRel(@NotNull section sec, int index) {
+    Relocation getRel(@NotNull Section sec, int index) {
         byte[] des = Utils.cp(bs, index * 8 + sec.offset, 8);
-        relocation rel = new relocation();
+        Relocation rel = new Relocation();
         rel.offset = Utils.cb2i(des, 0, 4);
         rel.info = Utils.cb2i(des, 4, 4);
         return rel;
     }
 
-    symbol Rel2Sym(relocation rel) {
-        for (section sec : elf.sections) {
+    Symbol Rel2Sym(Relocation rel) {
+        for (Section sec : elf.sections) {
             if (sec.type == 11) {
                 return getSym(sec, rel.info >> 8);
             }
@@ -138,7 +138,7 @@ class Dump {
 
     @NotNull
     @Contract("_, _ -> new")
-    private String getString(@NotNull section strtb, int off) {
+    private String getString(@NotNull Section strtb, int off) {
         Vector<Byte> tmp = new Vector<>();
         for (int i = 0; ; ++i) {
             byte b = bs[strtb.offset + off + i];

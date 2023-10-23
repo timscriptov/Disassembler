@@ -23,7 +23,7 @@ THE SOFTWARE.
 #ifndef ELFIO_MODINFO_HPP
 #define ELFIO_MODINFO_HPP
 
-#include <string>
+#include <string_view>
 #include <vector>
 
 namespace ELFIO {
@@ -33,7 +33,7 @@ template <class S> class modinfo_section_accessor_template
 {
   public:
     //------------------------------------------------------------------------------
-    modinfo_section_accessor_template( S* section )
+    explicit modinfo_section_accessor_template( S* section )
         : modinfo_section( section )
     {
         process_section();
@@ -56,11 +56,12 @@ template <class S> class modinfo_section_accessor_template
     }
 
     //------------------------------------------------------------------------------
-    bool get_attribute( const std::string field_name, std::string& value ) const
+    bool get_attribute( const std::string_view& field_name,
+                        std::string&            value ) const
     {
-        for ( auto i = content.begin(); i != content.end(); i++ ) {
-            if ( field_name == i->first ) {
-                value = i->second;
+        for ( const auto [first, second] : content ) {
+            if ( field_name == first ) {
+                value = second;
                 return true;
             }
         }
@@ -69,7 +70,7 @@ template <class S> class modinfo_section_accessor_template
     }
 
     //------------------------------------------------------------------------------
-    Elf_Word add_attribute( const std::string field, const std::string value )
+    Elf_Word add_attribute( const std::string& field, const std::string& value )
     {
         Elf_Word current_position = 0;
 
@@ -80,8 +81,7 @@ template <class S> class modinfo_section_accessor_template
             std::string attribute = field + "=" + value;
 
             modinfo_section->append_data( attribute + '\0' );
-            content.push_back(
-                std::pair<std::string, std::string>( field, value ) );
+            content.emplace_back( field, value );
         }
 
         return current_position;
@@ -98,12 +98,10 @@ template <class S> class modinfo_section_accessor_template
                 while ( i < modinfo_section->get_size() && !pdata[i] )
                     i++;
                 if ( i < modinfo_section->get_size() ) {
-                    std::string                         info = pdata + i;
-                    size_t                              loc  = info.find( '=' );
-                    std::pair<std::string, std::string> attribute(
-                        info.substr( 0, loc ), info.substr( loc + 1 ) );
-
-                    content.push_back( attribute );
+                    std::string info = pdata + i;
+                    size_t      loc  = info.find( '=' );
+                    content.emplace_back( info.substr( 0, loc ),
+                                          info.substr( loc + 1 ) );
 
                     i += info.length();
                 }

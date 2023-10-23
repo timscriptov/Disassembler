@@ -23,13 +23,13 @@ public class VtableDumper {
 
         Dump d = new Dump(path);
 
-        symbol sym = null;
-        section symsec = null;
+        Symbol sym = null;
+        Section symsec = null;
 
-        for (section sec : d.elf.sections) {
+        for (Section sec : d.elf.sections) {
             if (sec.type == 2 || sec.type == 11) {
                 for (int i = 0; i < d.getSymNum(sec); ++i) {
-                    symbol sym_ = d.getSym(sec, i);
+                    Symbol sym_ = d.getSym(sec, i);
                     if (sym_.name.equals(classn)) {
                         sym = sym_;
                         symsec = sec;
@@ -43,17 +43,17 @@ public class VtableDumper {
             return null;
         }
 
-        @SuppressLint("UseSparseArrays") HashMap<Integer, symbol> map = new HashMap<>();//为了排序
+        @SuppressLint("UseSparseArrays") HashMap<Integer, Symbol> map = new HashMap<>();//为了排序
         int c = 0;
 
-        for (section sec : d.elf.sections) {
+        for (Section sec : d.elf.sections) {
             if (sec.name.equals(".rel.dyn")) {
                 for (int i = 0; i < d.getRelNum(sec); ++i) {
-                    relocation rel = d.getRel(sec, i);
+                    Relocation rel = d.getRel(sec, i);
                     for (int j = 0; j < sym.size / 4 - 2; ++j) {
                         if (sym.value + 8 + j * 4 == rel.offset) {
                             ++c;
-                            symbol vsym = d.getSym(symsec, rel.info >> 8);
+                            Symbol vsym = d.getSym(symsec, rel.info >> 8);
 
                             map.put(rel.offset, vsym);
                         }

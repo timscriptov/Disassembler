@@ -32,7 +32,8 @@ template <class S> class dynamic_section_accessor_template
 {
   public:
     //------------------------------------------------------------------------------
-    dynamic_section_accessor_template( const elfio& elf_file, S* section )
+    explicit dynamic_section_accessor_template( const elfio& elf_file,
+                                                S*           section )
         : elf_file( elf_file ), dynamic_section( section ), entries_num( 0 )
     {
     }
@@ -40,13 +41,22 @@ template <class S> class dynamic_section_accessor_template
     //------------------------------------------------------------------------------
     Elf_Xword get_entries_num() const
     {
+        size_t needed_entry_size = -1;
+        if ( elf_file.get_class() == ELFCLASS32 ) {
+            needed_entry_size = sizeof( Elf32_Dyn );
+        }
+        else {
+            needed_entry_size = sizeof( Elf64_Dyn );
+        }
+
         if ( ( 0 == entries_num ) &&
-             ( 0 != dynamic_section->get_entry_size() ) ) {
+             ( 0 != dynamic_section->get_entry_size() &&
+               dynamic_section->get_entry_size() >= needed_entry_size ) ) {
             entries_num =
                 dynamic_section->get_size() / dynamic_section->get_entry_size();
             Elf_Xword   i;
-            Elf_Xword   tag;
-            Elf_Xword   value;
+            Elf_Xword   tag   = DT_NULL;
+            Elf_Xword   value = 0;
             std::string str;
             for ( i = 0; i < entries_num; i++ ) {
                 get_entry( i, tag, value, str );
@@ -76,13 +86,13 @@ template <class S> class dynamic_section_accessor_template
             generic_get_entry_dyn<Elf64_Dyn>( index, tag, value );
         }
 
-        // If the tag may have a string table reference, prepare the string
+        // If the tag has a string table reference - prepare the string
         if ( tag == DT_NEEDED || tag == DT_SONAME || tag == DT_RPATH ||
              tag == DT_RUNPATH ) {
-            string_section_accessor strsec =
-                elf_file.sections[get_string_table_index()];
-            const char* result = strsec.get_string( value );
-            if ( 0 == result ) {
+            string_section_accessor strsec(
+                elf_file.sections[get_string_table_index()] );
+            const char* result = strsec.get_string( (Elf_Word)value );
+            if ( nullptr == result ) {
                 str.clear();
                 return false;
             }
@@ -109,8 +119,8 @@ template <class S> class dynamic_section_accessor_template
     //------------------------------------------------------------------------------
     void add_entry( Elf_Xword tag, const std::string& str )
     {
-        string_section_accessor strsec =
-            elf_file.sections[get_string_table_index()];
+        string_section_accessor strsec(
+            elf_file.sections[get_string_table_index()] );
         Elf_Xword value = strsec.add_string( str );
         add_entry( tag, value );
     }
@@ -132,9 +142,10 @@ template <class S> class dynamic_section_accessor_template
         const endianess_convertor& convertor = elf_file.get_convertor();
 
         // Check unusual case when dynamic section has no data
-        if ( dynamic_section->get_data() == 0 ||
+        if ( dynamic_section->get_data() == nullptr ||
              ( index + 1 ) * dynamic_section->get_entry_size() >
-                 dynamic_section->get_size() ) {
+                 dynamic_section->get_size() ||
+             dynamic_section->get_entry_size() < sizeof( T ) ) {
             tag   = DT_NULL;
             value = 0;
             return;
@@ -189,7 +200,8 @@ template <class S> class dynamic_section_accessor_template
     }
 
     //------------------------------------------------------------------------------
-    template <class T> void generic_add_entry_dyn( Elf_Xword tag, Elf_Xword value )
+    template <class T>
+    void generic_add_entry_dyn( Elf_Xword tag, Elf_Xword value )
     {
         const endianess_convertor& convertor = elf_file.get_convertor();
 
@@ -200,7 +212,8 @@ template <class S> class dynamic_section_accessor_template
         case DT_SYMBOLIC:
         case DT_TEXTREL:
         case DT_BIND_NOW:
-            value = 0;
+            entry.d_un.d_val = convertor( decltype( entry.d_un.d_val )( 0 ) );
+            break;
         case DT_NEEDED:
         case DT_PLTRELSZ:
         case DT_RELASZ:
@@ -217,7 +230,8 @@ template <class S> class dynamic_section_accessor_template
         case DT_RUNPATH:
         case DT_FLAGS:
         case DT_PREINIT_ARRAYSZ:
-            entry.d_un.d_val = convertor( value );
+            entry.d_un.d_val =
+                convertor( decltype( entry.d_un.d_val )( value ) );
             break;
         case DT_PLTGOT:
         case DT_HASH:
@@ -233,11 +247,12 @@ template <class S> class dynamic_section_accessor_template
         case DT_FINI_ARRAY:
         case DT_PREINIT_ARRAY:
         default:
-            entry.d_un.d_ptr = convertor( value );
+            entry.d_un.d_ptr =
+                convertor( decltype( entry.d_un.d_val )( value ) );
             break;
         }
 
-        entry.d_tag = convertor( tag );
+        entry.d_tag = convertor( decltype( entry.d_tag )( tag ) );
 
         dynamic_section->append_data( reinterpret_cast<char*>( &entry ),
                                       sizeof( entry ) );

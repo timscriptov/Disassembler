@@ -30,7 +30,8 @@ namespace ELFIO {
 class elf_header
 {
   public:
-    virtual ~elf_header(){};
+    virtual ~elf_header() = default;
+
     virtual bool load( std::istream& stream )       = 0;
     virtual bool save( std::ostream& stream ) const = 0;
 
@@ -59,14 +60,14 @@ class elf_header
 template <class T> struct elf_header_impl_types;
 template <> struct elf_header_impl_types<Elf32_Ehdr>
 {
-    typedef Elf32_Phdr         Phdr_type;
-    typedef Elf32_Shdr         Shdr_type;
+    using Phdr_type                       = Elf32_Phdr;
+    using Shdr_type                       = Elf32_Shdr;
     static const unsigned char file_class = ELFCLASS32;
 };
 template <> struct elf_header_impl_types<Elf64_Ehdr>
 {
-    typedef Elf64_Phdr         Phdr_type;
-    typedef Elf64_Shdr         Shdr_type;
+    using Phdr_type                       = Elf64_Phdr;
+    using Shdr_type                       = Elf64_Shdr;
     static const unsigned char file_class = ELFCLASS64;
 };
 
@@ -74,13 +75,11 @@ template <class T> class elf_header_impl : public elf_header
 {
   public:
     //------------------------------------------------------------------------------
-    elf_header_impl( endianess_convertor* convertor, unsigned char encoding )
+    elf_header_impl( endianess_convertor*      convertor,
+                     unsigned char             encoding,
+                     const address_translator* translator )
+        : convertor( convertor ), translator( translator )
     {
-        this->convertor = convertor;
-
-        std::fill_n( reinterpret_cast<char*>( &header ), sizeof( header ),
-                     '\0' );
-
         header.e_ident[EI_MAG0]    = ELFMAG0;
         header.e_ident[EI_MAG1]    = ELFMAG1;
         header.e_ident[EI_MAG2]    = ELFMAG2;
@@ -101,18 +100,18 @@ template <class T> class elf_header_impl : public elf_header
     }
 
     //------------------------------------------------------------------------------
-    bool load( std::istream& stream )
+    bool load( std::istream& stream ) override
     {
-        stream.seekg( 0 );
+        stream.seekg( ( *translator )[0] );
         stream.read( reinterpret_cast<char*>( &header ), sizeof( header ) );
 
         return ( stream.gcount() == sizeof( header ) );
     }
 
     //------------------------------------------------------------------------------
-    bool save( std::ostream& stream ) const
+    bool save( std::ostream& stream ) const override
     {
-        stream.seekp( 0 );
+        stream.seekp( ( *translator )[0] );
         stream.write( reinterpret_cast<const char*>( &header ),
                       sizeof( header ) );
 
@@ -144,8 +143,9 @@ template <class T> class elf_header_impl : public elf_header
     ELFIO_GET_SET_ACCESS( Elf64_Off, segments_offset, header.e_phoff );
 
   private:
-    T                    header;
-    endianess_convertor* convertor;
+    T                         header     = {};
+    endianess_convertor*      convertor  = nullptr;
+    const address_translator* translator = nullptr;
 };
 
 } // namespace ELFIO
